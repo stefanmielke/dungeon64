@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 1,
   "AutoSave": false,
-  "Pan.X": -371.5,
-  "Pan.Y": -147,
+  "Pan.X": -484,
+  "Pan.Y": -167,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -186,6 +186,18 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Jul 11 2021 15:59:34"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 464,
+      "Position.Y": 96,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Render only sides of walls that matter to improve perf (eg.: south, east, etc)",
+      "Selected": true,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 11 2021 19:08:40"
     }
   ]
 }
