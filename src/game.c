@@ -56,8 +56,11 @@ Tween *movement_tween;
 Tween *view_tween;
 
 // macros
-#define PADTHRESH(num, thresh) ((num > thresh) ? num - thresh : (num < -thresh) ? num + thresh : 0)
+#define AXISTHRESH 30
+#define PADTHRESH(num)                                                                             \
+	((num > AXISTHRESH) ? num - AXISTHRESH : (num < -AXISTHRESH) ? num + AXISTHRESH : 0)
 #define IS_BUTTON_PRESSED(btn) (gd.pad[0]->button & btn)
+#define MOVEMENT_SPEED 400
 
 // This structure contains all position info
 typedef struct {
@@ -143,7 +146,7 @@ void setup() {
 void update() {
 	obj_count = 0;
 	billboard_count = 0;
-	gd.pad = ReadController(U_JPAD | L_JPAD | R_JPAD | D_JPAD | L_TRIG | R_TRIG | Z_TRIG);
+	gd.pad = ReadController(0);
 
 	tween_tick(movement_tween);
 	tween_tick(view_tween);
@@ -154,16 +157,16 @@ void update() {
 
 	// move
 	if (movement_tween->finished && view_tween->finished) {
-		if (IS_BUTTON_PRESSED(U_JPAD)) {
+		if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
 			pp.move_forward = TILE_SIZE;
 			move_to(pp.move_lateral, pp.move_forward);
-		} else if (IS_BUTTON_PRESSED(D_JPAD)) {
+		} else if (IS_BUTTON_PRESSED(D_JPAD) || PADTHRESH(gd.pad[0]->stick_y) < 0) {
 			pp.move_forward = -TILE_SIZE;
 			move_to(pp.move_lateral, pp.move_forward);
-		} else if (IS_BUTTON_PRESSED(L_JPAD)) {
+		} else if (IS_BUTTON_PRESSED(L_JPAD) || PADTHRESH(gd.pad[0]->stick_x) < 0) {
 			pp.view_speed = -RAD_90;
 			set_angle(pp.view_speed);
-		} else if (IS_BUTTON_PRESSED(R_JPAD)) {
+		} else if (IS_BUTTON_PRESSED(R_JPAD) || PADTHRESH(gd.pad[0]->stick_x) > 0) {
 			pp.view_speed = RAD_90;
 			set_angle(pp.view_speed);
 		} else if (IS_BUTTON_PRESSED(L_TRIG) | IS_BUTTON_PRESSED(Z_TRIG)) {
@@ -307,7 +310,7 @@ void render_finish() {
 
 void set_angle(float angle_diff) {
 	float final_angle = pp.angle + angle_diff;
-	tween_restart(view_tween, &pp, &easing_exponential_out, 200, NULL, false, false);
+	tween_restart(view_tween, &pp, &easing_exponential_out, MOVEMENT_SPEED, NULL, false, false);
 	tween_set_to_float(view_tween, pp.angle, final_angle, &view_callback);
 }
 
@@ -323,7 +326,7 @@ void move_to(float h_speed, float forward_speed) {
 		final_position.y = pp.pos[2] + y * h_speed;
 	}
 
-	tween_start(movement_tween, &pp, &easing_exponential_out, 200, NULL, false, false);
+	tween_start(movement_tween, &pp, &easing_exponential_out, MOVEMENT_SPEED, NULL, false, false);
 	Position p = {pp.pos[0], pp.pos[2]};
 	tween_set_to_position(movement_tween, p, final_position, &movement_callback);
 }
