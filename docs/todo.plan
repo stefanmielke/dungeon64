@@ -191,13 +191,25 @@
       "BoardIndex": 0,
       "Position.X": 464,
       "Position.Y": 96,
-      "Checkbox.Checked": false,
+      "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
       "Description": "Render only sides of walls that matter to improve perf (eg.: south, east, etc)",
-      "Selected": true,
+      "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Jul 11 2021 19:08:40"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 464,
+      "Position.Y": 112,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Collision using the map. Set player position during walk.",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 11 2021 19:21:48"
     }
   ]
 }
