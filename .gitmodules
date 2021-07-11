@@ -1,0 +1,3 @@
+[submodule "libs/ultra64-extensions"]
+	path = libs/ultra64-extensions
+	url = https://github.com/stefanmielke/ultra64-extensions
