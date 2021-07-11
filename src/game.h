@@ -1,3 +1,5 @@
+#pragma once
+
 #include "boot.h"
 
 #include "types.h"
@@ -26,7 +28,7 @@ extern u64 dram_stack[];
 /* buffer for RDP DL */
 extern u64 rdp_output[];
 
-#define MAX_OBJECTS 100
+#define MAX_OBJECTS 200
 #define MAX_BILLBOARDS 100
 /*
  * Layout of dynamic data.

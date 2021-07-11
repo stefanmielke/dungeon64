@@ -48,12 +48,9 @@ Vp vp = {
 Gfx *glistp;		 /* RSP display list pointer */
 Dynamic dynamic;	 /* dynamic data */
 int draw_buffer = 0; /* frame buffer being updated (0 or 1) */
-int obj_count;		 /* count of used objects on current frame */
-int billboard_count; /* count of used billboards on current frame */
 // map globals
-u16 *current_map;
-u32 current_map_size;
-u32 current_map_width;
+
+Map current_map;
 
 #define MEM_POOL_SIZE (1024 * 1024)
 char global_memory[MEM_POOL_SIZE];
@@ -137,11 +134,11 @@ void setup() {
 
 	guRotate(&(dynamic.wall_y_rotation), 90, 0, 1, 0);
 
-	current_map = map1_1;
-	current_map_size = map1_1_size;
-	current_map_width = map1_1_width;
+	current_map.data = map1_1;
+	current_map.size = map1_1_size;
+	current_map.width = map1_1_width;
 
-	Vec3 player_start = map_get_start_position(current_map, current_map_size, current_map_width);
+	Vec3 player_start = map_get_start_position(&current_map);
 	pp.pos[0] = player_start.x;
 	pp.pos[1] = player_start.y;
 	pp.pos[2] = player_start.z;
@@ -152,8 +149,6 @@ void setup() {
 }
 
 void update() {
-	obj_count = 0;
-	billboard_count = 0;
 	gd.pad = ReadController(0);
 
 	tween_tick(movement_tween);
@@ -238,44 +233,19 @@ void render_setup() {
 }
 
 void render() {
-	// ground
-	gSPDisplayList(glistp++, ground_texture_setup_dl);
-	gSPTexture(glistp++, 65535, 65535, 0, G_TX_RENDERTILE, G_ON);
-	gDPLoadTextureBlock(glistp++, spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
-						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
-
-	gSPDisplayList(glistp++, ground_dl);
-
-	// ceiling
-	guTranslate(&dynamic.object_position[obj_count], 0, 10, 0);
-	gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(dynamic.object_position[obj_count])),
-			  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-	gSPDisplayList(glistp++, ground_dl);
-	obj_count++;
-
-	// walls
-	gSPTexture(glistp++, 1024 * 10, 1024 * 10, 0, G_TX_RENDERTILE, G_ON);
-	gDPLoadTextureBlock(glistp++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
-						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
-
-	DRAW_WALL_Y(5, 5);
-	DRAW_WALL_Y(5, 15);
-	DRAW_WALL_X(5, 15);
-	DRAW_WALL_X(15, 15);
-	DRAW_WALL_X(5, 5);
-	DRAW_WALL_X(15, 5);
+	map_render(&current_map, &glistp, rd.dynamicp);
 
 	// billboard setup
-	gSPDisplayList(glistp++, billboard_texture_setup_dl);
+	// gSPDisplayList(glistp++, billboard_texture_setup_dl);
 
 	// plants
-	gSPTexture(glistp++, 1024 * 2, 1024 * 2, 0, G_TX_RENDERTILE, G_ON);
-	gDPLoadTextureBlock(glistp++, spr_plant, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
-						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+	// gSPTexture(glistp++, 1024 * 2, 1024 * 2, 0, G_TX_RENDERTILE, G_ON);
+	// gDPLoadTextureBlock(glistp++, spr_plant, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+	// G_TX_WRAP, 					G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-	DRAW_PLANT(20, 20);
-	DRAW_PLANT(26, 20);
-	DRAW_PLANT(32, 20);
+	// DRAW_PLANT(20, 20);
+	// DRAW_PLANT(26, 20);
+	// DRAW_PLANT(32, 20);
 
 	// Finish rendering
 	gDPFullSync(glistp++);

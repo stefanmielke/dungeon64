@@ -9,4 +9,5 @@ Map Code Translation:
 0: empty ground
 1: wall
 255: player start position
+65535: empty space
 */
