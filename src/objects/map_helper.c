@@ -62,10 +62,26 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp) {
 	gDPLoadTextureBlock((*glistp)++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
 						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 	for (unsigned long i = 0; i < map->size; ++i) {
-		if (map->data[i] == 1) {
+		if (map->data[i] == 1) {  // full wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SQUARE(x, z);
+		} else if (map->data[i] == 2) {	 // east wall
+			u32 x = ((i % map->width) * TILE_SIZE);
+			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
+			DRAW_WALL_EAST(x, z);
+		} else if (map->data[i] == 3) {	 // south wall
+			u32 x = ((i % map->width) * TILE_SIZE);
+			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
+			DRAW_WALL_SOUTH(x, z);
+		} else if (map->data[i] == 4) {	 // west wall
+			u32 x = ((i % map->width) * TILE_SIZE);
+			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
+			DRAW_WALL_WEST(x, z);
+		} else if (map->data[i] == 5) {	 // north wall
+			u32 x = ((i % map->width) * TILE_SIZE);
+			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
+			DRAW_WALL_NORTH(x, z);
 		}
 	}
 }

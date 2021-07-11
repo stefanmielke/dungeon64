@@ -9,6 +9,10 @@ extern Gfx ground_texture_setup_dl[];
 // walls
 extern Gfx wall_dl[];
 extern Gfx wall_square_dl[];
+extern Gfx wall_east_dl[];
+extern Gfx wall_south_dl[];
+extern Gfx wall_west_dl[];
+extern Gfx wall_north_dl[];
 
 // billboards
 extern Gfx billboard_texture_setup_dl[];
