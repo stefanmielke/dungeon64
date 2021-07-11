@@ -9,11 +9,14 @@
 #include "controller.h"
 #include "data/texture.h"
 #include "objects/billboards.h"
+#include "objects/map_helper.h"
 #include "objects/walls.h"
 
 #include "../libs/ultra64-extensions/include/easing.h"
 #include "../libs/ultra64-extensions/include/mem_pool.h"
 #include "../libs/ultra64-extensions/include/tween.h"
+
+#include "maps/maps.h"
 
 // Task header
 OSTask taskHeader = {
@@ -47,6 +50,10 @@ Dynamic dynamic;	 /* dynamic data */
 int draw_buffer = 0; /* frame buffer being updated (0 or 1) */
 int obj_count;		 /* count of used objects on current frame */
 int billboard_count; /* count of used billboards on current frame */
+// map globals
+u16 *current_map;
+u32 current_map_size;
+u32 current_map_width;
 
 #define MEM_POOL_SIZE (1024 * 1024)
 char global_memory[MEM_POOL_SIZE];
@@ -65,7 +72,6 @@ Tween *view_tween;
 // This structure contains all position info
 typedef struct {
 	Vec3f pos;
-	Vec3f eye;
 	float view_speed;
 	float move_forward;
 	float move_lateral;
@@ -129,18 +135,20 @@ void setup() {
 	movement_tween = tween_init(&memory_pool);
 	view_tween = tween_init(&memory_pool);
 
-	set_angle(0);
-	move_to(0, 0);
-
 	guRotate(&(dynamic.wall_y_rotation), 90, 0, 1, 0);
 
-	pp.pos[0] = 0.0f;
-	pp.pos[1] = 0.0f;
-	pp.pos[2] = 0.0f;
-	pp.eye[0] = 20.0f;
-	pp.eye[1] = 20.0f;
-	pp.eye[2] = 50.0f;
+	current_map = map1_1;
+	current_map_size = map1_1_size;
+	current_map_width = map1_1_width;
+
+	Vec3 player_start = map_get_start_position(current_map, current_map_size, current_map_width);
+	pp.pos[0] = player_start.x;
+	pp.pos[1] = player_start.y;
+	pp.pos[2] = player_start.z;
 	pp.angle = 0;
+
+	set_angle(0);
+	move_to(0, 0);
 }
 
 void update() {
@@ -316,14 +324,14 @@ void set_angle(float angle_diff) {
 
 void move_to(float h_speed, float forward_speed) {
 	Position final_position;
-	final_position.x = pp.pos[0] + pp.forward[0] * forward_speed;
-	final_position.y = pp.pos[2] + pp.forward[2] * forward_speed;
+	final_position.x = pp.pos[0] + (pp.forward[0] * forward_speed);
+	final_position.y = pp.pos[2] + (pp.forward[2] * forward_speed);
 
 	if (h_speed != 0) {
 		float x, y;
 		get_forward_vector_from_angle(pp.angle + RAD_90, &x, &y);
-		final_position.x = pp.pos[0] + x * h_speed;
-		final_position.y = pp.pos[2] + y * h_speed;
+		final_position.x = pp.pos[0] + (x * h_speed);
+		final_position.y = pp.pos[2] + (y * h_speed);
 	}
 
 	tween_start(movement_tween, &pp, &easing_exponential_out, MOVEMENT_SPEED, NULL, false, false);

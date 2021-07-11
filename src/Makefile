@@ -20,8 +20,9 @@ ASMOBJECTS  = $(ASMFILES:.s=.o)
 
 CODEFILES  := $(wildcard *.c)
 OBJECTFILES  := $(wildcard objects/*.c)
+MAPFILES  := $(wildcard maps/*.c)
 U64EXTFILES  := $(wildcard ../libs/ultra64-extensions/src/*.c)
-CODEOBJECTS = $(CODEFILES:.c=.o) $(OBJECTFILES:.c=.o) $(U64EXTFILES:.c=.o)
+CODEOBJECTS = $(CODEFILES:.c=.o) $(OBJECTFILES:.c=.o) $(MAPFILES:.c=.o) $(U64EXTFILES:.c=.o)
 
 DATAFILES  := $(wildcard data/*.c)
 DATAOBJECTS = $(DATAFILES:.c=.o)
