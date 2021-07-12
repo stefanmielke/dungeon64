@@ -10,6 +10,7 @@
 #include "static.h"
 #include "controller.h"
 #include "data/texture.h"
+#include "fonts/font_ext.h"
 #include "objects/billboards.h"
 #include "objects/map_helper.h"
 #include "objects/walls.h"
@@ -50,9 +51,31 @@ Vp vp = {
 Gfx *glistp;		 /* RSP display list pointer */
 Dynamic dynamic;	 /* dynamic data */
 int draw_buffer = 0; /* frame buffer being updated (0 or 1) */
-// map globals
-
 Map current_map;
+
+// start font
+int fontcol[4]; /* color for shadowed fonts */
+#define FONT_COL 55, 155, 255, 255
+#define FONTCOL(r, g, b, a)                                                                        \
+	{                                                                                              \
+		fontcol[0] = r;                                                                            \
+		fontcol[1] = g;                                                                            \
+		fontcol[2] = b;                                                                            \
+		fontcol[3] = a;                                                                            \
+	}
+#define FONTCOLM(c) FONTCOL(c)
+#define SHOWFONT(glp, str, x, y)                                                                   \
+	{                                                                                              \
+		font_set_color(0, 0, 0, 255);                                                              \
+		font_set_pos((x) + (1), (y) + (0));                                                        \
+		font_show_string(glp, str);                                                                \
+		font_set_pos((x) + (0), (y) + (1));                                                        \
+		font_show_string(glp, str);                                                                \
+		font_set_color(fontcol[0], fontcol[1], fontcol[2], fontcol[3]);                            \
+		font_set_pos(x, y);                                                                        \
+		font_show_string(glp, str);                                                                \
+	}
+// end font
 
 #define MEM_POOL_SIZE (1024 * 1024)
 char global_memory[MEM_POOL_SIZE];
@@ -98,7 +121,7 @@ RenderData rd;
 
 // helper functions for movement
 void set_angle(float angle_diff);
-void move_to(u32 h_speed, u32 forward_speed);
+void move_to(s32 h_speed, s32 forward_speed);
 
 // tween callbacks
 void movement_callback(void *target_object, Position current_value);
@@ -210,10 +233,10 @@ void render_setup() {
 	guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 
 	Vec3f forward = {pp.pos[0] + pp.forward[0], pp.pos[1] + 5.0, pp.pos[2] + pp.forward[2]};
-	guLookAtF(rd.m2, pp.pos[0], forward[1], pp.pos[2], pp.pos[0] + pp.forward[0], forward[1],
-			  pp.pos[2] + pp.forward[2], 0.0, 1.0, 0.0);
-	guLookAt(&(rd.dynamicp->viewing), pp.pos[0], forward[1], pp.pos[2], pp.pos[0] + pp.forward[0],
-			 forward[1], pp.pos[2] + pp.forward[2], 0.0, 1.0, 0.0);
+	guLookAtF(rd.m2, pp.pos[0], forward[1], pp.pos[2], forward[0], forward[1], forward[2], 0.0, 1.0,
+			  0.0);
+	guLookAt(&(rd.dynamicp->viewing), pp.pos[0], forward[1], pp.pos[2], forward[0], forward[1],
+			 forward[2], 0.0, 1.0, 0.0);
 
 	guMtxCatF(rd.m2, rd.allmat, rd.m1);
 
@@ -235,6 +258,17 @@ void render_setup() {
 
 void render() {
 	map_render(&current_map, &glistp, rd.dynamicp);
+
+	// render text
+	font_init(&glistp);
+	font_set_transparent(1);
+	font_set_scale(1.0, 1.0);
+	font_set_win(200, 1);
+	FONTCOLM(FONT_COL);
+	char position[100];
+	sprintf(position, "Tile: %d Dir: %.2f, %.2f", pp.current_tile, pp.forward[0], pp.forward[2]);
+	SHOWFONT(&glistp, position, 20, 210);
+	font_finish(&glistp);
 
 	// billboard setup
 	// gSPDisplayList(glistp++, billboard_texture_setup_dl);
@@ -293,12 +327,14 @@ void set_angle(float angle_diff) {
 	tween_set_to_float(view_tween, pp.angle, final_angle, &view_callback);
 }
 
-void move_to(u32 h_speed, u32 forward_speed) {
+void move_to(s32 h_speed, s32 forward_speed) {
 	bool path_is_blocked = false;
 
 	Position final_position;
 	if (forward_speed != 0) {
-		u32 tile = pp.current_tile + pp.forward[0] + (pp.forward[2] * current_map.width);
+		s8 sign = forward_speed > 0 ? 1 : -1;
+		s32 tile = pp.current_tile +
+				   (((u32)pp.forward[0] + ((u32)pp.forward[2] * current_map.width)) * sign);
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
@@ -310,9 +346,10 @@ void move_to(u32 h_speed, u32 forward_speed) {
 			pp.current_tile = tile;
 		}
 	} else if (h_speed != 0) {
+		s8 sign = h_speed > 0 ? 1 : -1;
 		float x, y;
 		get_forward_vector_from_angle(pp.angle + RAD_90, &x, &y);
-		u32 tile = pp.current_tile + x + (y * current_map.width);
+		u32 tile = pp.current_tile + (((u32)x + ((u32)y * current_map.width)) * sign);
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
