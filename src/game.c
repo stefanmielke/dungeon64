@@ -3,6 +3,8 @@
 #include <ultra64.h>
 #include <nustd/math.h>
 
+#include <os_host.h>
+
 #include "definitions.h"
 #include "math.h"
 #include "static.h"
@@ -74,6 +76,7 @@ typedef struct {
 	float move_lateral;
 	Vec3f forward;
 	float angle;
+	u32 current_tile;
 } PlayerData;
 PlayerData pp;
 
@@ -95,7 +98,7 @@ RenderData rd;
 
 // helper functions for movement
 void set_angle(float angle_diff);
-void move_to(float h_speed, float forward_speed);
+void move_to(u32 h_speed, u32 forward_speed);
 
 // tween callbacks
 void movement_callback(void *target_object, Position current_value);
@@ -132,13 +135,11 @@ void setup() {
 	movement_tween = tween_init(&memory_pool);
 	view_tween = tween_init(&memory_pool);
 
-	guRotate(&(dynamic.wall_y_rotation), 90, 0, 1, 0);
-
 	current_map.data = map1_1;
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
 
-	Vec3 player_start = map_get_start_position(&current_map);
+	Vec3 player_start = map_get_start_position(&current_map, &pp.current_tile);
 	pp.pos[0] = player_start.x;
 	pp.pos[1] = player_start.y;
 	pp.pos[2] = player_start.z;
@@ -292,19 +293,43 @@ void set_angle(float angle_diff) {
 	tween_set_to_float(view_tween, pp.angle, final_angle, &view_callback);
 }
 
-void move_to(float h_speed, float forward_speed) {
-	Position final_position;
-	final_position.x = pp.pos[0] + (pp.forward[0] * forward_speed);
-	final_position.y = pp.pos[2] + (pp.forward[2] * forward_speed);
+void move_to(u32 h_speed, u32 forward_speed) {
+	bool path_is_blocked = false;
 
-	if (h_speed != 0) {
+	Position final_position;
+	if (forward_speed != 0) {
+		u32 tile = pp.current_tile + pp.forward[0] + (pp.forward[2] * current_map.width);
+
+		path_is_blocked = map_is_tile_blocked(&current_map, tile);
+		if (path_is_blocked) {
+			final_position.x = pp.pos[0] + (pp.forward[0] * (forward_speed / 4));
+			final_position.y = pp.pos[2] + (pp.forward[2] * (forward_speed / 4));
+		} else {
+			final_position.x = pp.pos[0] + (pp.forward[0] * forward_speed);
+			final_position.y = pp.pos[2] + (pp.forward[2] * forward_speed);
+			pp.current_tile = tile;
+		}
+	} else if (h_speed != 0) {
 		float x, y;
 		get_forward_vector_from_angle(pp.angle + RAD_90, &x, &y);
-		final_position.x = pp.pos[0] + (x * h_speed);
-		final_position.y = pp.pos[2] + (y * h_speed);
+		u32 tile = pp.current_tile + x + (y * current_map.width);
+
+		path_is_blocked = map_is_tile_blocked(&current_map, tile);
+		if (path_is_blocked) {
+			final_position.x = pp.pos[0] + (x * (h_speed / 4));
+			final_position.y = pp.pos[2] + (y * (h_speed / 4));
+		} else {
+			final_position.x = pp.pos[0] + (x * h_speed);
+			final_position.y = pp.pos[2] + (y * h_speed);
+			pp.current_tile = tile;
+		}
+	} else {
+		final_position.x = pp.pos[0];
+		final_position.y = pp.pos[2];
 	}
 
-	tween_start(movement_tween, &pp, &easing_exponential_out, MOVEMENT_SPEED, NULL, false, false);
+	tween_restart(movement_tween, &pp, &easing_exponential_out, MOVEMENT_SPEED, NULL,
+				  path_is_blocked, false);
 	Position p = {pp.pos[0], pp.pos[2]};
 	tween_set_to_position(movement_tween, p, final_position, &movement_callback);
 }

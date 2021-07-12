@@ -5,9 +5,10 @@
 #include "../data/texture.h"
 #include "../maps/maps.h"
 
-Vec3 map_get_start_position(Map *map) {
-	for (unsigned long i = 0; i < map->size; ++i) {
+Vec3 map_get_start_position(Map *map, u32 *tile_position) {
+	for (u32 i = 0; i < map->size; ++i) {
 		if (map->data[i] == TT_StartPos) {
+			*tile_position = i;
 			return map_get_position_from_map_coord(i, map->size, map->width);
 		}
 	}
@@ -16,8 +17,7 @@ Vec3 map_get_start_position(Map *map) {
 	return result;
 }
 
-Vec3 map_get_position_from_map_coord(unsigned long map_coord, unsigned long size,
-									 unsigned long width) {
+Vec3 map_get_position_from_map_coord(u32 map_coord, u32 size, u32 width) {
 	Vec3 result;
 	result.y = 0;
 	result.x = ((map_coord % width) * TILE_SIZE) + (TILE_SIZE / 2);
@@ -85,4 +85,16 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp) {
 			DRAW_WALL_NORTH(x, z);
 		}
 	}
+}
+
+bool map_is_tile_blocked(Map *map, u32 tile) {
+	return map->data[tile] <= TL_Wall_End;
+}
+
+bool map_is_position_blocked(Map *map, Position position) {
+	u32 norm_x = (((u32)position.x - (TILE_SIZE / 2)) / TILE_SIZE);
+	u32 norm_y = (((u32)position.y - (TILE_SIZE / 2)) / TILE_SIZE);
+	u32 tile = norm_x + (norm_y * map->width);
+
+	return map_is_tile_blocked(map, tile);
 }

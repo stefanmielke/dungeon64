@@ -45,7 +45,6 @@ typedef struct {
 	Mtx ballshadowmodel;
 	Mtx ballshadowmodel2;
 	Mtx viewing;
-	Mtx wall_y_rotation;
 	Mtx billboard_rotation[MAX_BILLBOARDS];
 	Mtx object_position[MAX_OBJECTS];
 	Gfx glist[GLIST_LEN];
