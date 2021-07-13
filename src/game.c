@@ -158,7 +158,7 @@ void setup() {
 	movement_tween = tween_init(&memory_pool);
 	view_tween = tween_init(&memory_pool);
 
-	current_map.data = map1_1;
+	current_map.tiles = map1_1;
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
 

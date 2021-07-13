@@ -7,7 +7,7 @@
 
 Vec3 map_get_start_position(Map *map, u32 *tile_position) {
 	for (u32 i = 0; i < map->size; ++i) {
-		if (map->data[i] == TT_StartPos) {
+		if (map->tiles[i] == TT_StartPos) {
 			*tile_position = i;
 			return map_get_position_from_map_coord(i, map->size, map->width);
 		}
@@ -36,7 +36,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp) {
 						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
 	for (unsigned long i = 0; i < map->size; ++i) {
-		if (map->data[i] >= TL_Ground_Start && map->data[i] <= TL_Objects_End) {
+		if (map->tiles[i] >= TL_Ground_Start && map->tiles[i] <= TL_Objects_End) {
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 
@@ -63,23 +63,23 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp) {
 	gDPLoadTextureBlock((*glistp)++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
 						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 	for (unsigned long i = 0; i < map->size; ++i) {
-		if (map->data[i] == TT_Wall_Full) {	 // full wall
+		if (map->tiles[i] == TT_Wall_Full) {	 // full wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SQUARE(x, z);
-		} else if (map->data[i] == TT_Wall_East) {	// east wall
+		} else if (map->tiles[i] == TT_Wall_East) {	// east wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_EAST(x, z);
-		} else if (map->data[i] == TT_Wall_South) {	 // south wall
+		} else if (map->tiles[i] == TT_Wall_South) {	 // south wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SOUTH(x, z);
-		} else if (map->data[i] == TT_Wall_West) {	// west wall
+		} else if (map->tiles[i] == TT_Wall_West) {	// west wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_WEST(x, z);
-		} else if (map->data[i] == TT_Wall_North) {	 // north wall
+		} else if (map->tiles[i] == TT_Wall_North) {	 // north wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_NORTH(x, z);
@@ -88,7 +88,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp) {
 }
 
 bool map_is_tile_blocked(Map *map, u32 tile) {
-	return map->data[tile] <= TL_Wall_End;
+	return map->tiles[tile] <= TL_Wall_End;
 }
 
 bool map_is_position_blocked(Map *map, Position position) {
