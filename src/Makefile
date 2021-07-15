@@ -1,8 +1,12 @@
 include /usr/include/n64/make/PRdefs
 
-OPTIMIZER = -O2
-LCDEFS    = -D_FINALROM -DNDEBUG -DF3DEX_GBI_2
-N64LIB    = -lultra_rom
+OPTIMIZER  = -O2
+LCDEFS     = -D_FINALROM -DNDEBUG -DF3DEX_GBI_2
+N64LIB     = -lultra_rom
+
+ifeq ($(LANG), LANG_PTBR)
+LCDEFS += -DLANG_PTBR
+endif
 
 # for nustd
 NUSTDINCDIR = $(N64KITDIR)/nustd/include
@@ -44,6 +48,9 @@ LDFLAGS = -L/usr/lib/n64 $(N64LIB) -L$(N64_LIBGCCDIR) -lgcc -L$(NUSTDLIBDIR) -ln
 LDIRT  = $(ELF) $(CP_LD_SCRIPT) $(MAP) $(ASMOBJECTS) $(TARGETS)
 
 default: $(TARGETS)
+
+ptbr:
+	@make -f Makefile LANG=LANG_PTBR
 
 cleaner:
 	find ../ -name '*.o' -delete

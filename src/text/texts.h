@@ -2,4 +2,8 @@
 
 // Add ifdefs to support multiple languages
 
-#include "english.h"
+#ifdef LANG_PTBR
+#include "pt-br.h"
+#else
+#include "en-us.h"
+#endif
