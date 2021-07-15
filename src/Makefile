@@ -22,8 +22,9 @@ CODEFILES  := $(wildcard *.c)
 OBJECTFILES  := $(wildcard objects/*.c)
 MAPFILES  := $(wildcard maps/*.c)
 FONTFILES  := $(wildcard fonts/*.c)
+SCENEFILES  := $(wildcard scenes/*.c)
 U64EXTFILES  := $(wildcard ../libs/ultra64-extensions/src/*.c)
-CODEOBJECTS = $(CODEFILES:.c=.o) $(OBJECTFILES:.c=.o) $(MAPFILES:.c=.o) $(FONTFILES:.c=.o) $(U64EXTFILES:.c=.o)
+CODEOBJECTS = $(CODEFILES:.c=.o) $(OBJECTFILES:.c=.o) $(MAPFILES:.c=.o) $(FONTFILES:.c=.o) $(SCENEFILES:.c=.o) $(U64EXTFILES:.c=.o)
 
 DATAFILES  := $(wildcard data/*.c)
 DATAOBJECTS = $(DATAFILES:.c=.o)
@@ -35,7 +36,7 @@ CODESEGMENT = codesegment.o
 OBJECTS = $(CODESEGMENT) $(DATAOBJECTS) $(ASMOBJECTS) $(BOOT_OBJ)
 
 LCDEFS += $(HW_FLAGS)
-LCINCS  = -I. -I$(NUSTDINCDIR) -I/usr/include/n64/PR 
+LCINCS  = -I. -I$(NUSTDINCDIR) -I/usr/include/n64/PR
 LCOPTS  = -G 0
 LDFLAGS = -L/usr/lib/n64 $(N64LIB) -L$(N64_LIBGCCDIR) -lgcc -L$(NUSTDLIBDIR) -lnustd_d
 

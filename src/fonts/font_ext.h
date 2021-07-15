@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ultra64.h>
+
 void font_init(Gfx **);
 void font_finish(Gfx **);
 void font_show_num(Gfx **, int);

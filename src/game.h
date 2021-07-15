@@ -1,8 +1,9 @@
 #pragma once
 
 #include "boot.h"
-
 #include "types.h"
+#include "fonts/font_ext.h"
+#include "../libs/ultra64-extensions/include/mem_pool.h"
 
 /*
  * Message queues
@@ -50,7 +51,48 @@ typedef struct {
 	Gfx glist[GLIST_LEN];
 } Dynamic;
 
+typedef struct {
+	OSContPad **pad;
+} GameData;
+
+typedef struct {
+	OSTask *theadp;
+	Dynamic *dynamicp;
+	u16 perspnorm;
+	Mat4 modmat;
+	Mat4 m1, m2;
+	Mat4 allmat;
+} RenderData;
+
 extern Dynamic dynamic;
+extern GameData gd;
+extern RenderData rd;
+extern Gfx *glistp;
+extern MemZone memory_pool;
+
+/* FONT */
+extern int fontcol[4];
+#define FONT_COL_WHITE 255, 255, 255, 255
+#define FONT_COL 55, 155, 255, 255
+#define FONTCOL(r, g, b, a)                                                                        \
+	{                                                                                              \
+		fontcol[0] = r;                                                                            \
+		fontcol[1] = g;                                                                            \
+		fontcol[2] = b;                                                                            \
+		fontcol[3] = a;                                                                            \
+	}
+#define FONTCOLM(c) FONTCOL(c)
+#define SHOWFONT(glp, str, x, y)                                                                   \
+	{                                                                                              \
+		font_set_color(0, 0, 0, 255);                                                              \
+		font_set_pos((x) + (1), (y) + (0));                                                        \
+		font_show_string(glp, str);                                                                \
+		font_set_pos((x) + (0), (y) + (1));                                                        \
+		font_show_string(glp, str);                                                                \
+		font_set_color(fontcol[0], fontcol[1], fontcol[2], fontcol[3]);                            \
+		font_set_pos(x, y);                                                                        \
+		font_show_string(glp, str);                                                                \
+	}
 
 /*
  * frame buffer symbols
