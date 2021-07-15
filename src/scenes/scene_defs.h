@@ -1,5 +1,11 @@
 #pragma once
 
+#include <ultra64.h>
+
+#include "screen_config.h"
+#include "../controller.h"
+#include "../game.h"
+
 // macros
 #define AXISTHRESH 30
 #define PADTHRESH(num)                                                                             \

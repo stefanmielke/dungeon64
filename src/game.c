@@ -67,7 +67,6 @@ void game(void) {
 	// Main game loop
 	while (1) {
 		update();
-
 		render();
 	}
 }
@@ -82,8 +81,6 @@ void setup() {
 }
 
 void update() {
-	gd.pad = ReadController(START_BUTTON);
-
 	scene_manager_tick(scene_manager);
 }
 

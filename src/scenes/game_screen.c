@@ -1,30 +1,23 @@
 #include "game_screen.h"
 
-#include <ultra64.h>
+#include "scene_defs.h"
+
 #include <os_host.h>
 #include <nustd/math.h>
 
-#include "scene_defs.h"
-
-#include "../definitions.h"
 #include "../math.h"
-#include "../static.h"
-#include "../controller.h"
 #include "../data/texture.h"
 #include "../fonts/font_ext.h"
-#include "../objects/billboards.h"
+// #include "../objects/billboards.h"
 #include "../objects/map_helper.h"
-#include "../objects/walls.h"
+#include "../objects/player.h"
 #include "../maps/maps.h"
 
 #include "../../libs/ultra64-extensions/include/easing.h"
 #include "../../libs/ultra64-extensions/include/mem_pool.h"
 #include "../../libs/ultra64-extensions/include/tween.h"
 
-#include "../objects/player.h"
-
 Map current_map;
-
 Player pp;
 
 Tween *movement_tween;
@@ -57,6 +50,8 @@ void game_screen_create() {
 }
 
 short game_screen_tick() {
+	gd.pad = ReadController(START_BUTTON);
+
 	tween_tick(movement_tween);
 	tween_tick(view_tween);
 
@@ -86,6 +81,8 @@ short game_screen_tick() {
 			move_to(pp.move_lateral, pp.move_forward);
 		}
 	}
+
+	return SCREEN_PLAY;
 }
 
 void game_screen_display() {
@@ -116,8 +113,7 @@ void game_screen_display() {
 	gSPPerspNormalize(glistp++, rd.perspnorm);
 	gSPClipRatio(glistp++, FRUSTRATIO_1);
 
-	/*---------------*/
-
+	// render map
 	map_render(&current_map, &glistp, rd.dynamicp);
 
 	// render text

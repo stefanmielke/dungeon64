@@ -1,19 +1,19 @@
 #include "main_screen.h"
 
-#include <ultra64.h>
-
 #include "scene_defs.h"
-#include "screen_config.h"
 
 #include "../fonts/font_ext.h"
-#include "../game.h"
+
+#include "../text/texts.h"
 
 void main_screen_create() {
 }
 
 short main_screen_tick() {
+	gd.pad = ReadController(START_BUTTON);
+
 	if (IS_BUTTON_PRESSED(START_BUTTON)) {
-		return SCREEN_PLAY;
+		return SCREEN_PRE_DUNGEON;
 	}
 
 	return SCREEN_MAIN;
@@ -29,7 +29,7 @@ void main_screen_display() {
 	SHOWFONT(&glistp, "Dungeon 64", 120, 100);
 
 	FONTCOLM(FONT_COL_WHITE);
-	SHOWFONT(&glistp, "Press START", 116, 200);
+	SHOWFONT(&glistp, TEXT_MAIN_START, 116, 200);
 
 	font_finish(&glistp);
 

@@ -5,6 +5,7 @@ typedef enum {
 	SCREEN_NOSAVE,
 	SCREEN_MAIN,
 	SCREEN_MAIN_MENU,
+	SCREEN_PRE_DUNGEON,
 	SCREEN_PLAY
 } ScreenType;
 
