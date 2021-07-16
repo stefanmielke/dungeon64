@@ -16,3 +16,11 @@ extern Gfx wall_north_dl[];
 // billboards
 extern Gfx billboard_texture_setup_dl[];
 extern Gfx plant_dl[];
+
+/* combat */
+
+// enemies
+extern Gfx blue_dragon_dl[];
+
+// player
+extern Gfx player_dl[];

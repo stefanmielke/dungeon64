@@ -18,8 +18,7 @@ Gfx billboard_texture_setup_dl[] = {
 	gsDPPipeSync(),
 
 	gsDPSetCycleType(G_CYC_1CYCLE),
-	gsSPClearGeometryMode(G_SHADING_SMOOTH),
-	gsSPSetGeometryMode(G_SHADE | G_ZBUFFER | G_CULL_BACK),
+	gsSPSetGeometryMode(G_SHADE | G_SHADING_SMOOTH | G_ZBUFFER | G_CULL_BACK),
 	gsDPSetRenderMode(G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2),
 	gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
 

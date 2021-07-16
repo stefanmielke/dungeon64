@@ -38,6 +38,7 @@ Gfx init_dl[] = {
 	gsDPSetAlphaCompare(G_AC_NONE),
 	gsDPSetRenderMode(G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2),
 	gsDPSetColorDither(G_CD_DISABLE),
+	gsDPSetAlphaDither(G_AD_DISABLE),
 	gsDPPipeSync(),
 	gsSPEndDisplayList(),
 };
