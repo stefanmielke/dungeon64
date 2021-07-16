@@ -18,7 +18,7 @@
 #include "../../libs/ultra64-extensions/include/tween.h"
 
 Map current_map;
-Player pp;
+Player player;
 
 Tween *movement_tween;
 Tween *view_tween;
@@ -39,11 +39,11 @@ void game_screen_create() {
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
 
-	Vec3 player_start = map_get_start_position(&current_map, &pp.current_tile);
-	pp.pos[0] = player_start.x;
-	pp.pos[1] = player_start.y;
-	pp.pos[2] = player_start.z;
-	pp.angle = 0;
+	Vec3 player_start = map_get_start_position(&current_map, &player.current_tile);
+	player.pos[0] = player_start.x;
+	player.pos[1] = player_start.y;
+	player.pos[2] = player_start.z;
+	player.angle = 0;
 
 	set_angle(0);
 	move_to(0, 0);
@@ -55,30 +55,30 @@ short game_screen_tick() {
 	tween_tick(movement_tween);
 	tween_tick(view_tween);
 
-	pp.move_forward = 0;
-	pp.move_lateral = 0;
-	pp.view_speed = 0;
+	player.move_forward = 0;
+	player.move_lateral = 0;
+	player.view_speed = 0;
 
 	// move
 	if (movement_tween->finished && view_tween->finished) {
 		if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
-			pp.move_forward = TILE_SIZE;
-			move_to(pp.move_lateral, pp.move_forward);
+			player.move_forward = TILE_SIZE;
+			move_to(player.move_lateral, player.move_forward);
 		} else if (IS_BUTTON_PRESSED(D_JPAD) || PADTHRESH(gd.pad[0]->stick_y) < 0) {
-			pp.move_forward = -TILE_SIZE;
-			move_to(pp.move_lateral, pp.move_forward);
+			player.move_forward = -TILE_SIZE;
+			move_to(player.move_lateral, player.move_forward);
 		} else if (IS_BUTTON_PRESSED(L_JPAD) || PADTHRESH(gd.pad[0]->stick_x) < 0) {
-			pp.view_speed = -RAD_90;
-			set_angle(pp.view_speed);
+			player.view_speed = -RAD_90;
+			set_angle(player.view_speed);
 		} else if (IS_BUTTON_PRESSED(R_JPAD) || PADTHRESH(gd.pad[0]->stick_x) > 0) {
-			pp.view_speed = RAD_90;
-			set_angle(pp.view_speed);
+			player.view_speed = RAD_90;
+			set_angle(player.view_speed);
 		} else if (IS_BUTTON_PRESSED(L_TRIG) | IS_BUTTON_PRESSED(Z_TRIG)) {
-			pp.move_lateral = -TILE_SIZE;
-			move_to(pp.move_lateral, pp.move_forward);
+			player.move_lateral = -TILE_SIZE;
+			move_to(player.move_lateral, player.move_forward);
 		} else if (IS_BUTTON_PRESSED(R_TRIG)) {
-			pp.move_lateral = TILE_SIZE;
-			move_to(pp.move_lateral, pp.move_forward);
+			player.move_lateral = TILE_SIZE;
+			move_to(player.move_lateral, player.move_forward);
 		}
 	}
 
@@ -90,11 +90,12 @@ void game_screen_display() {
 	guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 	guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 
-	Vec3f forward = {pp.pos[0] + pp.forward[0], pp.pos[1] + 5.0, pp.pos[2] + pp.forward[2]};
-	guLookAtF(rd.m2, pp.pos[0], forward[1], pp.pos[2], forward[0], forward[1], forward[2], 0.0, 1.0,
-			  0.0);
-	guLookAt(&(rd.dynamicp->viewing), pp.pos[0], forward[1], pp.pos[2], forward[0], forward[1],
-			 forward[2], 0.0, 1.0, 0.0);
+	Vec3f forward = {player.pos[0] + player.forward[0], player.pos[1] + 5.0,
+					 player.pos[2] + player.forward[2]};
+	guLookAtF(rd.m2, player.pos[0], forward[1], player.pos[2], forward[0], forward[1], forward[2],
+			  0.0, 1.0, 0.0);
+	guLookAt(&(rd.dynamicp->viewing), player.pos[0], forward[1], player.pos[2], forward[0],
+			 forward[1], forward[2], 0.0, 1.0, 0.0);
 
 	guMtxCatF(rd.m2, rd.allmat, rd.m1);
 
@@ -114,7 +115,7 @@ void game_screen_display() {
 	gSPClipRatio(glistp++, FRUSTRATIO_1);
 
 	// render map
-	map_render(&current_map, &glistp, rd.dynamicp, &pp);
+	map_render(&current_map, &glistp, rd.dynamicp, &player);
 
 	// render text
 	font_init(&glistp);
@@ -123,15 +124,16 @@ void game_screen_display() {
 	font_set_win(200, 1);
 	FONTCOLM(FONT_COL);
 	char position[100];
-	sprintf(position, "Tile: %d Dir: %.2f, %.2f", pp.current_tile, pp.forward[0], pp.forward[2]);
+	sprintf(position, "Tile: %d Dir: %.2f, %.2f", player.current_tile, player.forward[0],
+			player.forward[2]);
 	SHOWFONT(&glistp, position, 20, 210);
 	font_finish(&glistp);
 }
 
 void set_angle(float angle_diff) {
-	float final_angle = pp.angle + angle_diff;
-	tween_restart(view_tween, &pp, &easing_exponential_out, MOVEMENT_SPEED, NULL, false, false);
-	tween_set_to_float(view_tween, pp.angle, final_angle, &view_callback);
+	float final_angle = player.angle + angle_diff;
+	tween_restart(view_tween, &player, &easing_exponential_out, MOVEMENT_SPEED, NULL, false, false);
+	tween_set_to_float(view_tween, player.angle, final_angle, &view_callback);
 }
 
 void move_to(s32 h_speed, s32 forward_speed) {
@@ -140,50 +142,50 @@ void move_to(s32 h_speed, s32 forward_speed) {
 	Position final_position;
 	if (forward_speed != 0) {
 		s8 sign = forward_speed > 0 ? 1 : -1;
-		s32 tile = pp.current_tile +
-				   (((u32)pp.forward[0] + ((u32)pp.forward[2] * current_map.width)) * sign);
+		s32 tile = player.current_tile +
+				   (((u32)player.forward[0] + ((u32)player.forward[2] * current_map.width)) * sign);
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
-			final_position.x = pp.pos[0] + (pp.forward[0] * (forward_speed / 4));
-			final_position.y = pp.pos[2] + (pp.forward[2] * (forward_speed / 4));
+			final_position.x = player.pos[0] + (player.forward[0] * (forward_speed / 4));
+			final_position.y = player.pos[2] + (player.forward[2] * (forward_speed / 4));
 		} else {
-			final_position.x = pp.pos[0] + (pp.forward[0] * forward_speed);
-			final_position.y = pp.pos[2] + (pp.forward[2] * forward_speed);
-			pp.current_tile = tile;
+			final_position.x = player.pos[0] + (player.forward[0] * forward_speed);
+			final_position.y = player.pos[2] + (player.forward[2] * forward_speed);
+			player.current_tile = tile;
 		}
 	} else if (h_speed != 0) {
 		s8 sign = h_speed > 0 ? 1 : -1;
 		float x, y;
-		get_forward_vector_from_angle(pp.angle + RAD_90, &x, &y);
-		u32 tile = pp.current_tile + (((u32)x + ((u32)y * current_map.width)) * sign);
+		get_forward_vector_from_angle(player.angle + RAD_90, &x, &y);
+		u32 tile = player.current_tile + (((u32)x + ((u32)y * current_map.width)) * sign);
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
-			final_position.x = pp.pos[0] + (x * (h_speed / 4));
-			final_position.y = pp.pos[2] + (y * (h_speed / 4));
+			final_position.x = player.pos[0] + (x * (h_speed / 4));
+			final_position.y = player.pos[2] + (y * (h_speed / 4));
 		} else {
-			final_position.x = pp.pos[0] + (x * h_speed);
-			final_position.y = pp.pos[2] + (y * h_speed);
-			pp.current_tile = tile;
+			final_position.x = player.pos[0] + (x * h_speed);
+			final_position.y = player.pos[2] + (y * h_speed);
+			player.current_tile = tile;
 		}
 	} else {
-		final_position.x = pp.pos[0];
-		final_position.y = pp.pos[2];
+		final_position.x = player.pos[0];
+		final_position.y = player.pos[2];
 	}
 
-	tween_restart(movement_tween, &pp, &easing_exponential_out, MOVEMENT_SPEED, NULL,
+	tween_restart(movement_tween, &player, &easing_exponential_out, MOVEMENT_SPEED, NULL,
 				  path_is_blocked, false);
-	Position p = {pp.pos[0], pp.pos[2]};
+	Position p = {player.pos[0], player.pos[2]};
 	tween_set_to_position(movement_tween, p, final_position, &movement_callback);
 }
 
 void movement_callback(void *target_object, Position current_value) {
-	pp.pos[0] = current_value.x;
-	pp.pos[2] = current_value.y;
+	player.pos[0] = current_value.x;
+	player.pos[2] = current_value.y;
 }
 
 void view_callback(void *target_object, float current_value) {
-	pp.angle = current_value;
-	get_forward_vector_from_angle(pp.angle, &pp.forward[0], &pp.forward[2]);
+	player.angle = current_value;
+	get_forward_vector_from_angle(player.angle, &player.forward[0], &player.forward[2]);
 }

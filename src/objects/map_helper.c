@@ -30,7 +30,7 @@ Vec3 map_get_position_from_map_coord(u32 map_coord, u32 size, u32 width) {
 	return result;
 }
 
-void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *pp) {
+void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	int obj_count;		 /* count of used objects on current frame */
 	int billboard_count; /* count of used billboards on current frame */
 
