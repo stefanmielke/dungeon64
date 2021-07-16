@@ -1,9 +1,13 @@
 #include "map_helper.h"
 
+#include <nustd/math.h>
+
 #include "walls.h"
+#include "../math.h"
 #include "../static.h"
 #include "../data/texture.h"
 #include "../maps/maps.h"
+#include "../objects/billboards.h"
 
 Vec3 map_get_start_position(Map *map, u32 *tile_position) {
 	for (u32 i = 0; i < map->size; ++i) {
@@ -25,7 +29,7 @@ Vec3 map_get_position_from_map_coord(u32 map_coord, u32 size, u32 width) {
 	return result;
 }
 
-void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp) {
+void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *pp) {
 	int obj_count;		 /* count of used objects on current frame */
 	int billboard_count; /* count of used billboards on current frame */
 
@@ -63,28 +67,38 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp) {
 	gDPLoadTextureBlock((*glistp)++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
 						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 	for (unsigned long i = 0; i < map->size; ++i) {
-		if (map->tiles[i] == TT_Wall_Full) {	 // full wall
+		if (map->tiles[i] == TT_Wall_Full) {  // full wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SQUARE(x, z);
-		} else if (map->tiles[i] == TT_Wall_East) {	// east wall
+		} else if (map->tiles[i] == TT_Wall_East) {	 // east wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_EAST(x, z);
-		} else if (map->tiles[i] == TT_Wall_South) {	 // south wall
+		} else if (map->tiles[i] == TT_Wall_South) {  // south wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SOUTH(x, z);
-		} else if (map->tiles[i] == TT_Wall_West) {	// west wall
+		} else if (map->tiles[i] == TT_Wall_West) {	 // west wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_WEST(x, z);
-		} else if (map->tiles[i] == TT_Wall_North) {	 // north wall
+		} else if (map->tiles[i] == TT_Wall_North) {  // north wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_NORTH(x, z);
 		}
 	}
+
+	// billboard setup
+	gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
+
+	// plants
+	gSPTexture((*glistp)++, 1024 * 2, 1024 * 2, 0, G_TX_RENDERTILE, G_ON);
+	gDPLoadTextureBlock((*glistp)++, spr_plant, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
+						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+
+	DRAW_PLANT(15, 15);
 }
 
 bool map_is_tile_blocked(Map *map, u32 tile) {

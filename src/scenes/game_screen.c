@@ -114,7 +114,7 @@ void game_screen_display() {
 	gSPClipRatio(glistp++, FRUSTRATIO_1);
 
 	// render map
-	map_render(&current_map, &glistp, rd.dynamicp);
+	map_render(&current_map, &glistp, rd.dynamicp, &pp);
 
 	// render text
 	font_init(&glistp);
@@ -126,18 +126,6 @@ void game_screen_display() {
 	sprintf(position, "Tile: %d Dir: %.2f, %.2f", pp.current_tile, pp.forward[0], pp.forward[2]);
 	SHOWFONT(&glistp, position, 20, 210);
 	font_finish(&glistp);
-
-	// billboard setup
-	// gSPDisplayList(glistp++, billboard_texture_setup_dl);
-
-	// plants
-	// gSPTexture(glistp++, 1024 * 2, 1024 * 2, 0, G_TX_RENDERTILE, G_ON);
-	// gDPLoadTextureBlock(glistp++, spr_plant, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
-	// G_TX_WRAP, 					G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
-
-	// DRAW_PLANT(20, 20);
-	// DRAW_PLANT(26, 20);
-	// DRAW_PLANT(32, 20);
 }
 
 void set_angle(float angle_diff) {
