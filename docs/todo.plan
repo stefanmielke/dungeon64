@@ -1,11 +1,11 @@
 {
   "Version": "0.7.2",
   "LockProject": false,
-  "BoardIndex": 0,
-  "BoardCount": 1,
+  "BoardIndex": 1,
+  "BoardCount": 2,
   "AutoSave": false,
-  "Pan.X": -484,
-  "Pan.Y": -167,
+  "Pan.X": -340.80474853515625,
+  "Pan.Y": -209.80545043945312,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -29,7 +29,7 @@
   "DeadlineAnimation": 0,
   "TableColumnsRotatedVertical": false,
   "TableColumnVerticalSpacing": 60,
-  "BoardNames": ["To Do"],
+  "BoardNames": ["To Do", "Combat"],
   "Tasks": [
     {
       "BoardIndex": 0,
@@ -210,6 +210,21 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Jul 11 2021 19:21:48"
+    }, 
+    {
+      "BoardIndex": 1,
+      "Position.X": 64,
+      "Position.Y": 16,
+      "ImageDisplaySize.X": 480,
+      "ImageDisplaySize.Y": 304,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "",
+      "FilePath": ["images", "golden sun 2 - combat.png"],
+      "Selected": false,
+      "TaskType.CurrentChoice": 3,
+      "CreationTime": "Jul 16 2021 16:32:03"
     }
   ]
 }
