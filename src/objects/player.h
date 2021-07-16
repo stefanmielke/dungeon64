@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../types.h"
+#include "../../libs/ultra64-extensions/include/tween.h"
 
 typedef struct {
 	Vec3f pos;
@@ -10,4 +11,7 @@ typedef struct {
 	Vec3f forward;
 	float angle;
 	u32 current_tile;
+
+	Tween *movement_tween;
+	Tween *view_tween;
 } Player;

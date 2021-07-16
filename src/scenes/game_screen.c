@@ -8,7 +8,6 @@
 #include "../math.h"
 #include "../data/texture.h"
 #include "../fonts/font_ext.h"
-// #include "../objects/billboards.h"
 #include "../objects/map_helper.h"
 #include "../objects/player.h"
 #include "../maps/maps.h"
@@ -20,9 +19,6 @@
 Map current_map;
 Player player;
 
-Tween *movement_tween;
-Tween *view_tween;
-
 // helper functions for movement
 void set_angle(float angle_diff);
 void move_to(s32 h_speed, s32 forward_speed);
@@ -32,8 +28,8 @@ void movement_callback(void *target_object, Position current_value);
 void view_callback(void *target_object, float current_value);
 
 void game_screen_create() {
-	movement_tween = tween_init(&memory_pool);
-	view_tween = tween_init(&memory_pool);
+	player.movement_tween = tween_init(&memory_pool);
+	player.view_tween = tween_init(&memory_pool);
 
 	current_map.tiles = map1_1;
 	current_map.size = map1_1_size;
@@ -52,15 +48,15 @@ void game_screen_create() {
 short game_screen_tick() {
 	gd.pad = ReadController(START_BUTTON);
 
-	tween_tick(movement_tween);
-	tween_tick(view_tween);
+	tween_tick(player.movement_tween);
+	tween_tick(player.view_tween);
 
 	player.move_forward = 0;
 	player.move_lateral = 0;
 	player.view_speed = 0;
 
 	// move
-	if (movement_tween->finished && view_tween->finished) {
+	if (player.movement_tween->finished && player.view_tween->finished) {
 		if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
 			player.move_forward = TILE_SIZE;
 			move_to(player.move_lateral, player.move_forward);
@@ -132,8 +128,9 @@ void game_screen_display() {
 
 void set_angle(float angle_diff) {
 	float final_angle = player.angle + angle_diff;
-	tween_restart(view_tween, &player, &easing_exponential_out, MOVEMENT_SPEED, NULL, false, false);
-	tween_set_to_float(view_tween, player.angle, final_angle, &view_callback);
+	tween_restart(player.view_tween, &player, &easing_exponential_out, MOVEMENT_SPEED, NULL, false,
+				  false);
+	tween_set_to_float(player.view_tween, player.angle, final_angle, &view_callback);
 }
 
 void move_to(s32 h_speed, s32 forward_speed) {
@@ -174,10 +171,10 @@ void move_to(s32 h_speed, s32 forward_speed) {
 		final_position.y = player.pos[2];
 	}
 
-	tween_restart(movement_tween, &player, &easing_exponential_out, MOVEMENT_SPEED, NULL,
+	tween_restart(player.movement_tween, &player, &easing_exponential_out, MOVEMENT_SPEED, NULL,
 				  path_is_blocked, false);
 	Position p = {player.pos[0], player.pos[2]};
-	tween_set_to_position(movement_tween, p, final_position, &movement_callback);
+	tween_set_to_position(player.movement_tween, p, final_position, &movement_callback);
 }
 
 void movement_callback(void *target_object, Position current_value) {
