@@ -3,6 +3,7 @@
 #include <nustd/math.h>
 
 #include "combat_animations.h"
+#include "enemy_party.h"
 #include "../static.h"
 #include "../data/texture.h"
 #include "../math.h"
@@ -14,37 +15,6 @@
 #define get_ticks_ms() (OS_CYCLES_TO_NSEC(osGetTime()) / 1000000)
 
 void combat_process_action(Combat *combat, CombatAction *action);
-
-EnemyParty get_new_enemy_party() {
-	Enemy *goblin_boss = get_enemy_data_for_type(ET_GoblinBoss);
-	Enemy *goblin_minion1 = get_enemy_data_for_type(ET_GoblinMinion1);
-	Enemy *goblin_minion2 = get_enemy_data_for_type(ET_GoblinMinion2);
-
-	EnemyParty party = {
-		.current_enemy_count = 4,
-		.enemies =
-			{
-				{
-					.enemy = goblin_boss,
-					.current_health = goblin_boss->health,
-				},
-				{
-					.enemy = goblin_minion1,
-					.current_health = goblin_minion1->health,
-				},
-				{
-					.enemy = goblin_minion2,
-					.current_health = goblin_minion2->health,
-				},
-				{
-					.enemy = goblin_minion2,
-					.current_health = goblin_minion2->health,
-				},
-			},
-	};
-
-	return party;
-}
 
 Combat combat_new(Party *party) {
 	Combat combat = {
