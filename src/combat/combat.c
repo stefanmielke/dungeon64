@@ -225,13 +225,15 @@ void combat_process_action(Combat *combat, CombatAction *action) {
 					}
 				}
 
-				combat->enemy_party.enemies[action->target].current_health -= action->type_arg_1;
+				if (action->target < combat->enemy_party.current_enemy_count)
+					combat->enemy_party.enemies[action->target].current_health -= action
+																					  ->type_arg_1;
 			} else {
 				// if target died before this action, choose another enemy
 				if (combat->party->members[action->target].current_health <= 0) {
 					// tries random 4 times before pushing 1-4
 					for (u8 i = 0; i < 4; ++i) {
-						int random = RANDR(0, combat->party->current_member_count);
+						int random = RANDR(0, combat->party->current_member_count - 1);
 						if (combat->party->members[random].current_health > 0) {
 							action->target = random;
 							break;
@@ -247,7 +249,9 @@ void combat_process_action(Combat *combat, CombatAction *action) {
 						action->target++;
 					}
 				}
-				combat->party->members[action->target].current_health -= action->type_arg_1;
+
+				if (action->target < combat->party->current_member_count)
+					combat->party->members[action->target].current_health -= action->type_arg_1;
 			}
 			break;
 		default:
