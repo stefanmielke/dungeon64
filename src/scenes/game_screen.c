@@ -8,6 +8,7 @@
 #include "../math.h"
 #include "../data/texture.h"
 #include "../fonts/font_ext.h"
+#include "../objects/combat_helper.h"
 #include "../objects/map_helper.h"
 #include "../objects/player.h"
 #include "../maps/maps.h"
@@ -19,6 +20,13 @@
 Map current_map;
 Player player;
 
+typedef enum GameState {
+	GM_PAUSE,
+	GM_WALK,
+	GM_COMBAT,
+} GameState;
+GameState current_state;
+
 // helper functions for movement
 void set_angle(float angle_diff);
 void move_to(s32 h_speed, s32 forward_speed);
@@ -28,6 +36,8 @@ void movement_callback(void *target_object, Position current_value);
 void view_callback(void *target_object, float current_value);
 
 void game_screen_create() {
+	current_state = GM_WALK;
+
 	player.movement_tween = tween_init(&memory_pool);
 	player.view_tween = tween_init(&memory_pool);
 
@@ -46,35 +56,47 @@ void game_screen_create() {
 }
 
 short game_screen_tick() {
-	gd.pad = ReadController(START_BUTTON);
+	gd.pad = ReadController(START_BUTTON | B_BUTTON);
 
-	tween_tick(player.movement_tween);
-	tween_tick(player.view_tween);
+	if (current_state == GM_WALK) {
+		tween_tick(player.movement_tween);
+		tween_tick(player.view_tween);
 
-	player.move_forward = 0;
-	player.move_lateral = 0;
-	player.view_speed = 0;
+		player.move_forward = 0;
+		player.move_lateral = 0;
+		player.view_speed = 0;
 
-	// move
-	if (player.movement_tween->finished && player.view_tween->finished) {
-		if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
-			player.move_forward = TILE_SIZE;
-			move_to(player.move_lateral, player.move_forward);
-		} else if (IS_BUTTON_PRESSED(D_JPAD) || PADTHRESH(gd.pad[0]->stick_y) < 0) {
-			player.move_forward = -TILE_SIZE;
-			move_to(player.move_lateral, player.move_forward);
-		} else if (IS_BUTTON_PRESSED(L_JPAD) || PADTHRESH(gd.pad[0]->stick_x) < 0) {
-			player.view_speed = -RAD_90;
-			set_angle(player.view_speed);
-		} else if (IS_BUTTON_PRESSED(R_JPAD) || PADTHRESH(gd.pad[0]->stick_x) > 0) {
-			player.view_speed = RAD_90;
-			set_angle(player.view_speed);
-		} else if (IS_BUTTON_PRESSED(L_TRIG) | IS_BUTTON_PRESSED(Z_TRIG)) {
-			player.move_lateral = -TILE_SIZE;
-			move_to(player.move_lateral, player.move_forward);
-		} else if (IS_BUTTON_PRESSED(R_TRIG)) {
-			player.move_lateral = TILE_SIZE;
-			move_to(player.move_lateral, player.move_forward);
+		// move
+		if (player.movement_tween->finished && player.view_tween->finished) {
+			if (IS_BUTTON_PRESSED(B_BUTTON)) {
+				current_state = GM_COMBAT;
+				return SCREEN_PLAY;
+			}
+
+			if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
+				player.move_forward = TILE_SIZE;
+				move_to(player.move_lateral, player.move_forward);
+			} else if (IS_BUTTON_PRESSED(D_JPAD) || PADTHRESH(gd.pad[0]->stick_y) < 0) {
+				player.move_forward = -TILE_SIZE;
+				move_to(player.move_lateral, player.move_forward);
+			} else if (IS_BUTTON_PRESSED(L_JPAD) || PADTHRESH(gd.pad[0]->stick_x) < 0) {
+				player.view_speed = -RAD_90;
+				set_angle(player.view_speed);
+			} else if (IS_BUTTON_PRESSED(R_JPAD) || PADTHRESH(gd.pad[0]->stick_x) > 0) {
+				player.view_speed = RAD_90;
+				set_angle(player.view_speed);
+			} else if (IS_BUTTON_PRESSED(L_TRIG) | IS_BUTTON_PRESSED(Z_TRIG)) {
+				player.move_lateral = -TILE_SIZE;
+				move_to(player.move_lateral, player.move_forward);
+			} else if (IS_BUTTON_PRESSED(R_TRIG)) {
+				player.move_lateral = TILE_SIZE;
+				move_to(player.move_lateral, player.move_forward);
+			}
+		}
+	} else if (current_state == GM_COMBAT) {
+		if (IS_BUTTON_PRESSED(B_BUTTON)) {
+			current_state = GM_WALK;
+			return SCREEN_PLAY;
 		}
 	}
 
@@ -82,48 +104,84 @@ short game_screen_tick() {
 }
 
 void game_screen_display() {
-	// set up matrices
-	guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
-	guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
+	if (current_state == GM_WALK) {
+		// set up matrices
+		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
+		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
+					  1.0);
 
-	Vec3f forward = {player.pos[0] + player.forward[0], player.pos[1] + 5.0,
-					 player.pos[2] + player.forward[2]};
-	guLookAtF(rd.m2, player.pos[0], forward[1], player.pos[2], forward[0], forward[1], forward[2],
-			  0.0, 1.0, 0.0);
-	guLookAt(&(rd.dynamicp->viewing), player.pos[0], forward[1], player.pos[2], forward[0],
-			 forward[1], forward[2], 0.0, 1.0, 0.0);
+		Vec3f forward = {player.pos[0] + player.forward[0], player.pos[1] + 5.0,
+						 player.pos[2] + player.forward[2]};
+		guLookAtF(rd.m2, player.pos[0], forward[1], player.pos[2], forward[0], forward[1],
+				  forward[2], 0.0, 1.0, 0.0);
+		guLookAt(&(rd.dynamicp->viewing), player.pos[0], forward[1], player.pos[2], forward[0],
+				 forward[1], forward[2], 0.0, 1.0, 0.0);
 
-	guMtxCatF(rd.m2, rd.allmat, rd.m1);
+		guMtxCatF(rd.m2, rd.allmat, rd.m1);
 
-	guScale(&(rd.dynamicp->modeling), 1.0, 1.0, 1.0);
-	guScaleF(rd.modmat, 1.0, 1.0, 1.0);
+		guScale(&(rd.dynamicp->modeling), 1.0, 1.0, 1.0);
+		guScaleF(rd.modmat, 1.0, 1.0, 1.0);
 
-	guMtxCatF(rd.modmat, rd.m1, rd.allmat);
+		guMtxCatF(rd.modmat, rd.m1, rd.allmat);
 
-	gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->projection)),
-			  G_MTX_PROJECTION | G_MTX_LOAD | G_MTX_NOPUSH);
-	gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->viewing)),
-			  G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
-	gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->modeling)),
-			  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+		gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->projection)),
+				  G_MTX_PROJECTION | G_MTX_LOAD | G_MTX_NOPUSH);
+		gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->viewing)),
+				  G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
+		gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->modeling)),
+				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
 
-	gSPPerspNormalize(glistp++, rd.perspnorm);
-	gSPClipRatio(glistp++, FRUSTRATIO_1);
+		gSPPerspNormalize(glistp++, rd.perspnorm);
+		gSPClipRatio(glistp++, FRUSTRATIO_1);
 
-	// render map
-	map_render(&current_map, &glistp, rd.dynamicp, &player);
+		// render map
+		map_render(&current_map, &glistp, rd.dynamicp, &player);
 
-	// render text
-	font_init(&glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
-	FONTCOLM(FONT_COL);
-	char position[100];
-	sprintf(position, "Tile: %d Dir: %.2f, %.2f", player.current_tile, player.forward[0],
-			player.forward[2]);
-	SHOWFONT(&glistp, position, 20, 210);
-	font_finish(&glistp);
+		// render text
+		font_init(&glistp);
+		font_set_transparent(1);
+		font_set_scale(1.0, 1.0);
+		font_set_win(200, 1);
+		FONTCOLM(FONT_COL);
+		char position[100];
+		sprintf(position, "Tile: %d Dir: %.2f, %.2f", player.current_tile, player.forward[0],
+				player.forward[2]);
+		SHOWFONT(&glistp, position, 20, 210);
+		font_finish(&glistp);
+	} else if (current_state == GM_COMBAT) {
+		// set up matrices
+		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
+		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
+					  1.0);
+
+		static float pov_x = -5, pov_y = 25, speed = 0.1f;
+		pov_x += speed;
+		if (pov_x > 5 || pov_x < -5)
+			speed *= -1;
+
+		guLookAtF(rd.m2, pov_x, 4, pov_y, 0, 4, 0, 0.0, 1.0, 0.0);
+		guLookAt(&(rd.dynamicp->viewing), pov_x, 4, pov_y, 0, 4, 0, 0.0, 1.0, 0.0);
+
+		guMtxCatF(rd.m2, rd.allmat, rd.m1);
+
+		guScale(&(rd.dynamicp->modeling), 1.0, 1.0, 1.0);
+		guScaleF(rd.modmat, 1.0, 1.0, 1.0);
+
+		guMtxCatF(rd.modmat, rd.m1, rd.allmat);
+
+		gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->projection)),
+				  G_MTX_PROJECTION | G_MTX_LOAD | G_MTX_NOPUSH);
+		gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->viewing)),
+				  G_MTX_PROJECTION | G_MTX_MUL | G_MTX_NOPUSH);
+		gSPMatrix(glistp++, OS_K0_TO_PHYSICAL(&(rd.dynamicp->modeling)),
+				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+
+		gSPPerspNormalize(glistp++, rd.perspnorm);
+		gSPClipRatio(glistp++, FRUSTRATIO_1);
+
+		// render map
+		combat_render(&glistp, rd.dynamicp, pov_x, pov_y);
+	}
 }
 
 void set_angle(float angle_diff) {

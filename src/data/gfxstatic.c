@@ -17,6 +17,13 @@ static Vtx ground_vtx[] = {
 	{00, 0, 10, 0, 00 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
 };
 
+static Vtx combat_ground_vtx[] = {
+	{00, 0, 00, 0, 00 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
+	{100, 0, 00, 0, 32 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
+	{100, 0, 100, 0, 32 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
+	{00, 0, 100, 0, 00 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
+};
+
 static Vtx ceiling_vtx[] = {
 	{00, 0, 10, 0, 00 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
 	{10, 0, 10, 0, 32 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
@@ -33,6 +40,12 @@ Gfx ground_texture_setup_dl[] = {
 	gsDPSetCombineMode(G_CC_BLENDRGBA, G_CC_BLENDRGBA),
 	gsDPSetTexturePersp(G_TP_PERSP),
 
+	gsSPEndDisplayList(),
+};
+
+Gfx combat_ground_dl[] = {
+	gsSPVertex(&(combat_ground_vtx[0]), 4, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
 	gsSPEndDisplayList(),
 };
 

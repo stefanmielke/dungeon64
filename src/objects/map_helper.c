@@ -6,9 +6,8 @@
 #include "../math.h"
 #include "../static.h"
 #include "../data/texture.h"
+#include "../objects/billboards.h"
 #include "../maps/maps.h"
-#include "../objects/combat/enemies.h"
-#include "../objects/combat/player.h"
 
 Vec3 map_get_start_position(Map *map, u32 *tile_position) {
 	for (u32 i = 0; i < map->size; ++i) {
@@ -95,8 +94,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 
-	DRAW_BLUE_DRAGON(40, 40);
-	DRAW_WARRIOR(50, 50);
+	// DRAW_PLANT(10, 10);
 }
 
 bool map_is_tile_blocked(Map *map, u32 tile) {
