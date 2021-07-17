@@ -135,10 +135,10 @@ short game_screen_tick() {
 			current_state = GM_WALK;
 
 	} else if (current_state == GM_COMBAT) {
-		if (IS_BUTTON_PRESSED(B_BUTTON)) {
+		combat_tick(&current_combat);
+		if (current_combat.state == CS_END) {
 			current_state = GM_FROM_COMBAT;
 			screen_transition_y = 0;
-			return SCREEN_PLAY;
 		}
 	}
 

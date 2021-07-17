@@ -9,6 +9,7 @@
 #include "../objects/billboards.h"
 #include "../objects/combat/enemies.h"
 #include "../objects/combat/player.h"
+#include "../scenes/scene_defs.h"
 
 EnemyParty get_new_enemy_party() {
 	Enemy *goblin_boss = get_enemy_data_for_type(ET_GoblinBoss);
@@ -45,9 +46,18 @@ Combat combat_new(Party *party) {
 	Combat combat = {
 		.party = party,
 		.enemy_party = get_new_enemy_party(),
+		.state = CS_START,
 	};
 
 	return combat;
+}
+
+void combat_tick(Combat *combat) {
+	if (IS_BUTTON_PRESSED(START_BUTTON)) {
+		combat->state = CS_END;
+	}
+
+	
 }
 
 void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, int pov_z) {
