@@ -2,6 +2,10 @@
 
 #include <ultratypes.h>
 
+#include "../definitions.h"
+#include "../game.h"
+#include "../types.h"
+
 #include "../../libs/ultra64-extensions/include/range.h"
 
 typedef enum Class {
@@ -17,7 +21,10 @@ typedef struct PartyMember {
 	u8 level;
 	int max_health;
 	int current_health;
+	int max_tp;
+	int current_tp;
 	RangeInt damage_range;
+	const char *name;
 } PartyMember;
 
 typedef struct Party {
@@ -25,4 +32,5 @@ typedef struct Party {
 	u8 current_member_count;
 } Party;
 
-PartyMember get_start_member_for_class(Class class);
+PartyMember get_start_member_for_class(Class class, const char *name);
+void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp);

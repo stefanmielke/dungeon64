@@ -5,7 +5,9 @@
 
 typedef enum EnemyType {
 	ET_None = 0,
-	ET_BlueDragon,
+	ET_GoblinBoss,
+	ET_GoblinMinion1,
+	ET_GoblinMinion2,
 	ET_MAX,
 } EnemyType;
 

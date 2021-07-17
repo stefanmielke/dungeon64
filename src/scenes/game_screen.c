@@ -180,6 +180,8 @@ void game_screen_display() {
 		// render map
 		map_render(&current_map, &glistp, rd.dynamicp, &player);
 
+		// party_render(&player.party, &glistp, rd.dynamicp);
+
 		// render text
 		font_init(&glistp);
 		font_set_transparent(1);
@@ -190,7 +192,7 @@ void game_screen_display() {
 		sprintf(position, "Tile: %d Dir: %.2f, %.2f S: %d/%d", player.current_tile,
 				player.forward.x, player.forward.z, player.current_steps_taken,
 				player.next_combat_at);
-		SHOWFONT(&glistp, position, 20, 210);
+		SHOWFONT(&glistp, position, 20, 220);
 		font_finish(&glistp);
 
 		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK) {

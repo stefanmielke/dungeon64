@@ -63,6 +63,22 @@
 		billboard_count++;                                                                         \
 	}
 
+#define DRAW_BILLBOARD_SINGLE(x, z, width, height, dl, texture, pov_x, pov_z)                      \
+	{                                                                                              \
+		gDPLoadTextureBlock((*glistp)++, texture, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,          \
+							G_TX_MIRROR, G_TX_MIRROR, 5, 5, G_TX_NOLOD, G_TX_NOLOD);               \
+		float angle = (atan2f(z - pov_z, x - pov_x) + RAD_90) * RAD_MULT;                          \
+		guRotate(&(dynamic.billboard_rotation[billboard_count]), -angle, 0, 1, 0);                 \
+		guTranslate(&(dynamic.object_position[obj_count]), x, 0, z);                               \
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamic.object_position[obj_count])),           \
+				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);                                    \
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamic.billboard_rotation[billboard_count])),  \
+				  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);                                     \
+		obj_count++;                                                                               \
+		gSPDisplayList((*glistp)++, dl);                                                           \
+		billboard_count++;                                                                         \
+	}
+
 #define DRAW_BILLBOARD_Z(x, y, z)                                                                  \
 	{                                                                                              \
 		float angle = (atan2f(y - player->pos.z, x - player->pos.x) + RAD_90) * RAD_MULT;          \

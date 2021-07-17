@@ -23,10 +23,12 @@ extern Gfx plant_dl[];
 /* combat */
 
 // enemies
-extern Gfx blue_dragon_dl[];
-extern Gfx blue_dragon_dl2[];
-extern Gfx blue_dragon_dl3[];
-extern Gfx blue_dragon_dl4[];
+extern Gfx enemy_64_dl[];
+extern Gfx enemy_64_dl2[];
+extern Gfx enemy_64_dl3[];
+extern Gfx enemy_64_dl4[];
+
+extern Gfx enemy_32_dl[];
 
 // player
 extern Gfx player_dl[];

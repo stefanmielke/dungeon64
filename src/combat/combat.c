@@ -11,23 +11,29 @@
 #include "../objects/combat/player.h"
 
 EnemyParty get_new_enemy_party() {
-	Enemy *blue_dragon = get_enemy_data_for_type(ET_BlueDragon);
+	Enemy *goblin_boss = get_enemy_data_for_type(ET_GoblinBoss);
+	Enemy *goblin_minion1 = get_enemy_data_for_type(ET_GoblinMinion1);
+	Enemy *goblin_minion2 = get_enemy_data_for_type(ET_GoblinMinion2);
 
 	EnemyParty party = {
-		.current_enemy_count = 3,
+		.current_enemy_count = 4,
 		.enemies =
 			{
 				{
-					.enemy = blue_dragon,
-					.current_health = blue_dragon->health,
+					.enemy = goblin_boss,
+					.current_health = goblin_boss->health,
 				},
 				{
-					.enemy = blue_dragon,
-					.current_health = blue_dragon->health,
+					.enemy = goblin_minion1,
+					.current_health = goblin_minion1->health,
 				},
 				{
-					.enemy = blue_dragon,
-					.current_health = blue_dragon->health,
+					.enemy = goblin_minion2,
+					.current_health = goblin_minion2->health,
+				},
+				{
+					.enemy = goblin_minion2,
+					.current_health = goblin_minion2->health,
 				},
 			},
 	};
@@ -78,14 +84,5 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 				   (int)frame_counter);
 	}
 
-	// render text
-	font_init(glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
-	FONTCOLM(FONT_COL);
-	char position[100];
-	sprintf(position, "Combat");
-	SHOWFONT(glistp, position, 20, 210);
-	font_finish(glistp);
+	party_render(combat->party, glistp, dynamicp);
 }

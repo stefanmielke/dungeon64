@@ -27,9 +27,12 @@ unsigned short *spr_thief_back_idle[] = {
 	spr_thief_back_idle2,
 };
 
-unsigned short *spr_blue_dragon_idle[] = {
-	spr_blue_dragon_idle1,
-	spr_blue_dragon_idle2,
-	spr_blue_dragon_idle3,
-	spr_blue_dragon_idle2,
+unsigned short *spr_goblin_boss_idle[] = {
+	spr_goblin_boss_idle1,
+};
+unsigned short *spr_goblin_minion1_idle[] = {
+	spr_goblin_minion1_idle1,
+};
+unsigned short *spr_goblin_minion2_idle[] = {
+	spr_goblin_minion2_idle1,
 };
