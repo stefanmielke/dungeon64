@@ -44,12 +44,14 @@ void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp, s8 highlight_in
 		const int start_x = 20 + (i * 80);
 		PartyMember *member = &party->members[i];
 
-		if (highlight_index >= 0) {
+		if (highlight_index >= 0 && member->current_health > 0) {
 			if (highlight_index == i) {
 				FONTCOLM(FONT_COL);
 			} else {
 				FONTCOLM(FONT_COL_GREY);
 			}
+		} else if (member->current_health <= 0) {
+			FONTCOLM(FONT_COL_GREY);
 		}
 
 		sprintf(text, "%s", member->name);
