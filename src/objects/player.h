@@ -12,6 +12,9 @@ typedef struct {
 	float angle;
 	u32 current_tile;
 
+	u32 current_steps_taken;
+	u32 next_combat_at;
+
 	Tween *movement_tween;
 	Tween *view_tween;
 } Player;

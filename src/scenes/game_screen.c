@@ -38,24 +38,41 @@ void move_to(s32 h_speed, s32 forward_speed);
 
 // tween callbacks
 void movement_callback(void *target_object, Position current_value);
+void movement_end_callback(void *target);  // starts combat when needed
 void view_callback(void *target_object, float current_value);
 
+void reset_combat() {
+	player.next_combat_at = player.current_steps_taken +
+							range_get_from_int(&current_map.steps_to_combat);
+}
+
 void game_screen_create() {
+	// reset random seed
+	unsigned int seed = osGetTime();
+	srand(seed);
+
 	current_state = GM_WALK;
 
 	player.movement_tween = tween_init(&memory_pool);
 	player.view_tween = tween_init(&memory_pool);
 	combat_start_end_tween = tween_init(&memory_pool);
 
+	RangeInt r1 = {10, 10};
+
 	current_map.tiles = map1_1;
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
+	current_map.steps_to_combat.start = 10;
+	current_map.steps_to_combat.end = 20;
 
 	Vec3 player_start = map_get_start_position(&current_map, &player.current_tile);
 	player.pos[0] = player_start.x;
 	player.pos[1] = player_start.y;
 	player.pos[2] = player_start.z;
 	player.angle = 0;
+
+	player.current_steps_taken = 0;
+	reset_combat();
 
 	set_angle(0);
 	move_to(0, 0);
@@ -68,18 +85,16 @@ short game_screen_tick() {
 		tween_tick(player.movement_tween);
 		tween_tick(player.view_tween);
 
+		// entered combat!
+		if (current_state != GM_WALK)
+			return SCREEN_PLAY;
+
 		player.move_forward = 0;
 		player.move_lateral = 0;
 		player.view_speed = 0;
 
 		// move
 		if (player.movement_tween->finished && player.view_tween->finished) {
-			if (IS_BUTTON_PRESSED(B_BUTTON)) {
-				current_state = GM_TO_COMBAT;
-				screen_transition_y = SCREEN_HT - 1;
-				return SCREEN_PLAY;
-			}
-
 			if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
 				player.move_forward = TILE_SIZE;
 				move_to(player.move_lateral, player.move_forward);
@@ -162,8 +177,9 @@ void game_screen_display() {
 		font_set_win(200, 1);
 		FONTCOLM(FONT_COL);
 		char position[100];
-		sprintf(position, "Tile: %d Dir: %.2f, %.2f", player.current_tile, player.forward[0],
-				player.forward[2]);
+		sprintf(position, "Tile: %d Dir: %.2f, %.2f S: %d/%d", player.current_tile,
+				player.forward[0], player.forward[2], player.current_steps_taken,
+				player.next_combat_at);
 		SHOWFONT(&glistp, position, 20, 210);
 		font_finish(&glistp);
 
@@ -242,6 +258,7 @@ void move_to(s32 h_speed, s32 forward_speed) {
 			final_position.x = player.pos[0] + (player.forward[0] * forward_speed);
 			final_position.y = player.pos[2] + (player.forward[2] * forward_speed);
 			player.current_tile = tile;
+			player.current_steps_taken++;
 		}
 	} else if (h_speed != 0) {
 		s8 sign = h_speed > 0 ? 1 : -1;
@@ -257,14 +274,15 @@ void move_to(s32 h_speed, s32 forward_speed) {
 			final_position.x = player.pos[0] + (x * h_speed);
 			final_position.y = player.pos[2] + (y * h_speed);
 			player.current_tile = tile;
+			player.current_steps_taken++;
 		}
 	} else {
 		final_position.x = player.pos[0];
 		final_position.y = player.pos[2];
 	}
 
-	tween_restart(player.movement_tween, &player, &easing_exponential_out, MOVEMENT_SPEED, NULL,
-				  path_is_blocked, false);
+	tween_restart(player.movement_tween, &player, &easing_exponential_out, MOVEMENT_SPEED,
+				  &movement_end_callback, path_is_blocked, false);
 	Position p = {player.pos[0], player.pos[2]};
 	tween_set_to_position(player.movement_tween, p, final_position, &movement_callback);
 }
@@ -272,6 +290,16 @@ void move_to(s32 h_speed, s32 forward_speed) {
 void movement_callback(void *target_object, Position current_value) {
 	player.pos[0] = current_value.x;
 	player.pos[2] = current_value.y;
+}
+
+void movement_end_callback(void *target) {
+	if (player.current_steps_taken >= player.next_combat_at) {
+		current_state = GM_TO_COMBAT;
+		screen_transition_y = SCREEN_HT - 1;
+		reset_combat();
+
+		return SCREEN_PLAY;
+	}
 }
 
 void view_callback(void *target_object, float current_value) {
