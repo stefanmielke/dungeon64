@@ -46,6 +46,9 @@ LCINCS  = -I. -I$(NUSTDINCDIR) -I/usr/include/n64/PR
 LCOPTS  = -G 0
 LDFLAGS = -L/usr/lib/n64 $(N64LIB) -L$(N64_LIBGCCDIR) -lgcc -L$(NUSTDLIBDIR) -lnustd_d
 
+# When testing is needed. Gives false positives, so we keep it commented most of the time.
+# LCOPTS += -Wall -Wno-missing-braces
+
 LDIRT  = $(ELF) $(CP_LD_SCRIPT) $(MAP) $(ASMOBJECTS) $(TARGETS)
 
 default: $(TARGETS)

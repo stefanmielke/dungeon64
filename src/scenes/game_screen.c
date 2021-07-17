@@ -57,8 +57,6 @@ void game_screen_create() {
 	player.view_tween = tween_init(&memory_pool);
 	combat_start_end_tween = tween_init(&memory_pool);
 
-	RangeInt r1 = {10, 10};
-
 	current_map.tiles = map1_1;
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
@@ -297,8 +295,6 @@ void movement_end_callback(void *target) {
 		current_state = GM_TO_COMBAT;
 		screen_transition_y = SCREEN_HT - 1;
 		reset_combat();
-
-		return SCREEN_PLAY;
 	}
 }
 

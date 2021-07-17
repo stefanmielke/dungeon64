@@ -10,8 +10,8 @@
 #include "../objects/combat/player.h"
 
 void combat_render(Gfx **glistp, Dynamic *dynamicp, int pov_x, int pov_z) {
-	int obj_count;		 /* count of used objects on current frame */
-	int billboard_count; /* count of used billboards on current frame */
+	int obj_count = 0;		 /* count of used objects on current frame */
+	int billboard_count = 0; /* count of used billboards on current frame */
 
 	static float frame_counter = 0;
 	frame_counter += 0.09f;

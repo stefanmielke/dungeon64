@@ -30,8 +30,8 @@ Vec3 map_get_position_from_map_coord(u32 map_coord, u32 size, u32 width) {
 }
 
 void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
-	int obj_count;		 /* count of used objects on current frame */
-	int billboard_count; /* count of used billboards on current frame */
+	int obj_count = 0; /* count of used objects on current frame */
+	// int billboard_count = 0; /* count of used billboards on current frame */
 
 	// ground
 	gSPDisplayList((*glistp)++, ground_texture_setup_dl);
