@@ -154,12 +154,12 @@ void game_screen_display() {
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
 					  1.0);
 
-		Vec3f forward = {player.pos[0] + player.forward[0], player.pos[1] + 5.0,
-						 player.pos[2] + player.forward[2]};
-		guLookAtF(rd.m2, player.pos[0], forward[1], player.pos[2], forward[0], forward[1],
-				  forward[2], 0.0, 1.0, 0.0);
-		guLookAt(&(rd.dynamicp->viewing), player.pos[0], forward[1], player.pos[2], forward[0],
-				 forward[1], forward[2], 0.0, 1.0, 0.0);
+		Vec3f forward = {player.pos.x + player.forward.x, player.pos.y + 5.0,
+						 player.pos.z + player.forward.z};
+		guLookAtF(rd.m2, player.pos.x, forward.y, player.pos.z, forward.x, forward.y, forward.z,
+				  0.0, 1.0, 0.0);
+		guLookAt(&(rd.dynamicp->viewing), player.pos.x, forward.y, player.pos.z, forward.x,
+				 forward.y, forward.z, 0.0, 1.0, 0.0);
 
 		guMtxCatF(rd.m2, rd.allmat, rd.m1);
 
@@ -189,7 +189,7 @@ void game_screen_display() {
 		FONTCOLM(FONT_COL);
 		char position[100];
 		sprintf(position, "Tile: %d Dir: %.2f, %.2f S: %d/%d", player.current_tile,
-				player.forward[0], player.forward[2], player.current_steps_taken,
+				player.forward.x, player.forward.z, player.current_steps_taken,
 				player.next_combat_at);
 		SHOWFONT(&glistp, position, 20, 210);
 		font_finish(&glistp);
@@ -260,15 +260,15 @@ void move_to(s32 h_speed, s32 forward_speed) {
 	if (forward_speed != 0) {
 		s8 sign = forward_speed > 0 ? 1 : -1;
 		s32 tile = player.current_tile +
-				   (((u32)player.forward[0] + ((u32)player.forward[2] * current_map.width)) * sign);
+				   (((u32)player.forward.x + ((u32)player.forward.z * current_map.width)) * sign);
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
-			final_position.x = player.pos[0] + (player.forward[0] * (forward_speed / 4));
-			final_position.y = player.pos[2] + (player.forward[2] * (forward_speed / 4));
+			final_position.x = player.pos.x + (player.forward.x * (forward_speed / 4));
+			final_position.y = player.pos.z + (player.forward.z * (forward_speed / 4));
 		} else {
-			final_position.x = player.pos[0] + (player.forward[0] * forward_speed);
-			final_position.y = player.pos[2] + (player.forward[2] * forward_speed);
+			final_position.x = player.pos.x + (player.forward.x * forward_speed);
+			final_position.y = player.pos.z + (player.forward.z * forward_speed);
 			player.current_tile = tile;
 			player.current_steps_taken++;
 		}
@@ -280,28 +280,28 @@ void move_to(s32 h_speed, s32 forward_speed) {
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
-			final_position.x = player.pos[0] + (x * (h_speed / 4));
-			final_position.y = player.pos[2] + (y * (h_speed / 4));
+			final_position.x = player.pos.x + (x * (h_speed / 4));
+			final_position.y = player.pos.z + (y * (h_speed / 4));
 		} else {
-			final_position.x = player.pos[0] + (x * h_speed);
-			final_position.y = player.pos[2] + (y * h_speed);
+			final_position.x = player.pos.x + (x * h_speed);
+			final_position.y = player.pos.z + (y * h_speed);
 			player.current_tile = tile;
 			player.current_steps_taken++;
 		}
 	} else {
-		final_position.x = player.pos[0];
-		final_position.y = player.pos[2];
+		final_position.x = player.pos.x;
+		final_position.y = player.pos.z;
 	}
 
 	tween_restart(player.movement_tween, &player, &easing_exponential_out, MOVEMENT_SPEED,
 				  &movement_end_callback, path_is_blocked, false);
-	Position p = {player.pos[0], player.pos[2]};
+	Position p = {player.pos.x, player.pos.z};
 	tween_set_to_position(player.movement_tween, p, final_position, &movement_callback);
 }
 
 void movement_callback(void *target_object, Position current_value) {
-	player.pos[0] = current_value.x;
-	player.pos[2] = current_value.y;
+	player.pos.x = current_value.x;
+	player.pos.z = current_value.y;
 }
 
 void movement_end_callback(void *target) {
@@ -312,7 +312,7 @@ void movement_end_callback(void *target) {
 
 void view_callback(void *target_object, float current_value) {
 	player.angle = current_value;
-	get_forward_vector_from_angle(player.angle, &player.forward[0], &player.forward[2]);
+	get_forward_vector_from_angle(player.angle, &player.forward.x, &player.forward.z);
 }
 
 void start_combat() {

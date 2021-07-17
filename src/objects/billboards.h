@@ -65,7 +65,7 @@
 
 #define DRAW_BILLBOARD_Z(x, y, z)                                                                  \
 	{                                                                                              \
-		float angle = (atan2f(y - player->pos[2], x - player->pos[0]) + RAD_90) * RAD_MULT;        \
+		float angle = (atan2f(y - player->pos.z, x - player->pos.x) + RAD_90) * RAD_MULT;          \
 		guRotate(&(dynamic.billboard_rotation[billboard_count]), -angle, 0, 1, 0);                 \
 		guTranslate(&(dynamic.object_position[obj_count]), x, y, z);                               \
 		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamic.object_position[obj_count])),           \

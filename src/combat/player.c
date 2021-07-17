@@ -1,9 +1,9 @@
 #include "player.h"
 
 void player_init(Player *player, Vec3 position) {
-	player->pos[0] = position.x;
-	player->pos[1] = position.y;
-	player->pos[2] = position.z;
+	player->pos.x = position.x;
+	player->pos.y = position.y;
+	player->pos.z = position.z;
 	player->angle = 0;
 
 	player->current_steps_taken = 0;
