@@ -41,16 +41,19 @@ void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp) {
 	font_init(glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);
-	font_set_win(200, 3);
+	font_set_win(200, 1);
+	FONTCOLM(FONT_COL);
 
 	char text[100];
 	for (u8 i = 0; i < party->current_member_count; ++i) {
 		const int start_x = 20 + (i * 80);
 		PartyMember *member = &party->members[i];
-		FONTCOLM(FONT_COL);
-		sprintf(text, "%s\nHP %d/%d\nTP %d/%d", member->name, member->current_health,
-				member->max_health, member->current_tp, member->max_tp);
+		sprintf(text, "%s", member->name);
 		SHOWFONT(glistp, text, start_x, 180);
+		sprintf(text, "HP %d/%d", member->current_health, member->max_health);
+		SHOWFONT(glistp, text, start_x, 195);
+		sprintf(text, "TP %d/%d", member->current_tp, member->max_tp);
+		SHOWFONT(glistp, text, start_x, 210);
 	}
 
 	font_finish(glistp);
