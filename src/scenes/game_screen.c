@@ -24,8 +24,10 @@ typedef enum GameState {
 	GM_PAUSE,
 	GM_WALK,
 	GM_TO_COMBAT,
+	GM_START_COMBAT,
 	GM_COMBAT,
 	GM_FROM_COMBAT,
+	GM_START_WALK
 } GameState;
 GameState current_state;
 
@@ -115,10 +117,25 @@ short game_screen_tick() {
 		}
 	} else if (current_state == GM_TO_COMBAT) {
 		screen_transition_y -= 5;
-		if (screen_transition_y < 0)
+		if (screen_transition_y < 0) {
+			current_state = GM_START_COMBAT;
+			screen_transition_y = SCREEN_HT - 1;
+		}
+
+	} else if (current_state == GM_START_COMBAT) {
+		screen_transition_y -= 5;
+		if (screen_transition_y < 0) {
 			current_state = GM_COMBAT;
+		}
 
 	} else if (current_state == GM_FROM_COMBAT) {
+		screen_transition_y += 5;
+		if (screen_transition_y > SCREEN_HT + 5) {
+			current_state = GM_START_WALK;
+			screen_transition_y = 0;
+		}
+
+	} else if (current_state == GM_START_WALK) {
 		screen_transition_y += 5;
 		if (screen_transition_y > SCREEN_HT + 5)
 			current_state = GM_WALK;
@@ -135,7 +152,8 @@ short game_screen_tick() {
 }
 
 void game_screen_display() {
-	if (current_state == GM_WALK || current_state == GM_TO_COMBAT) {
+	if (current_state == GM_WALK || current_state == GM_TO_COMBAT ||
+		current_state == GM_START_WALK) {
 		// set up matrices
 		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
@@ -181,14 +199,15 @@ void game_screen_display() {
 		SHOWFONT(&glistp, position, 20, 210);
 		font_finish(&glistp);
 
-		if (current_state == GM_TO_COMBAT) {
+		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK) {
 			gDPSetCycleType(glistp++, G_CYC_FILL);
 			gDPSetColorImage(glistp++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WD, rsp_cfb);
 			gDPSetFillColor(glistp++,
 							GPACK_RGBA5551(0, 0, 0, 1) << 16 | GPACK_RGBA5551(0, 0, 0, 1));
 			gDPFillRectangle(glistp++, 0, screen_transition_y, SCREEN_WD - 1, SCREEN_HT - 1);
 		}
-	} else if (current_state == GM_COMBAT || current_state == GM_FROM_COMBAT) {
+	} else if (current_state == GM_COMBAT || current_state == GM_FROM_COMBAT ||
+			   current_state == GM_START_COMBAT) {
 		// set up matrices
 		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
@@ -222,7 +241,7 @@ void game_screen_display() {
 		// render map
 		combat_render(&glistp, rd.dynamicp, pov_x, pov_y);
 
-		if (current_state == GM_FROM_COMBAT) {
+		if (current_state == GM_FROM_COMBAT || current_state == GM_START_COMBAT) {
 			gDPSetCycleType(glistp++, G_CYC_FILL);
 			gDPSetColorImage(glistp++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WD, rsp_cfb);
 			gDPSetFillColor(glistp++,
