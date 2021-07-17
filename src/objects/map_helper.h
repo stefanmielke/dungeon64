@@ -5,7 +5,7 @@
 #include "../definitions.h"
 #include "../game.h"
 #include "../types.h"
-#include "../objects/player.h"
+#include "../combat/player.h"
 #include "../../libs/ultra64-extensions/include/position.h"
 
 Vec3 map_get_start_position(Map *map, u32 *tile_position);

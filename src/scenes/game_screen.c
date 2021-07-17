@@ -8,9 +8,9 @@
 #include "../math.h"
 #include "../data/texture.h"
 #include "../fonts/font_ext.h"
-#include "../objects/combat_helper.h"
+#include "../combat/combat.h"
+#include "../combat/player.h"
 #include "../objects/map_helper.h"
-#include "../objects/player.h"
 #include "../maps/maps.h"
 
 #include "../../libs/ultra64-extensions/include/easing.h"
@@ -19,6 +19,7 @@
 
 Map current_map;
 Player player;
+Combat current_combat;
 
 typedef enum GameState {
 	GM_PAUSE,
@@ -43,10 +44,8 @@ void movement_callback(void *target_object, Position current_value);
 void movement_end_callback(void *target);  // starts combat when needed
 void view_callback(void *target_object, float current_value);
 
-void reset_combat() {
-	player.next_combat_at = player.current_steps_taken +
-							range_get_from_int(&current_map.steps_to_combat);
-}
+void start_combat();
+void reset_combat();
 
 void game_screen_create() {
 	// reset random seed
@@ -62,16 +61,12 @@ void game_screen_create() {
 	current_map.tiles = map1_1;
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
-	current_map.steps_to_combat.start = 10;
-	current_map.steps_to_combat.end = 20;
+	current_map.steps_to_combat.start = 1;
+	current_map.steps_to_combat.end = 2;
 
 	Vec3 player_start = map_get_start_position(&current_map, &player.current_tile);
-	player.pos[0] = player_start.x;
-	player.pos[1] = player_start.y;
-	player.pos[2] = player_start.z;
-	player.angle = 0;
+	player_init(&player, player_start);
 
-	player.current_steps_taken = 0;
 	reset_combat();
 
 	set_angle(0);
@@ -239,7 +234,7 @@ void game_screen_display() {
 		gSPClipRatio(glistp++, FRUSTRATIO_1);
 
 		// render map
-		combat_render(&glistp, rd.dynamicp, pov_x, pov_y);
+		combat_render(&current_combat, &glistp, rd.dynamicp, pov_x, pov_y);
 
 		if (current_state == GM_FROM_COMBAT || current_state == GM_START_COMBAT) {
 			gDPSetCycleType(glistp++, G_CYC_FILL);
@@ -311,13 +306,24 @@ void movement_callback(void *target_object, Position current_value) {
 
 void movement_end_callback(void *target) {
 	if (player.current_steps_taken >= player.next_combat_at) {
-		current_state = GM_TO_COMBAT;
-		screen_transition_y = SCREEN_HT - 1;
-		reset_combat();
+		start_combat();
 	}
 }
 
 void view_callback(void *target_object, float current_value) {
 	player.angle = current_value;
 	get_forward_vector_from_angle(player.angle, &player.forward[0], &player.forward[2]);
+}
+
+void start_combat() {
+	reset_combat();
+
+	current_state = GM_TO_COMBAT;
+	current_combat = combat_new(&player.party);
+}
+
+void reset_combat() {
+	screen_transition_y = SCREEN_HT - 1;
+	player.next_combat_at = player.current_steps_taken +
+							range_get_from_int(&current_map.steps_to_combat);
 }

@@ -22,16 +22,20 @@ CP_LD_SCRIPT = dungeon64_cp.ld
 ASMFILES   := $(wildcard asm/*.s)
 ASMOBJECTS  = $(ASMFILES:.s=.o)
 
-CODEFILES  := $(wildcard *.c)
-OBJECTFILES  := $(wildcard objects/*.c)
-COMBATFILES  := $(wildcard objects/combat/*.c)
-MAPFILES  := $(wildcard maps/*.c)
-FONTFILES  := $(wildcard fonts/*.c)
-SCENEFILES  := $(wildcard scenes/*.c)
-UTILFILES  := $(wildcard util/*.c)
-U64EXTFILES  := $(wildcard ../libs/ultra64-extensions/src/*.c)
-CODEOBJECTS = $(CODEFILES:.c=.o) $(OBJECTFILES:.c=.o) $(COMBATFILES:.c=.o) $(MAPFILES:.c=.o) $(FONTFILES:.c=.o) $(SCENEFILES:.c=.o) $(UTILFILES:.c=.o) $(U64EXTFILES:.c=.o)
+# these files will be compiled and linked
+CODEFILES      := $(wildcard *.c)
+OBJECTFILES    := $(wildcard objects/*.c)
+COMBATOBJFILES := $(wildcard objects/combat/*.c)
+MAPFILES       := $(wildcard maps/*.c)
+FONTFILES      := $(wildcard fonts/*.c)
+SCENEFILES     := $(wildcard scenes/*.c)
+UTILFILES      := $(wildcard util/*.c)
+COMBATFILES    := $(wildcard combat/*.c)
+U64EXTFILES    := $(wildcard ../libs/ultra64-extensions/src/*.c)
+CODEOBJECTS     = $(CODEFILES:.c=.o) $(OBJECTFILES:.c=.o) $(COMBATOBJFILES:.c=.o) $(MAPFILES:.c=.o) $(FONTFILES:.c=.o)
+CODEOBJECTS    += $(SCENEFILES:.c=.o) $(UTILFILES:.c=.o) $(COMBATFILES:.c=.o) $(U64EXTFILES:.c=.o)
 
+# these files will be compiled, but NOT linked
 DATAFILES  := $(wildcard data/*.c)
 DATAOBJECTS = $(DATAFILES:.c=.o)
 

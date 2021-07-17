@@ -1,5 +1,6 @@
 #pragma once
 
+#include "party.h"
 #include "../types.h"
 #include "../../libs/ultra64-extensions/include/tween.h"
 
@@ -17,4 +18,8 @@ typedef struct {
 
 	Tween *movement_tween;
 	Tween *view_tween;
+
+	Party party;
 } Player;
+
+void player_init(Player *player, Vec3 position);
