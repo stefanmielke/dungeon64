@@ -8,6 +8,21 @@ PartyMember get_start_member_for_class(Class class) {
 			member.damage_range.start = 2;
 			member.damage_range.start = 3;
 			break;
+		case PC_Wizard:
+			member.max_health = 7;
+			member.damage_range.start = 3;
+			member.damage_range.start = 4;
+			break;
+		case PC_Cleric:
+			member.max_health = 5;
+			member.damage_range.start = 1;
+			member.damage_range.start = 2;
+			break;
+		case PC_Thief:
+			member.max_health = 8;
+			member.damage_range.start = 3;
+			member.damage_range.start = 4;
+			break;
 		default:
 			break;
 	}

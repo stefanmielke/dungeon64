@@ -8,7 +8,9 @@ void player_init(Player *player, Vec3 position) {
 
 	player->current_steps_taken = 0;
 
-	player->party.current_member_count = 2;
+	player->party.current_member_count = 4;
 	player->party.members[0] = get_start_member_for_class(PC_Warrior);
-	player->party.members[1] = get_start_member_for_class(PC_Warrior);
+	player->party.members[1] = get_start_member_for_class(PC_Wizard);
+	player->party.members[2] = get_start_member_for_class(PC_Cleric);
+	player->party.members[3] = get_start_member_for_class(PC_Thief);
 }

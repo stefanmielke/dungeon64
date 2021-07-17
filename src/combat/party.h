@@ -7,6 +7,9 @@
 typedef enum Class {
 	PC_None = 0,
 	PC_Warrior,
+	PC_Wizard,
+	PC_Cleric,
+	PC_Thief,
 } Class;
 
 typedef struct PartyMember {
