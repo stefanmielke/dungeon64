@@ -69,15 +69,13 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
-		if (combat->enemy_party.enemies[i].enemy->type == ET_BlueDragon) {
-			DRAW_BLUE_DRAGON(-3 - (3 * i), -5 + i * 3, pov_x, pov_z, (int)frame_counter);
-		}
+		DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, -3 - (3 * i), -5 + i * 3, pov_x,
+				   pov_z, (int)frame_counter);
 	}
 
 	for (u8 i = 0; i < combat->party->current_member_count; ++i) {
-		if (combat->party->members[i].class == PC_Warrior) {
-			DRAW_WARRIOR(3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter);
-		}
+		DRAW_CLASS(combat->party->members[i].class, 3 + (3 * i), 5 - i * 3, pov_x, pov_z,
+				   (int)frame_counter);
 	}
 
 	// render text
