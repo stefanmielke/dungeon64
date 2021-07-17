@@ -84,5 +84,31 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 				   (int)frame_counter);
 	}
 
+	font_init(glistp);
+	font_set_transparent(1);
+	font_set_scale(1.0, 1.0);
+	font_set_win(200, 1);
+
+	// render enemy data
+	char text[100];
+	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
+		const int start_y = 20 + (i * 15);
+		EnemyCombat *member = &combat->enemy_party.enemies[i];
+
+		float health_perc = member->current_health / member->enemy->health;
+		if (health_perc > .7f) {
+			FONTCOLM(FONT_COL_GREEN);
+		} else if (health_perc > .3f) {
+			FONTCOLM(FONT_COL_YELLOW);
+		} else {
+			FONTCOLM(FONT_COL_RED);
+		}
+
+		sprintf(text, "%s", member->enemy->name);
+		SHOWFONT(glistp, text, 30, start_y);
+	}
+
 	party_render(combat->party, glistp, dynamicp);
+
+	font_finish(glistp);
 }

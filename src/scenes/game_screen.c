@@ -188,11 +188,15 @@ void game_screen_display() {
 		font_set_scale(1.0, 1.0);
 		font_set_win(200, 1);
 		FONTCOLM(FONT_COL);
+
+		party_render(&player.party, &glistp, rd.dynamicp);
+
 		char position[100];
 		sprintf(position, "Tile: %d Dir: %.2f, %.2f S: %d/%d", player.current_tile,
 				player.forward.x, player.forward.z, player.current_steps_taken,
 				player.next_combat_at);
-		SHOWFONT(&glistp, position, 20, 220);
+		SHOWFONT(&glistp, position, 20, 10);
+
 		font_finish(&glistp);
 
 		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK) {

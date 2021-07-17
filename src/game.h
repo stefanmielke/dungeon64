@@ -74,6 +74,9 @@ extern MemZone memory_pool;
 extern int fontcol[4];
 #define FONT_COL_WHITE 255, 255, 255, 255
 #define FONT_COL_GREY 100, 100, 100, 255
+#define FONT_COL_YELLOW 255, 255, 55, 255
+#define FONT_COL_GREEN 55, 255, 55, 255
+#define FONT_COL_RED 255, 55, 55, 255
 #define FONT_COL 55, 155, 255, 255
 #define FONTCOL(r, g, b, a)                                                                        \
 	{                                                                                              \

@@ -37,11 +37,6 @@ PartyMember get_start_member_for_class(Class class, const char *name) {
 }
 
 void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp) {
-	// render text
-	font_init(glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
 	FONTCOLM(FONT_COL);
 
 	char text[100];
@@ -55,6 +50,4 @@ void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp) {
 		sprintf(text, "TP %d/%d", member->current_tp, member->max_tp);
 		SHOWFONT(glistp, text, start_x, 210);
 	}
-
-	font_finish(glistp);
 }
