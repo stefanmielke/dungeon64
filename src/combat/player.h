@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "../../libs/ultra64-extensions/include/tween.h"
 
-typedef struct {
+typedef struct Player {
 	Vec3f pos;
 	float view_speed;
 	float move_forward;

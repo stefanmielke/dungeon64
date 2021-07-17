@@ -6,7 +6,7 @@
 
 #define TILE_SIZE 10
 
-typedef struct {
+typedef struct Map {
 	u16 *tiles;
 	u32 size;
 	u32 width;

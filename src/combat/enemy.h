@@ -3,13 +3,13 @@
 #include <ultratypes.h>
 #include "../../libs/ultra64-extensions/include/range.h"
 
-typedef enum {
+typedef enum EnemyType {
 	ET_None = 0,
 	ET_BlueDragon,
 	ET_MAX,
 } EnemyType;
 
-typedef struct {
+typedef struct Enemy {
 	EnemyType type;
 	const char *name;
 	int health;

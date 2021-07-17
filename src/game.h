@@ -39,7 +39,7 @@ extern u64 rdp_output[];
  * data cache lines to DRAM prior to processing by the RCP.
  *
  */
-typedef struct {
+typedef struct Dynamic {
 	Mtx projection;
 	Mtx modeling;
 	Mtx ballmodel;
@@ -51,11 +51,11 @@ typedef struct {
 	Gfx glist[GLIST_LEN];
 } Dynamic;
 
-typedef struct {
+typedef struct GameData {
 	OSContPad **pad;
 } GameData;
 
-typedef struct {
+typedef struct RenderData {
 	OSTask *theadp;
 	Dynamic *dynamicp;
 	u16 perspnorm;

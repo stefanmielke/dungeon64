@@ -7,17 +7,17 @@
 #include "party.h"
 #include "enemy.h"
 
-typedef struct {
+typedef struct EnemyCombat {
 	Enemy *enemy;
 	int current_health;
 } EnemyCombat;
 
-typedef struct {
+typedef struct EnemyParty {
 	EnemyCombat enemies[4];
 	u8 current_enemy_count;
 } EnemyParty;
 
-typedef struct {
+typedef struct Combat {
 	Party *party;
 	EnemyParty enemy_party;
 } Combat;

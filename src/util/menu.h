@@ -2,13 +2,13 @@
 
 #include "../game.h"
 
-typedef struct {
+typedef struct MenuItem {
 	char *text;
 	int x;
 	int y;
 } MenuItem;
 
-typedef struct {
+typedef struct Menu {
 	MenuItem *items;
 	u8 total_items;
 } Menu;

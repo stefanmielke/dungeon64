@@ -12,7 +12,7 @@ typedef struct Vec3f {
 } Vec3f;
 
 // X, Y, Z, where Y is up
-typedef struct {
+typedef struct Vec3 {
 	u32 x;
 	u32 y;
 	u32 z;
