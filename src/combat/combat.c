@@ -101,6 +101,9 @@ void combat_tick(Combat *combat) {
 				if (combat->data.current_member_choosing >= combat->party->current_member_count) {
 					combat->state = CS_RUN_COMBAT;
 				}
+			} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
+				if (combat->data.current_member_choosing > 0)
+					combat->data.current_member_choosing--;
 			}
 			break;
 		case CS_RUN_COMBAT:
