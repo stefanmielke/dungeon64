@@ -2,6 +2,7 @@
 
 #include <nustd/math.h>
 
+#include "combat_animations.h"
 #include "../static.h"
 #include "../data/texture.h"
 #include "../math.h"
@@ -66,19 +67,6 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	// billboard setup
 	gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
-
-	static unsigned short *spr_warrior_back_idle[] = {
-		spr_warrior_back_idle1,
-		spr_warrior_back_idle2,
-		spr_warrior_back_idle3,
-		spr_warrior_back_idle2,
-	};
-	static unsigned short *spr_blue_dragon_idle[] = {
-		spr_blue_dragon_idle1,
-		spr_blue_dragon_idle2,
-		spr_blue_dragon_idle3,
-		spr_blue_dragon_idle2,
-	};
 
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
 		if (combat->enemy_party.enemies[i].enemy->type == ET_BlueDragon) {

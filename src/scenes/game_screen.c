@@ -54,10 +54,6 @@ void game_screen_create() {
 
 	current_state = GM_WALK;
 
-	player.movement_tween = tween_init(&memory_pool);
-	player.view_tween = tween_init(&memory_pool);
-	combat_start_end_tween = tween_init(&memory_pool);
-
 	current_map.tiles = map1_1;
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
@@ -67,6 +63,9 @@ void game_screen_create() {
 	Vec3 player_start = map_get_start_position(&current_map, &player.current_tile);
 	player_init(&player, player_start);
 
+	player.movement_tween = tween_init(&memory_pool);
+	player.view_tween = tween_init(&memory_pool);
+	combat_start_end_tween = tween_init(&memory_pool);
 	reset_combat();
 
 	set_angle(0);
