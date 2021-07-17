@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "../definitions.h"
 #include "../game.h"
 #include "../types.h"
@@ -14,6 +16,13 @@ typedef enum CombatState {
 	CS_END,
 } CombatState;
 
+typedef enum CombatActionType {
+	CAT_DEFEND,
+	CAT_ATK_PHYS,
+	CAT_ATK_SKILL,
+	CAT_HEAL,
+} CombatActionType;
+
 typedef struct EnemyCombat {
 	Enemy *enemy;
 	int current_health;
@@ -24,10 +33,25 @@ typedef struct EnemyParty {
 	u8 current_enemy_count;
 } EnemyParty;
 
+typedef struct CombatAction {
+	bool target_is_enemy;
+	CombatActionType type;
+	u8 target;
+	u8 type_arg_1;
+} CombatAction;
+
+typedef struct CombatData {
+	s8 selected;
+	u8 current_member_choosing;
+	CombatAction player_actions[4];
+	float camera_x;
+} CombatData;
+
 typedef struct Combat {
 	Party *party;
 	EnemyParty enemy_party;
 	CombatState state;
+	CombatData data;
 } Combat;
 
 EnemyParty get_new_enemy_party();

@@ -73,9 +73,8 @@ void game_screen_create() {
 }
 
 short game_screen_tick() {
-	gd.pad = ReadController(START_BUTTON | B_BUTTON);
-
 	if (current_state == GM_WALK) {
+		gd.pad = ReadController(START_BUTTON | B_BUTTON);
 		tween_tick(player.movement_tween);
 		tween_tick(player.view_tween);
 
@@ -117,9 +116,11 @@ short game_screen_tick() {
 		}
 
 	} else if (current_state == GM_START_COMBAT) {
+		combat_tick(&current_combat);
 		screen_transition_y -= 5;
 		if (screen_transition_y < 0) {
 			current_state = GM_COMBAT;
+			current_combat.state = CS_PLAYER_PHASE;
 		}
 
 	} else if (current_state == GM_FROM_COMBAT) {
@@ -189,7 +190,7 @@ void game_screen_display() {
 		font_set_win(200, 1);
 		FONTCOLM(FONT_COL);
 
-		party_render(&player.party, &glistp, rd.dynamicp);
+		party_render(&player.party, &glistp, rd.dynamicp, -1);
 
 		char position[100];
 		sprintf(position, "Tile: %d Dir: %.2f, %.2f S: %d/%d", player.current_tile,
@@ -213,10 +214,8 @@ void game_screen_display() {
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
 					  1.0);
 
-		static float pov_x = -5, pov_y = 25, speed = 0.1f;
-		pov_x += speed;
-		if (pov_x > 5 || pov_x < -5)
-			speed *= -1;
+		const float pov_y = 25;
+		float pov_x = current_combat.data.camera_x;
 
 		guLookAtF(rd.m2, pov_x, 4, pov_y, 0, 4, 0, 0.0, 1.0, 0.0);
 		guLookAt(&(rd.dynamicp->viewing), pov_x, 4, pov_y, 0, 4, 0, 0.0, 1.0, 0.0);

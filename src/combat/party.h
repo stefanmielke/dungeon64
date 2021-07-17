@@ -33,4 +33,4 @@ typedef struct Party {
 } Party;
 
 PartyMember get_start_member_for_class(Class class, const char *name);
-void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp);
+void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp, s8 highlight_index);
