@@ -11,6 +11,10 @@
 #include "../objects/combat/player.h"
 #include "../scenes/scene_defs.h"
 
+#define get_ticks_ms() (OS_CYCLES_TO_NSEC(osGetTime()) / 1000000)
+
+void combat_process_action(Combat *combat, CombatAction *action);
+
 EnemyParty get_new_enemy_party() {
 	Enemy *goblin_boss = get_enemy_data_for_type(ET_GoblinBoss);
 	Enemy *goblin_minion1 = get_enemy_data_for_type(ET_GoblinMinion1);
@@ -52,6 +56,8 @@ Combat combat_new(Party *party) {
 				.selected = 0,
 				.current_member_choosing = 0,
 				.camera_x = -10,
+				.timer_target = 0,
+				.current_attacker = 0,
 			},
 	};
 
@@ -110,10 +116,41 @@ void combat_tick(Combat *combat) {
 			if (combat->data.camera_x > 0)
 				combat->data.camera_x -= camera_speed;
 
-			if (IS_BUTTON_PRESSED(A_BUTTON)) {
-				combat->state = CS_PLAYER_PHASE;
-				combat->data.current_member_choosing = 0;
-				combat->data.selected = 0;
+			u64 current_time = get_ticks_ms();
+			if (combat->data.timer_target == 0) {
+				// combat just started
+				combat->data.timer_target = current_time + 500;
+			} else if (current_time >= combat->data.timer_target) {
+				combat->data.timer_target = current_time + 500;
+
+				u8 current_attacker = combat->data.current_attacker;
+				if (current_attacker < combat->party->current_member_count) {
+					// player attacking
+					combat_process_action(combat, &combat->data.player_actions[current_attacker]);
+				} else {
+					// enemy attacking
+					u8 current_enemy = current_attacker - combat->party->current_member_count;
+					CombatAction action = {
+						.target = RANDR(0, combat->party->current_member_count),
+						.target_is_enemy = false,
+						.type = CAT_ATK_PHYS,
+						.type_arg_1 = range_get_from_int(
+							&combat->enemy_party.enemies[current_enemy].enemy->damage_range),
+					};
+					combat_process_action(combat, &action);
+				}
+				combat->data.current_attacker++;
+				u8 total_attackers = combat->party->current_member_count +
+									 combat->enemy_party.current_enemy_count;
+
+				// end combat if everyone did their action
+				if (combat->data.current_attacker >= total_attackers) {
+					combat->state = CS_PLAYER_PHASE;
+					combat->data.current_member_choosing = 0;
+					combat->data.selected = 0;
+					combat->data.timer_target = 0;
+					combat->data.current_attacker = 0;
+				}
 			}
 			break;
 		case CS_START:
@@ -122,6 +159,20 @@ void combat_tick(Combat *combat) {
 		case CS_END:
 			if (combat->data.camera_x > -10)
 				combat->data.camera_x -= camera_speed;
+		default:
+			break;
+	}
+}
+
+void combat_process_action(Combat *combat, CombatAction *action) {
+	switch (action->type) {
+		case CAT_ATK_PHYS:
+			if (action->target_is_enemy) {
+				combat->enemy_party.enemies[action->target].current_health -= action->type_arg_1;
+			} else {
+				combat->party->members[action->target].current_health -= action->type_arg_1;
+			}
+			break;
 		default:
 			break;
 	}

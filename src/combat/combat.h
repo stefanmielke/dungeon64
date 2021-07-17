@@ -45,6 +45,9 @@ typedef struct CombatData {
 	u8 current_member_choosing;
 	CombatAction player_actions[4];
 	float camera_x;
+
+	u64 timer_target;
+	u8 current_attacker;
 } CombatData;
 
 typedef struct Combat {

@@ -49,7 +49,7 @@ void reset_combat();
 
 void game_screen_create() {
 	// reset random seed
-	unsigned int seed = osGetTime();
+	u64 seed = osGetTime();
 	srand(seed);
 
 	current_state = GM_WALK;
