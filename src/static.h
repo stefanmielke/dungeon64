@@ -7,6 +7,7 @@ extern Gfx clearzbuffer_dl[];
 extern Gfx ground_texture_setup_dl[];
 extern Gfx ground_dl[];
 extern Gfx combat_ground_dl[];
+extern Gfx combat_selection_dl[];
 extern Gfx ceiling_dl[];
 
 // walls

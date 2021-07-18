@@ -264,6 +264,26 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	gSPDisplayList((*glistp)++, combat_ground_dl);
 	obj_count++;
 
+	if (combat->state == CS_PLAYER_PHASE) {
+		float x = -3 - (3 * combat->data.selected);
+		float y = -5 + combat->data.selected * 3;
+
+		gDPPipeSync((*glistp)++);
+		gSPTexture((*glistp)++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
+		gSPClearGeometryMode((*glistp)++, G_CULL_BACK);
+		gSPSetGeometryMode((*glistp)++, G_SHADE | G_SHADING_SMOOTH | G_ZBUFFER);
+		gDPSetCombineMode((*glistp)++, G_CC_SHADE, G_CC_SHADE);
+		guTranslate(&dynamicp->object_position[obj_count], x, 10, y);
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->object_position[obj_count])),
+				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+		guRotate(&dynamicp->billboard_rotation[billboard_count], frame_counter * 10, 0, 1, 0);
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->billboard_rotation[billboard_count])),
+				  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+		gSPDisplayList((*glistp)++, combat_selection_dl);
+		obj_count++;
+		billboard_count++;
+	}
+
 	// billboard setup
 	gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);

@@ -24,6 +24,15 @@ static Vtx combat_ground_vtx[] = {
 	{00, 0, 100, 0, 00 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
 };
 
+#define COMBAT_SELECTION_SIZE 2
+static Vtx combat_selection_vtx[] = {
+	{-1, 02, -1, 00, 00 << 10, 00 << 10, 0xff, 0x00, 0x00, 0xff},
+	{01, 02, -1, 00, 32 << 10, 00 << 10, 0xff, 0x00, 0x00, 0xff},
+	{01, 02, 01, 00, 32 << 10, 32 << 10, 0xff, 0x00, 0x00, 0xff},
+	{-1, 02, 01, 00, 00 << 10, 32 << 10, 0xff, 0x00, 0x00, 0xff},
+	{00, 00, 00, 00, 00 << 10, 00 << 10, 0xff, 0x00, 0x00, 0xff},
+};
+u8 a = 0xf8;
 static Vtx ceiling_vtx[] = {
 	{00, 0, 10, 0, 00 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
 	{10, 0, 10, 0, 32 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
@@ -47,6 +56,16 @@ Gfx combat_ground_dl[] = {
 	gsSPVertex(&(combat_ground_vtx[0]), 4, 0),
 	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
 	gsSPEndDisplayList(),
+};
+
+Gfx combat_selection_dl[] = {
+	gsSPVertex(&(combat_selection_vtx[0]), 5, 0), /**/
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),		  /**/
+	gsSP1Triangle(3, 4, 0, 0),					  /**/
+	gsSP1Triangle(3, 4, 2, 0),					  /**/
+	gsSP1Triangle(2, 4, 1, 0),					  /**/
+	gsSP1Triangle(1, 4, 0, 0),					  /**/
+	gsSPEndDisplayList(),						  /**/
 };
 
 Gfx ground_dl[] = {
