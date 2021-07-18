@@ -102,6 +102,8 @@ void combat_tick(Combat *combat) {
 				// combat just started
 				combat->data.timer_target = current_time + 500;
 			} else if (current_time >= combat->data.timer_target) {
+				combat->data.current_attacker++;
+
 				// end combat phase if everyone did their action
 				u8 total_attackers = combat->party->current_member_count +
 									 combat->enemy_party.current_enemy_count;
@@ -151,7 +153,6 @@ void combat_tick(Combat *combat) {
 						combat->data.timer_target = current_time;
 					}
 				}
-				combat->data.current_attacker++;
 
 				u8 enemies_alive = 0;
 				for (u8 i = 0; i < combat->enemy_party.current_enemy_count; i++) {
