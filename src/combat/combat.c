@@ -124,6 +124,25 @@ void combat_tick(Combat *combat) {
 					break;
 				}
 
+				// end the combat if one side loses
+				u8 enemies_alive = 0;
+				for (u8 i = 0; i < combat->enemy_party.current_enemy_count; i++) {
+					if (combat->enemy_party.enemies[i].current_health > 0)
+						enemies_alive++;
+				}
+				u8 players_alive = 0;
+				for (u8 i = 0; i < combat->party->current_member_count; i++) {
+					if (combat->party->members[i].current_health > 0)
+						players_alive++;
+				}
+
+				// one side lost
+				if (enemies_alive == 0 || players_alive == 0) {
+					combat->state = CS_ENDING;
+					combat->data.timer_target = current_time + 1000;
+					return;
+				}
+
 				combat->data.timer_target = current_time + 500;
 
 				u8 current_attacker = combat->data.current_attacker;
@@ -154,23 +173,6 @@ void combat_tick(Combat *combat) {
 					}
 				}
 				combat->data.current_attacker++;
-
-				u8 enemies_alive = 0;
-				for (u8 i = 0; i < combat->enemy_party.current_enemy_count; i++) {
-					if (combat->enemy_party.enemies[i].current_health > 0)
-						enemies_alive++;
-				}
-				u8 players_alive = 0;
-				for (u8 i = 0; i < combat->party->current_member_count; i++) {
-					if (combat->party->members[i].current_health > 0)
-						players_alive++;
-				}
-
-				// one side lost
-				if (enemies_alive == 0 || players_alive == 0) {
-					combat->state = CS_ENDING;
-					combat->data.timer_target = current_time + 1000;
-				}
 			}
 		} break;
 		case CS_START:
