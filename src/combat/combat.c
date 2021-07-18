@@ -283,8 +283,13 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	for (u8 i = 0; i < combat->party->current_member_count; ++i) {
 		if (combat->party->members[i].current_health > 0) {
 			if (combat->state == CS_PLAYER_PHASE) {
-				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+				if (combat->data.current_member_choosing == i) {
+					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+							   4 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+				} else {
+					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+							   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+				}
 			} else if (combat->state == CS_RUN_COMBAT) {
 				if (current_attacker < combat->party->current_member_count) {
 					// a player is attacking
