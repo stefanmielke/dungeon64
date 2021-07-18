@@ -8,34 +8,42 @@
 						 spr_##class##_##gender##_##animation[cur_frame % max_frames], pov_x,      \
 						 pov_z);
 
-#define DRAW_CLASS(class, x, z, pov_x, pov_z, anim_frame, gender)                                  \
+#define DRAW_CLASS(class, gender, x, z, pov_x, pov_z, anim_frame, frame_count, animation)          \
 	switch (class) {                                                                               \
 		case PC_Warrior:                                                                           \
-			if ((gender) == G_Male) {                                                              \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, warrior, male);           \
+			if (gender == G_Male) {                                                                \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, warrior,   \
+								male);                                                             \
 			} else {                                                                               \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, warrior, female);         \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, warrior,   \
+								female);                                                           \
 			}                                                                                      \
 			break;                                                                                 \
 		case PC_Wizard:                                                                            \
 			if (gender == G_Male) {                                                                \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, wizard, male);            \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, wizard,    \
+								male);                                                             \
 			} else {                                                                               \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, wizard, female);          \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, wizard,    \
+								female);                                                           \
 			}                                                                                      \
 			break;                                                                                 \
 		case PC_Cleric:                                                                            \
 			if (gender == G_Male) {                                                                \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, cleric, male);            \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, cleric,    \
+								male);                                                             \
 			} else {                                                                               \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, cleric, female);          \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, cleric,    \
+								female);                                                           \
 			}                                                                                      \
 			break;                                                                                 \
 		case PC_Thief:                                                                             \
 			if (gender == G_Male) {                                                                \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, thief, male);             \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, thief,     \
+								male);                                                             \
 			} else {                                                                               \
-				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, idle, anim_frame, 3, thief, female);           \
+				DRAW_CLASS_ANIM(x, z, pov_x, pov_z, animation, anim_frame, frame_count, thief,     \
+								female);                                                           \
 			}                                                                                      \
 			break;                                                                                 \
 		default:                                                                                   \

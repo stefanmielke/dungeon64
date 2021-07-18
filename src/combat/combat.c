@@ -122,7 +122,7 @@ void combat_tick(Combat *combat) {
 					break;
 				}
 
-				combat->data.timer_target = current_time + 1000;
+				combat->data.timer_target = current_time + 500;
 
 				u8 current_attacker = combat->data.current_attacker;
 				if (current_attacker < combat->party->current_member_count) {
@@ -262,8 +262,29 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 
 	for (u8 i = 0; i < combat->party->current_member_count; ++i) {
 		if (combat->party->members[i].current_health > 0) {
-			DRAW_CLASS(combat->party->members[i].class, 3 + (3 * i), 5 - i * 3, pov_x, pov_z,
-					   (int)frame_counter, combat->party->members[i].gender);
+			if (combat->state == CS_PLAYER_PHASE) {
+				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+			} else if (combat->state == CS_RUN_COMBAT) {
+				if (combat->data.current_attacker < combat->party->current_member_count &&
+					combat->data.current_attacker == i) {
+					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+							   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3,
+							   attack_1);
+				} else {
+					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+							   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+				}
+			} else if (combat->state == CS_START) {
+				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+			} else if (combat->state == CS_END) {
+				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 4, win);
+			}
+		} else {
+			DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
+					   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 1, dead);
 		}
 	}
 
