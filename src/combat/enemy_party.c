@@ -5,7 +5,7 @@ typedef struct EnemyPartyDef {
 	u8 party_size;
 } EnemyPartyDef;
 
-#define ENEMY_PARTY_DEFS_SIZE 5
+#define ENEMY_PARTY_DEFS_SIZE 1
 EnemyPartyDef defs[ENEMY_PARTY_DEFS_SIZE] = {
 	{
 		.party_size = 4,

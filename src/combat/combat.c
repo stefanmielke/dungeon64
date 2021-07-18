@@ -255,8 +255,14 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
 		if (combat->enemy_party.enemies[i].current_health > 0) {
-			DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, -3 - (3 * i), -5 + i * 3, pov_x,
-					   pov_z, (int)frame_counter);
+			if (combat->data.current_attacker >= combat->party->current_member_count &&
+				combat->data.current_attacker - combat->party->current_member_count == i) {
+				DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, 0 - (3 * i), -5 + i * 3,
+						   pov_x, pov_z, (int)frame_counter);
+			} else {
+				DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, -3 - (3 * i), -5 + i * 3,
+						   pov_x, pov_z, (int)frame_counter);
+			}
 		}
 	}
 
@@ -269,7 +275,7 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 				if (combat->data.current_attacker < combat->party->current_member_count &&
 					combat->data.current_attacker == i) {
 					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-							   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3,
+							   0 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3,
 							   attack_1);
 				} else {
 					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
