@@ -263,7 +263,7 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	for (u8 i = 0; i < combat->party->current_member_count; ++i) {
 		if (combat->party->members[i].current_health > 0) {
 			DRAW_CLASS(combat->party->members[i].class, 3 + (3 * i), 5 - i * 3, pov_x, pov_z,
-					   (int)frame_counter);
+					   (int)frame_counter, combat->party->members[i].gender);
 		}
 	}
 

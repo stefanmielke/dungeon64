@@ -12,7 +12,6 @@
  */
 #include "custom_textures.h"
 #include "enemies_textures.h"
-#include "player_textures.h"
 #include "ui_textures.h"
 
 #include "classes/warrior_male.h"

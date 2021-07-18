@@ -1,7 +1,7 @@
 #include "party.h"
 
-PartyMember get_start_member_for_class(Class class, const char *name) {
-	PartyMember member = {.class = class, .level = 1, .name = name};
+PartyMember get_start_member_for_class(Class class, const char *name, Gender gender) {
+	PartyMember member = {.class = class, .level = 1, .name = name, .gender = gender};
 	switch (class) {
 		case PC_Warrior:
 			member.max_health = 10;

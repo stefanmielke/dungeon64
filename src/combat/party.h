@@ -16,9 +16,15 @@ typedef enum Class {
 	PC_Thief,
 } Class;
 
+typedef enum Gender {
+	G_Male,
+	G_Female,
+} Gender;
+
 typedef struct PartyMember {
 	Class class;
 	u8 level;
+	Gender gender;
 	int max_health;
 	int current_health;
 	int max_tp;
@@ -32,5 +38,5 @@ typedef struct Party {
 	u8 current_member_count;
 } Party;
 
-PartyMember get_start_member_for_class(Class class, const char *name);
+PartyMember get_start_member_for_class(Class class, const char *name, Gender gender);
 void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp, s8 highlight_index);
