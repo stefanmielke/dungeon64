@@ -28,6 +28,7 @@ Combat combat_new(Party *party) {
 				.camera_x = -10,
 				.timer_target = 0,
 				.current_attacker = 0,
+				.current_defender = 0,
 			},
 	};
 
@@ -109,6 +110,7 @@ void combat_tick(Combat *combat) {
 					combat->state = CS_PLAYER_PHASE;
 					combat->data.timer_target = 0;
 					combat->data.current_attacker = 0;
+					combat->data.current_defender = 0;
 
 					combat->data.selected = 0;
 					for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
@@ -202,9 +204,11 @@ void combat_process_action(Combat *combat, CombatAction *action) {
 					}
 				}
 
-				if (action->target < combat->enemy_party.current_enemy_count)
+				if (action->target < combat->enemy_party.current_enemy_count) {
 					combat->enemy_party.enemies[action->target].current_health -= action
 																					  ->type_arg_1;
+					combat->data.current_defender = action->target;
+				}
 			} else {
 				// if target died before this action, choose another enemy
 				if (combat->party->members[action->target].current_health <= 0) {
@@ -227,8 +231,10 @@ void combat_process_action(Combat *combat, CombatAction *action) {
 					}
 				}
 
-				if (action->target < combat->party->current_member_count)
+				if (action->target < combat->party->current_member_count) {
 					combat->party->members[action->target].current_health -= action->type_arg_1;
+					combat->data.current_defender = action->target;
+				}
 			}
 			break;
 		default:
@@ -280,14 +286,28 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
 						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
 			} else if (combat->state == CS_RUN_COMBAT) {
-				if (current_attacker < combat->party->current_member_count &&
-					current_attacker == i) {
-					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-							   0 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3,
-							   attack_1);
+				if (current_attacker < combat->party->current_member_count) {
+					// a player is attacking
+					if (current_attacker == i) {
+						DRAW_CLASS(combat->party->members[i].class,
+								   combat->party->members[i].gender, 0 + (3 * i), 5 - i * 3, pov_x,
+								   pov_z, (int)frame_counter, 3, attack_1);
+					} else {
+						DRAW_CLASS(combat->party->members[i].class,
+								   combat->party->members[i].gender, 3 + (3 * i), 5 - i * 3, pov_x,
+								   pov_z, (int)frame_counter, 3, idle);
+					}
 				} else {
-					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-							   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+					// an enemy is attacking
+					if (combat->data.current_defender == i) {
+						DRAW_CLASS(combat->party->members[i].class,
+								   combat->party->members[i].gender, 3 + (3 * i), 5 - i * 3, pov_x,
+								   pov_z, (int)frame_counter, 3, hit);
+					} else {
+						DRAW_CLASS(combat->party->members[i].class,
+								   combat->party->members[i].gender, 3 + (3 * i), 5 - i * 3, pov_x,
+								   pov_z, (int)frame_counter, 3, idle);
+					}
 				}
 			} else if (combat->state == CS_START) {
 				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,

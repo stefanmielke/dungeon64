@@ -49,6 +49,7 @@ typedef struct CombatData {
 
 	u64 timer_target;
 	u8 current_attacker;
+	u8 current_defender;
 } CombatData;
 
 typedef struct Combat {
