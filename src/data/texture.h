@@ -6,35 +6,34 @@ extern unsigned short spr_goblin_minion1_idle1[];
 extern unsigned short spr_goblin_minion2_idle1[];
 
 // player
-extern unsigned short spr_warrior_male_idle1[];
-extern unsigned short spr_warrior_male_idle2[];
-extern unsigned short spr_warrior_male_idle3[];
-extern unsigned short spr_warrior_female_idle1[];
-extern unsigned short spr_warrior_female_idle2[];
-extern unsigned short spr_warrior_female_idle3[];
+#define CLASS_ANIMS(class, gender)                                                                 \
+	extern unsigned short spr_##class##_##gender##_idle1[];                                        \
+	extern unsigned short spr_##class##_##gender##_idle2[];                                        \
+	extern unsigned short spr_##class##_##gender##_idle3[];                                        \
+	extern unsigned short spr_##class##_##gender##_attack_11[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_12[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_13[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_21[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_22[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_23[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_31[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_32[];                                    \
+	extern unsigned short spr_##class##_##gender##_attack_33[];                                    \
+	extern unsigned short spr_##class##_##gender##_dead1[];                                        \
+	extern unsigned short spr_##class##_##gender##_hit1[];                                         \
+	extern unsigned short spr_##class##_##gender##_win1[];                                         \
+	extern unsigned short spr_##class##_##gender##_win2[];                                         \
+	extern unsigned short spr_##class##_##gender##_win3[];                                         \
+	extern unsigned short spr_##class##_##gender##_win4[];
 
-extern unsigned short spr_wizard_male_idle1[];
-extern unsigned short spr_wizard_male_idle2[];
-extern unsigned short spr_wizard_male_idle3[];
-extern unsigned short spr_wizard_female_idle1[];
-extern unsigned short spr_wizard_female_idle2[];
-extern unsigned short spr_wizard_female_idle3[];
-
-extern unsigned short spr_cleric_male_idle1[];
-extern unsigned short spr_cleric_male_idle2[];
-extern unsigned short spr_cleric_male_idle3[];
-extern unsigned short spr_cleric_female_idle1[];
-extern unsigned short spr_cleric_female_idle2[];
-extern unsigned short spr_cleric_female_idle3[];
-
-extern unsigned short spr_thief_male_idle1[];
-extern unsigned short spr_thief_male_idle2[];
-extern unsigned short spr_thief_male_idle3[];
-extern unsigned short spr_thief_male_idle4[];
-extern unsigned short spr_thief_female_idle1[];
-extern unsigned short spr_thief_female_idle2[];
-extern unsigned short spr_thief_female_idle3[];
-extern unsigned short spr_thief_female_idle4[];
+CLASS_ANIMS(warrior, male)
+CLASS_ANIMS(warrior, female)
+CLASS_ANIMS(wizard, male)
+CLASS_ANIMS(wizard, female)
+CLASS_ANIMS(cleric, male)
+CLASS_ANIMS(cleric, female)
+CLASS_ANIMS(thief, male)
+CLASS_ANIMS(thief, female)
 
 // textures
 extern unsigned short spr_ground[];

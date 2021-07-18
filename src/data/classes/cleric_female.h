@@ -21,53 +21,53 @@ unsigned short spr_cleric_female_idle3[] = {
 
 /* ATTACK 1 */
 
-static Gfx spr_cleric_female_attack_1_1_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_1_1[] = {
-#include "../../res/gfx/player/cleric_female_attack_1_1.gen.h"
+static Gfx spr_cleric_female_attack_11_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_11[] = {
+#include "../../res/gfx/player/cleric_female_attack_11.gen.h"
 };
 
-static Gfx spr_cleric_female_attack_1_2_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_1_2[] = {
-#include "../../res/gfx/player/cleric_female_attack_1_2.gen.h"
+static Gfx spr_cleric_female_attack_12_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_12[] = {
+#include "../../res/gfx/player/cleric_female_attack_12.gen.h"
 };
 
-static Gfx spr_cleric_female_attack_1_3_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_1_3[] = {
-#include "../../res/gfx/player/cleric_female_attack_1_3.gen.h"
+static Gfx spr_cleric_female_attack_13_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_13[] = {
+#include "../../res/gfx/player/cleric_female_attack_13.gen.h"
 };
 
 /* ATTACK 2 */
 
-static Gfx spr_cleric_female_attack_2_1_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_2_1[] = {
-#include "../../res/gfx/player/cleric_female_attack_2_1.gen.h"
+static Gfx spr_cleric_female_attack_21_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_21[] = {
+#include "../../res/gfx/player/cleric_female_attack_21.gen.h"
 };
 
-static Gfx spr_cleric_female_attack_2_2_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_2_2[] = {
-#include "../../res/gfx/player/cleric_female_attack_2_2.gen.h"
+static Gfx spr_cleric_female_attack_22_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_22[] = {
+#include "../../res/gfx/player/cleric_female_attack_22.gen.h"
 };
 
-static Gfx spr_cleric_female_attack_2_3_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_2_3[] = {
-#include "../../res/gfx/player/cleric_female_attack_2_3.gen.h"
+static Gfx spr_cleric_female_attack_23_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_23[] = {
+#include "../../res/gfx/player/cleric_female_attack_23.gen.h"
 };
 
 /* ATTACK 3 */
 
-static Gfx spr_cleric_female_attack_3_1_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_3_1[] = {
-#include "../../res/gfx/player/cleric_female_attack_3_1.gen.h"
+static Gfx spr_cleric_female_attack_31_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_31[] = {
+#include "../../res/gfx/player/cleric_female_attack_31.gen.h"
 };
 
-static Gfx spr_cleric_female_attack_3_2_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_3_2[] = {
-#include "../../res/gfx/player/cleric_female_attack_3_2.gen.h"
+static Gfx spr_cleric_female_attack_32_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_32[] = {
+#include "../../res/gfx/player/cleric_female_attack_32.gen.h"
 };
 
-static Gfx spr_cleric_female_attack_3_3_dummy_aligner[] = {gsSPEndDisplayList()};
-unsigned short spr_cleric_female_attack_3_3[] = {
-#include "../../res/gfx/player/cleric_female_attack_3_3.gen.h"
+static Gfx spr_cleric_female_attack_33_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_cleric_female_attack_33[] = {
+#include "../../res/gfx/player/cleric_female_attack_33.gen.h"
 };
 
 /* HIT */
