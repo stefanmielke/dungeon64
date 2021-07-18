@@ -102,8 +102,6 @@ void combat_tick(Combat *combat) {
 				// combat just started
 				combat->data.timer_target = current_time + 500;
 			} else if (current_time >= combat->data.timer_target) {
-				combat->data.current_attacker++;
-
 				// end combat phase if everyone did their action
 				u8 total_attackers = combat->party->current_member_count +
 									 combat->enemy_party.current_enemy_count;
@@ -153,6 +151,7 @@ void combat_tick(Combat *combat) {
 						combat->data.timer_target = current_time;
 					}
 				}
+				combat->data.current_attacker++;
 
 				u8 enemies_alive = 0;
 				for (u8 i = 0; i < combat->enemy_party.current_enemy_count; i++) {
@@ -261,10 +260,11 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 
+	s8 current_attacker = combat->data.current_attacker - 1;
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
 		if (combat->enemy_party.enemies[i].current_health > 0) {
-			if (combat->data.current_attacker >= combat->party->current_member_count &&
-				combat->data.current_attacker - combat->party->current_member_count == i) {
+			if (current_attacker >= combat->party->current_member_count &&
+				current_attacker - combat->party->current_member_count == i) {
 				DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, 0 - (3 * i), -5 + i * 3,
 						   pov_x, pov_z, (int)frame_counter);
 			} else {
@@ -280,8 +280,8 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
 						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
 			} else if (combat->state == CS_RUN_COMBAT) {
-				if (combat->data.current_attacker < combat->party->current_member_count &&
-					combat->data.current_attacker == i) {
+				if (current_attacker < combat->party->current_member_count &&
+					current_attacker == i) {
 					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
 							   0 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3,
 							   attack_1);
