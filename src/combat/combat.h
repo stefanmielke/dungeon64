@@ -13,6 +13,7 @@ typedef enum CombatState {
 	CS_START,
 	CS_PLAYER_PHASE,
 	CS_RUN_COMBAT,
+	CS_ENDING,
 	CS_END,
 } CombatState;
 

@@ -37,7 +37,7 @@ Combat combat_new(Party *party) {
 void combat_tick(Combat *combat) {
 	gd.pad = ReadController(START_BUTTON | A_BUTTON | B_BUTTON | U_JPAD | D_JPAD);
 	if (IS_BUTTON_PRESSED(START_BUTTON)) {
-		combat->state = CS_END;
+		combat->state = CS_ENDING;
 	}
 
 	static float camera_speed = 0.1f;
@@ -93,7 +93,7 @@ void combat_tick(Combat *combat) {
 					combat->data.current_member_choosing--;
 			}
 			break;
-		case CS_RUN_COMBAT:
+		case CS_RUN_COMBAT: {
 			if (combat->data.camera_x > 0)
 				combat->data.camera_x -= camera_speed;
 
@@ -166,13 +166,20 @@ void combat_tick(Combat *combat) {
 
 				// one side lost
 				if (enemies_alive == 0 || players_alive == 0) {
-					combat->state = CS_END;
+					combat->state = CS_ENDING;
+					combat->data.timer_target = current_time + 1000;
 				}
 			}
-			break;
+		} break;
 		case CS_START:
 			if (combat->data.camera_x < 0)
 				combat->data.camera_x += camera_speed;
+			break;
+		case CS_ENDING: {
+			u64 current_time = get_ticks_ms();
+			if (current_time >= combat->data.timer_target)
+				combat->state = CS_END;
+		}  // purposefully goes down to the next
 		case CS_END:
 			if (combat->data.camera_x > -10)
 				combat->data.camera_x -= camera_speed;
@@ -284,7 +291,7 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 			} else if (combat->state == CS_START) {
 				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
 						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
-			} else if (combat->state == CS_END) {
+			} else if (combat->state == CS_END || combat->state == CS_ENDING) {
 				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
 						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 4, win);
 			}
