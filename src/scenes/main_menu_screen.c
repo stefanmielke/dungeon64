@@ -7,10 +7,10 @@
 
 #include "../text/texts.h"
 
-typedef enum MainMenuItems {
+enum {
 	MMM_NewGame,
 	MMM_MAX,
-} MainMenuItems;
+};
 
 void main_menu_screen_create() {
 	menu = menu_init(&memory_pool, MMM_MAX);

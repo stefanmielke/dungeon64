@@ -7,7 +7,7 @@
 
 #include "../text/texts.h"
 
-typedef enum PreDungeonInnMenuItems {
+enum {
 	PDIM_Back,
 	PDIM_MAX,
 };

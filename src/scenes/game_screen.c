@@ -18,7 +18,6 @@
 #include "../../libs/ultra64-extensions/include/tween.h"
 
 Map current_map;
-Player player;
 Combat current_combat;
 
 typedef enum GameState {

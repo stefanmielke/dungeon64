@@ -36,6 +36,7 @@ int fontcol[4];
 
 GameData gd;
 RenderData rd;
+Player player;
 
 // Viewport
 Vp vp = {

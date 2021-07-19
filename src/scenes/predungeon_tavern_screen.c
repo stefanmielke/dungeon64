@@ -7,7 +7,7 @@
 
 #include "../text/texts.h"
 
-typedef enum PreDungeonTavernMenuItems {
+enum {
 	PDTM_Back,
 	PDTM_MAX,
 };

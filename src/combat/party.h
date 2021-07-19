@@ -3,7 +3,7 @@
 #include <ultratypes.h>
 
 #include "../definitions.h"
-#include "../game.h"
+#include "../graphics.h"
 #include "../types.h"
 
 #include "../../libs/ultra64-extensions/include/range.h"

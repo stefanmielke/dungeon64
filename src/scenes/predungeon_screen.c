@@ -7,14 +7,14 @@
 
 #include "../text/texts.h"
 
-typedef enum PreDungeonMenuItems {
+enum {
 	PDM_Inn,
 	PDM_Tavern,
 	PDM_Shop,
 	PDM_Guild,
 	PDM_Start,
 	PDM_MAX,
-} PreDungeonMenuItems;
+};
 
 void predungeon_screen_create() {
 	menu = menu_init(&memory_pool, PDM_MAX);

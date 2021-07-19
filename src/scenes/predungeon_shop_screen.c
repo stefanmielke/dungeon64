@@ -7,7 +7,7 @@
 
 #include "../text/texts.h"
 
-typedef enum PreDungeonShopMenuItems {
+enum {
 	PDSM_Back,
 	PDSM_MAX,
 };

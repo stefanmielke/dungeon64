@@ -7,7 +7,7 @@
 
 #include "../text/texts.h"
 
-typedef enum PreDungeonGuildMenuItems {
+enum {
 	PDGM_Back,
 	PDGM_MAX,
 };
