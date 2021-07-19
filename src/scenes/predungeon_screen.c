@@ -29,20 +29,11 @@ void predungeon_screen_create() {
 }
 
 short predungeon_screen_tick() {
-	gd.pad = ReadController(START_BUTTON | U_JPAD | D_JPAD);
-
-	if (IS_BUTTON_PRESSED(B_BUTTON)) {
-		return SCREEN_MAIN;
-	} else if (IS_BUTTON_PRESSED(START_BUTTON)) {
+	int option = menu_tick(menu);
+	if (option >= 0) {
 		return SCREEN_PLAY;
-	} else if (IS_BUTTON_PRESSED(U_JPAD)) {
-		current_menu_option--;
-		if (current_menu_option < 0)
-			current_menu_option = PDM_MAX - 1;
-	} else if (IS_BUTTON_PRESSED(D_JPAD)) {
-		current_menu_option++;
-		if (current_menu_option >= PDM_MAX)
-			current_menu_option = 0;
+	} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
+		return SCREEN_MAIN_MENU;
 	}
 
 	return SCREEN_PRE_DUNGEON;
@@ -57,7 +48,7 @@ void predungeon_screen_display() {
 	FONTCOLM(FONT_COL_WHITE);
 	SHOWFONT(&glistp, TEXT_PREP, 30, 30);
 
-	menu_render(menu, &glistp, current_menu_option);
+	menu_render(menu, &glistp);
 
 	FONTCOLM(FONT_COL_WHITE);
 	SHOWFONT(&glistp, TEXT_START, 30, 200);

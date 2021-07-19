@@ -13,7 +13,7 @@ short main_screen_tick() {
 	gd.pad = ReadController(START_BUTTON);
 
 	if (IS_BUTTON_PRESSED(START_BUTTON)) {
-		return SCREEN_PRE_DUNGEON;
+		return SCREEN_MAIN_MENU;
 	}
 
 	return SCREEN_MAIN;

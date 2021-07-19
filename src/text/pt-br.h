@@ -3,6 +3,7 @@
 // Main
 
 #define TEXT_MAIN_START "Aperte START"
+#define TEXT_NEW_GAME "Novo Jogo"
 
 // Pre-Dungeon
 
