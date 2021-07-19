@@ -25,6 +25,8 @@
 #define TEXT_GUILD_ADD_MEMBER_GENDER "Gender"
 #define TEXT_GUILD_ADD_MEMBER_DONE "Done"
 
+#define TEXT_VACANT "Vacant"
+
 // Class Names
 
 #define TEXT_WARRIOR "Warrior"

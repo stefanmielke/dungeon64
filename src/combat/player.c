@@ -33,3 +33,8 @@ void player_party_add_member(Player *player, Class class, const char *name, Gend
 		}
 	}
 }
+
+void player_party_retire_member(Player *player, int index) {
+	player->party.members[index].class = PC_None;
+	player->party.current_member_count--;
+}
