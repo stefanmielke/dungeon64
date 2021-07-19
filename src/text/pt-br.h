@@ -12,4 +12,6 @@
 #define TEXT_TAVERN "Taverna"
 #define TEXT_SHOP "Loja"
 #define TEXT_GUILD "Guilda"
-#define TEXT_START "START para Sair"
+#define TEXT_START "Comecar Dungeon"
+
+#define TEXT_GO_BACK "Voltar"

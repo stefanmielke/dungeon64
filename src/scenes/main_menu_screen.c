@@ -15,8 +15,8 @@ typedef enum MainMenuItems {
 void main_menu_screen_create() {
 	menu = menu_init(&memory_pool, MMM_MAX);
 
-	const int x = 40, start_y = 140;
-	menu_add_item(menu, 0, TEXT_NEW_GAME, x, start_y);
+	const int x = 140, start_y = 140;
+	menu_add_item(menu, TEXT_NEW_GAME, x, start_y);
 }
 
 short main_menu_screen_tick() {

@@ -12,4 +12,6 @@
 #define TEXT_TAVERN "Tavern"
 #define TEXT_SHOP "Shop"
 #define TEXT_GUILD "Guild"
-#define TEXT_START "START to Dungeon"
+#define TEXT_START "Start Dungeon"
+
+#define TEXT_GO_BACK "Back"

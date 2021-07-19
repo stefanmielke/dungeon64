@@ -6,14 +6,21 @@ Menu *menu_init(MemZone *memory_pool, u8 total_items) {
 	Menu *menu = mem_zone_alloc(memory_pool, sizeof(Menu));
 	menu->total_items = total_items;
 	menu->items = mem_zone_alloc(memory_pool, sizeof(MenuItem) * total_items);
+	menu->current_add_index = 0;
 
 	return menu;
 }
 
-void menu_add_item(Menu *menu, u8 index, char *text, int x, int y) {
-	menu->items[index].text = text;
-	menu->items[index].x = x;
-	menu->items[index].y = y;
+void menu_add_item(Menu *menu, char *text, int x, int y) {
+	if (menu->current_add_index >= menu->total_items)
+		return;
+
+	MenuItem *item = &menu->items[menu->current_add_index];
+	item->text = text;
+	item->x = x;
+	item->y = y;
+
+	menu->current_add_index++;
 }
 
 int menu_tick(Menu *menu) {

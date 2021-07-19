@@ -8,6 +8,7 @@
 #include "main_screen.h"
 #include "main_menu_screen.h"
 #include "predungeon_screen.h"
+#include "predungeon_inn_screen.h"
 // #include "no_save_screen.h"
 
 extern SceneManager *scene_manager;
@@ -31,6 +32,11 @@ void change_screen(short curr_screen, short next_screen) {
 		case SCREEN_PRE_DUNGEON:
 			scene_manager_set_callbacks(scene_manager, &predungeon_screen_create,
 										&predungeon_screen_tick, &predungeon_screen_display, NULL);
+			break;
+		case SCREEN_PRE_DUNGEON_INN:
+			scene_manager_set_callbacks(scene_manager, &predungeon_inn_screen_create,
+										&predungeon_inn_screen_tick, &predungeon_inn_screen_display,
+										NULL);
 			break;
 		case SCREEN_PLAY:
 			scene_manager_set_callbacks(scene_manager, &game_screen_create, &game_screen_tick,
