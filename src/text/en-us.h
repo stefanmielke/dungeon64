@@ -20,3 +20,19 @@
 
 #define TEXT_GUILD_ADD_MEMBER "Add Member"
 #define TEXT_GUILD_RETIRE_MEMBER "Retire Member"
+
+#define TEXT_GUILD_ADD_MEMBER_CLASS "Class"
+#define TEXT_GUILD_ADD_MEMBER_GENDER "Gender"
+#define TEXT_GUILD_ADD_MEMBER_DONE "Done"
+
+// Class Names
+
+#define TEXT_WARRIOR "Warrior"
+#define TEXT_THIEF "Thief"
+#define TEXT_CLERIC "Cleric"
+#define TEXT_WIZARD "Wizard"
+
+// Gender Names
+
+#define TEXT_MALE "Male"
+#define TEXT_FEMALE "Female"

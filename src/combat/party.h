@@ -17,6 +17,7 @@ typedef enum Class {
 } Class;
 
 typedef enum Gender {
+	G_None,
 	G_Male,
 	G_Female,
 } Gender;
