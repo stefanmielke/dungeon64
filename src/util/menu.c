@@ -7,6 +7,7 @@ Menu *menu_init(MemZone *memory_pool, u8 total_items) {
 	menu->total_items = total_items;
 	menu->items = mem_zone_alloc(memory_pool, sizeof(MenuItem) * total_items);
 	menu->current_add_index = 0;
+	menu->current_menu_option = 0;
 
 	return menu;
 }

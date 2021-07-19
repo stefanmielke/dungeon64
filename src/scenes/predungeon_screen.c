@@ -33,6 +33,12 @@ short predungeon_screen_tick() {
 		switch (option) {
 			case PDM_Inn:
 				return SCREEN_PRE_DUNGEON_INN;
+			case PDM_Tavern:
+				return SCREEN_PRE_DUNGEON_TAVERN;
+			case PDM_Shop:
+				return SCREEN_PRE_DUNGEON_SHOP;
+			case PDM_Guild:
+				return SCREEN_PRE_DUNGEON_GUILD;
 			case PDM_Start:
 				return SCREEN_PLAY;
 			default:
