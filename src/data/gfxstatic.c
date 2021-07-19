@@ -60,11 +60,8 @@ Gfx combat_ground_dl[] = {
 
 Gfx combat_selection_dl[] = {
 	gsSPVertex(&(combat_selection_vtx[0]), 5, 0), /**/
-	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),		  /**/
-	gsSP1Triangle(3, 4, 0, 0),					  /**/
-	gsSP1Triangle(3, 4, 2, 0),					  /**/
-	gsSP1Triangle(2, 4, 1, 0),					  /**/
-	gsSP1Triangle(1, 4, 0, 0),					  /**/
+	gsSP2Triangles(0, 4, 3, 0, 3, 4, 2, 0),		  /**/
+	gsSP2Triangles(2, 4, 1, 0, 1, 4, 0, 0),		  /**/
 	gsSPEndDisplayList(),						  /**/
 };
 

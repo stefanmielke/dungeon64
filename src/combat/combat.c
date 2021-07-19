@@ -15,6 +15,7 @@
 #define get_ticks_ms() (OS_CYCLES_TO_NSEC(osGetTime()) / 1000000)
 
 void combat_process_action(Combat *combat, CombatAction *action);
+u8 get_enemy_size(EnemyType type);
 
 Combat combat_new(Party *party) {
 	Combat combat = {
@@ -265,15 +266,16 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	obj_count++;
 
 	if (combat->state == CS_PLAYER_PHASE) {
-		float x = -3 - (3 * combat->data.selected);
-		float y = -5 + combat->data.selected * 3;
+		const u8 enemy_size = get_enemy_size(
+			combat->enemy_party.enemies[combat->data.selected].enemy->type);
+
+		const float x = (-1.5 * enemy_size) - (3 * combat->data.selected);
+		const float y = -5 + combat->data.selected * 3;
 
 		gDPPipeSync((*glistp)++);
 		gSPTexture((*glistp)++, 0, 0, 0, G_TX_RENDERTILE, G_OFF);
-		gSPClearGeometryMode((*glistp)++, G_CULL_BACK);
-		gSPSetGeometryMode((*glistp)++, G_SHADE | G_SHADING_SMOOTH | G_ZBUFFER);
 		gDPSetCombineMode((*glistp)++, G_CC_SHADE, G_CC_SHADE);
-		guTranslate(&dynamicp->object_position[obj_count], x, 10, y);
+		guTranslate(&dynamicp->object_position[obj_count], x, 5 * enemy_size, y);
 		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->object_position[obj_count])),
 				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
 		guRotate(&dynamicp->billboard_rotation[billboard_count], frame_counter * 10, 0, 1, 0);
@@ -384,4 +386,13 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 				 combat->state == CS_PLAYER_PHASE ? combat->data.current_member_choosing : -1);
 
 	font_finish(glistp);
+}
+
+u8 get_enemy_size(EnemyType type) {
+	switch (type) {
+		case ET_GoblinBoss:
+			return 2;
+		default:
+			return 1;
+	}
 }
