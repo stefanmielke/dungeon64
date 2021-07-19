@@ -58,6 +58,19 @@ Gfx combat_ground_dl[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx combat_selection_setup_dl[] = {
+	gsDPPipeSync(),
+
+	gsDPSetCycleType(G_CYC_1CYCLE),
+	gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
+	gsSPClearGeometryMode(G_SHADING_SMOOTH | G_ZBUFFER),
+	gsSPSetGeometryMode(G_SHADE | G_CULL_BACK),
+	gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_OPA_SURF2),
+	gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+	gsDPSetTexturePersp(G_TP_PERSP),
+
+	gsSPEndDisplayList(),
+};
 Gfx combat_selection_dl[] = {
 	gsSPVertex(&(combat_selection_vtx[0]), 5, 0), /**/
 	gsSP2Triangles(0, 4, 3, 0, 3, 4, 2, 0),		  /**/
