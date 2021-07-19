@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../util/menu.h"
+
 typedef enum {
 	SCREEN_NONE = -1,
 	SCREEN_NOSAVE,
@@ -10,3 +12,5 @@ typedef enum {
 } ScreenType;
 
 void change_screen(short curr_screen, short next_screen);
+
+extern Menu *menu;

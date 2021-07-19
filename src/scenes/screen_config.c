@@ -12,6 +12,8 @@
 
 extern SceneManager *scene_manager;
 
+Menu *menu;
+
 void change_screen(short curr_screen, short next_screen) {
 	switch (next_screen) {
 		// case SCREEN_NOSAVE:

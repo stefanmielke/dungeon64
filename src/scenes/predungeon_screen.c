@@ -15,9 +15,6 @@ typedef enum PreDungeonMenuItems {
 	PDM_MAX,
 } PreDungeonMenuItems;
 
-int current_menu_option = 0;
-Menu *menu;
-
 void predungeon_screen_create() {
 	menu = menu_init(&memory_pool, PDM_MAX);
 
