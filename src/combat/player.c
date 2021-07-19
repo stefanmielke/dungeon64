@@ -34,7 +34,40 @@ void player_party_add_member(Player *player, Class class, const char *name, Gend
 	}
 }
 
+void player_party_move_member(Player *player, u8 slot_from, u8 slot_to) {
+	// only copies to empty spots
+	if (player->party.members[slot_to].class != PC_None)
+		return;
+
+	PartyMember *member_from = &player->party.members[slot_from];
+	PartyMember *member_to = &player->party.members[slot_to];
+
+	member_to->class = member_from->class;
+	member_to->current_health = member_from->current_health;
+	member_to->current_tp = member_from->current_tp;
+	member_to->damage_range = member_from->damage_range;
+	member_to->gender = member_from->gender;
+	member_to->level = member_from->level;
+	member_to->max_health = member_from->max_health;
+	member_to->max_tp = member_from->max_tp;
+	member_to->name = member_from->name;
+
+	member_from->class = PC_None;
+}
+
 void player_party_retire_member(Player *player, int index) {
 	player->party.members[index].class = PC_None;
+
+	// compacting party
+	for (u8 i = 0; i < 4; ++i) {
+		if (player->party.members[i].class == PC_None) {
+			for (u8 j = i + 1; j < 4; ++j) {
+				if (player->party.members[j].class != PC_None) {
+					player_party_move_member(player, j, i);
+				}
+			}
+		}
+	}
+
 	player->party.current_member_count--;
 }
