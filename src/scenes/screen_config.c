@@ -10,6 +10,8 @@
 #include "predungeon_screen.h"
 #include "predungeon_inn_screen.h"
 #include "predungeon_guild_screen.h"
+#include "predungeon_guild_addmember_screen.h"
+#include "predungeon_guild_retiremember_screen.h"
 #include "predungeon_shop_screen.h"
 #include "predungeon_tavern_screen.h"
 // #include "no_save_screen.h"
@@ -55,6 +57,16 @@ void change_screen(short curr_screen, short next_screen) {
 			scene_manager_set_callbacks(scene_manager, &predungeon_guild_screen_create,
 										&predungeon_guild_screen_tick,
 										&predungeon_guild_screen_display, NULL);
+			break;
+		case SCREEN_PRE_DUNGEON_GUILD_ADD_MEMBER:
+			scene_manager_set_callbacks(scene_manager, &predungeon_guild_addmember_screen_create,
+										&predungeon_guild_addmember_screen_tick,
+										&predungeon_guild_addmember_screen_display, NULL);
+			break;
+		case SCREEN_PRE_DUNGEON_GUILD_RETIRE_MEMBER:
+			scene_manager_set_callbacks(scene_manager, &predungeon_guild_retiremember_screen_create,
+										&predungeon_guild_retiremember_screen_tick,
+										&predungeon_guild_retiremember_screen_display, NULL);
 			break;
 		case SCREEN_PLAY:
 			scene_manager_set_callbacks(scene_manager, &game_screen_create, &game_screen_tick,

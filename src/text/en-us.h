@@ -15,3 +15,8 @@
 #define TEXT_START "Start Dungeon"
 
 #define TEXT_GO_BACK "Back"
+
+// Pre-Dungeon Guild
+
+#define TEXT_GUILD_ADD_MEMBER "Add Member"
+#define TEXT_GUILD_RETIRE_MEMBER "Retire Member"
