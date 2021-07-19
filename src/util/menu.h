@@ -6,6 +6,7 @@ typedef struct MenuItem {
 	char *text;
 	int x;
 	int y;
+	bool enabled;
 } MenuItem;
 
 typedef struct Menu {
@@ -17,5 +18,5 @@ typedef struct Menu {
 
 Menu *menu_init(MemZone *memory_pool, u8 total_items);
 int menu_tick(Menu *menu);
-void menu_add_item(Menu *menu, char *text, int x, int y);
+void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled);
 void menu_render(Menu *menu, Gfx **gfx);

@@ -16,7 +16,7 @@ void main_menu_screen_create() {
 	menu = menu_init(&memory_pool, MMM_MAX);
 
 	const int x = 140, start_y = 140;
-	menu_add_item(menu, TEXT_NEW_GAME, x, start_y);
+	menu_add_item(menu, TEXT_NEW_GAME, x, start_y, true);
 }
 
 short main_menu_screen_tick() {

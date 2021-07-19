@@ -12,7 +12,7 @@ Menu *menu_init(MemZone *memory_pool, u8 total_items) {
 	return menu;
 }
 
-void menu_add_item(Menu *menu, char *text, int x, int y) {
+void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled) {
 	if (menu->current_add_index >= menu->total_items)
 		return;
 
@@ -20,6 +20,7 @@ void menu_add_item(Menu *menu, char *text, int x, int y) {
 	item->text = text;
 	item->x = x;
 	item->y = y;
+	item->enabled = enabled;
 
 	menu->current_add_index++;
 }
@@ -35,17 +36,22 @@ int menu_tick(Menu *menu) {
 		if (menu->current_menu_option >= menu->total_items)
 			menu->current_menu_option = 0;
 	} else if (IS_BUTTON_PRESSED(A_BUTTON) || IS_BUTTON_PRESSED(START_BUTTON)) {
-		return menu->current_menu_option;
+		if (menu->items[menu->current_menu_option].enabled)
+			return menu->current_menu_option;
 	}
 
 	return -1;
 }
 
 void menu_render(Menu *menu, Gfx **gfx) {
-	FONTCOLM(FONT_COL_GREY);
 	for (u8 i = 0; i < menu->total_items; ++i) {
-		if (i == menu->current_menu_option)
+		if (i == menu->current_menu_option) {
 			FONTCOLM(FONT_COL);
+		} else if (menu->items[i].enabled) {
+			FONTCOLM(FONT_COL_WHITE);
+		} else {
+			FONTCOLM(FONT_COL_GREY);
+		}
 
 		SHOWFONT(gfx, menu->items[i].text, menu->items[i].x, menu->items[i].y);
 

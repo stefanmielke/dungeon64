@@ -19,12 +19,14 @@ enum {
 void predungeon_screen_create() {
 	menu = menu_init(&memory_pool, PDM_MAX);
 
+	bool enable_game = player.party.current_member_count > 0;
+
 	const int x = 40, start_y = 60;
-	menu_add_item(menu, TEXT_INN, x, start_y);
-	menu_add_item(menu, TEXT_TAVERN, x, start_y + 20);
-	menu_add_item(menu, TEXT_SHOP, x, start_y + 40);
-	menu_add_item(menu, TEXT_GUILD, x, start_y + 60);
-	menu_add_item(menu, TEXT_START, x, start_y + 100);
+	menu_add_item(menu, TEXT_INN, x, start_y, enable_game);
+	menu_add_item(menu, TEXT_TAVERN, x, start_y + 20, enable_game);
+	menu_add_item(menu, TEXT_SHOP, x, start_y + 40, enable_game);
+	menu_add_item(menu, TEXT_GUILD, x, start_y + 60, true);
+	menu_add_item(menu, TEXT_START, x, start_y + 100, enable_game);
 }
 
 short predungeon_screen_tick() {
@@ -40,7 +42,8 @@ short predungeon_screen_tick() {
 			case PDM_Guild:
 				return SCREEN_PRE_DUNGEON_GUILD;
 			case PDM_Start:
-				return SCREEN_PLAY;
+				if (player.party.current_member_count > 0)
+					return SCREEN_PLAY;
 			default:
 				break;
 		}

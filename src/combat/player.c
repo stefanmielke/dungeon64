@@ -14,3 +14,15 @@ void player_init(Player *player, Vec3 position) {
 	player->party.members[2] = get_start_member_for_class(PC_Cleric, "Cleric", G_Female);
 	player->party.members[3] = get_start_member_for_class(PC_Thief, "Thief", G_Male);
 }
+
+void player_party_init(Player *player) {
+	player->party.current_member_count = 0;
+	for (u8 i = 0; i < 4; ++i) {
+		player->party.members[i].class = PC_None;
+	}
+}
+
+void player_party_member_init(Player *player, int index, Class class, const char *name,
+							  Gender gender) {
+	player->party.members[index] = get_start_member_for_class(class, name, gender);
+}

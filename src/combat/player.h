@@ -23,3 +23,6 @@ typedef struct Player {
 } Player;
 
 void player_init(Player *player, Vec3 position);
+void player_party_init(Player *player);
+void player_party_member_init(Player *player, int index, Class class, const char *name,
+							  Gender gender);

@@ -79,6 +79,8 @@ void setup() {
 	scene_manager = scene_manager_init(&global_memory_pool, &memory_pool, &change_screen);
 
 	scene_manager_change_scene(scene_manager, SCREEN_MAIN);
+
+	player_party_init(&player);
 }
 
 void update() {
