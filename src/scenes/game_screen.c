@@ -56,8 +56,8 @@ void game_screen_create() {
 	current_map.tiles = map1_1;
 	current_map.size = map1_1_size;
 	current_map.width = map1_1_width;
-	current_map.steps_to_combat.start = 1;
-	current_map.steps_to_combat.end = 2;
+	current_map.steps_to_combat.start = 10;
+	current_map.steps_to_combat.end = 20;
 
 	Vec3 player_start = map_get_start_position(&current_map, &player.current_tile);
 	player_init(&player, player_start);
