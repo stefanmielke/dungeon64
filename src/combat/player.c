@@ -14,6 +14,8 @@ void player_party_init(Player *player) {
 	for (u8 i = 0; i < 4; ++i) {
 		player->party.members[i].class = PC_None;
 	}
+
+	player_party_add_member(player, PC_Warrior, "MIELKE", G_Male);
 }
 
 void player_party_member_init(Player *player, int index, Class class, char name[], Gender gender) {
