@@ -24,5 +24,5 @@ typedef struct Player {
 
 void player_init(Player *player, Vec3 position);
 void player_party_init(Player *player);
-void player_party_add_member(Player *player, Class class, const char *name, Gender gender);
+void player_party_add_member(Player *player, Class class, char name[], Gender gender);
 void player_party_retire_member(Player *player, int index);

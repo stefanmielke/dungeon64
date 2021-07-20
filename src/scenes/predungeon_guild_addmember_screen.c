@@ -118,7 +118,8 @@ short predungeon_guild_addmember_screen_tick() {
 					menu->active_submenu = 1;
 					break;
 				case PDGAMM_Done:
-					player_party_add_member(&player, guild_add_member_data->class, "12345678",
+					player_party_add_member(&player, guild_add_member_data->class,
+											guild_add_member_data->name,
 											guild_add_member_data->gender);
 					return SCREEN_PRE_DUNGEON_GUILD;
 				case PDGAMM_Back:

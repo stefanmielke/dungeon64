@@ -2,8 +2,12 @@
 
 #include "../game.h"
 
-PartyMember get_start_member_for_class(Class class, const char *name, Gender gender) {
-	PartyMember member = {.class = class, .level = 1, .name = name, .gender = gender};
+PartyMember get_start_member_for_class(Class class, char name[], Gender gender) {
+	PartyMember member = {.class = class, .level = 1, .gender = gender};
+	for (u8 i = 0; i < 9; ++i) {
+		member.name[i] = name[i];
+	}
+
 	switch (class) {
 		case PC_Warrior:
 			member.max_health = 10;

@@ -16,13 +16,12 @@ void player_party_init(Player *player) {
 	}
 }
 
-void player_party_member_init(Player *player, int index, Class class, const char *name,
-							  Gender gender) {
+void player_party_member_init(Player *player, int index, Class class, char name[], Gender gender) {
 	player->party.members[index] = get_start_member_for_class(class, name, gender);
 	player->party.current_member_count++;
 }
 
-void player_party_add_member(Player *player, Class class, const char *name, Gender gender) {
+void player_party_add_member(Player *player, Class class, char name[], Gender gender) {
 	if (player->party.current_member_count >= 4)
 		return;
 
@@ -50,7 +49,9 @@ void player_party_move_member(Player *player, u8 slot_from, u8 slot_to) {
 	member_to->level = member_from->level;
 	member_to->max_health = member_from->max_health;
 	member_to->max_tp = member_from->max_tp;
-	member_to->name = member_from->name;
+	for (u8 i = 0; i < 9; ++i) {
+		member_to->name[i] = member_from->name[i];
+	}
 
 	member_from->class = PC_None;
 }

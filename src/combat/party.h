@@ -31,7 +31,7 @@ typedef struct PartyMember {
 	int max_tp;
 	int current_tp;
 	RangeInt damage_range;
-	const char *name;
+	char name[9];
 } PartyMember;
 
 typedef struct Party {
@@ -39,5 +39,5 @@ typedef struct Party {
 	u8 current_member_count;
 } Party;
 
-PartyMember get_start_member_for_class(Class class, const char *name, Gender gender);
+PartyMember get_start_member_for_class(Class class, char name[], Gender gender);
 void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp, s8 highlight_index);
