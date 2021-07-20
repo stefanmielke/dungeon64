@@ -8,12 +8,25 @@ typedef enum {
 	// walls
 	TT_Wall_Full = 1,
 	TT_Wall_East = 2,
-	TT_Wall_South = 3,
-	TT_Wall_West = 4,
-	TT_Wall_North = 5,
+	TT_Wall_South,
+	TT_Wall_West,
+	TT_Wall_North,
+	TT_Upstairs_East = 6,
+	TT_Upstairs_South,
+	TT_Upstairs_West,
+	TT_Upstairs_North,
+	TT_Downstairs_East = 9,
+	TT_Downstairs_South,
+	TT_Downstairs_West,
+	TT_Downstairs_North,
 
 	// grounds
-	TT_Ground = 100,
+	TT_Ground_1 = 100,
+	TT_Ground_2,
+	TT_Ground_3,
+	TT_Ground_4,
+	TT_Ground_5,
+	TT_Ground_6,
 
 	// objects
 	TT_StartPos = 255,

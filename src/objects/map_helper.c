@@ -35,7 +35,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 
 	// ground
 	gSPDisplayList((*glistp)++, ground_texture_setup_dl);
-	gSPTexture((*glistp)++, 1024 * 10, 1024 * 10, 0, G_TX_RENDERTILE, G_ON);
+	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 	gDPLoadTextureBlock((*glistp)++, spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
 						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -63,7 +63,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	}
 
 	// walls
-	gSPTexture((*glistp)++, 1024 * 10, 1024 * 10, 0, G_TX_RENDERTILE, G_ON);
+	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 	gDPLoadTextureBlock((*glistp)++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
 						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 	for (unsigned long i = 0; i < map->size; ++i) {
