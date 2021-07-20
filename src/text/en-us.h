@@ -21,6 +21,7 @@
 #define TEXT_GUILD_ADD_MEMBER "Add Member"
 #define TEXT_GUILD_RETIRE_MEMBER "Retire Member"
 
+#define TEXT_GUILD_ADD_MEMBER_NAME "Name"
 #define TEXT_GUILD_ADD_MEMBER_CLASS "Class"
 #define TEXT_GUILD_ADD_MEMBER_GENDER "Gender"
 #define TEXT_GUILD_ADD_MEMBER_DONE "Done"
