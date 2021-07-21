@@ -27,3 +27,4 @@ void player_party_init(Player *player);
 void player_party_add_member(Player *player, Class class, char name[], Gender gender);
 void player_party_retire_member(Player *player, int index);
 bool player_is_any_member_alive(Player *player);
+void player_heal_all_party_members(Player *player);

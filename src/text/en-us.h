@@ -16,6 +16,10 @@
 
 #define TEXT_GO_BACK "Back"
 
+// Pre-Dungeon Inn
+
+#define TEXT_GO_STAY "Stay"
+
 // Pre-Dungeon Guild
 
 #define TEXT_GUILD_ADD_MEMBER "Add Member"

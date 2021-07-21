@@ -82,3 +82,10 @@ bool player_is_any_member_alive(Player *player) {
 	}
 	return false;
 }
+
+void player_heal_all_party_members(Player *player) {
+	for (u8 i = 0; i < player->party.current_member_count; ++i) {
+		player->party.members[i].current_health = player->party.members[i].max_health;
+		player->party.members[i].current_tp = player->party.members[i].max_tp;
+	}
+}
