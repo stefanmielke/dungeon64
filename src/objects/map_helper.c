@@ -9,10 +9,11 @@
 #include "../objects/billboards.h"
 #include "../maps/maps.h"
 
-Vec3 map_get_start_position(Map *map, u32 *tile_position) {
+Vec3 map_get_start_position(Map *map, u32 *tile_position, float *angle) {
 	for (u8 i = 0; i < map->events.event_count; ++i) {
 		if (map->events.data[i].type == MET_Spawn) {
 			*tile_position = map->events.data[i].tile_position;
+			*angle = map->events.data[i].args.spawn.angle;
 			return map_get_position_from_map_coord(map->events.data[i].tile_position, map->size,
 												   map->width);
 		}

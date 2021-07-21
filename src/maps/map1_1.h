@@ -1,6 +1,7 @@
 #pragma once
 
 #include "map_def.h"
+#include "../math.h"
 
 MapDef map_1_1 = {
 	.size = 9 * 9,
@@ -13,14 +14,16 @@ MapDef map_1_1 = {
 				{
 					[0].type = MET_Spawn,
 					[0].tile_position = 64,
+					[0].args.spawn.angle = LOOK_NORTH,
 
 					[1].type = MET_Exit,
 					[1].tile_position = 73,
 
 					[2].type = MET_Stairs,
 					[2].tile_position = 75,
-					[2].arg1 = 2,	// to map 1_2
-					[2].arg2 = 66,	// position
+					[2].args.stairs.map_id = 2,	 // to map 1_2
+					[2].args.stairs.tile_to_spawn = 66,
+					[2].args.stairs.angle = LOOK_NORTH,
 				},
 		},
 	.tiles =

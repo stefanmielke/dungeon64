@@ -39,6 +39,7 @@ Tween *combat_start_end_tween;
 s16 screen_transition_y;
 u16 map_to_load;
 s32 forced_position_to_load;
+float forced_angle_to_load;
 
 // helper functions for movement
 void set_angle(float angle_diff);
@@ -66,8 +67,10 @@ void game_screen_create() {
 
 	Vec3 player_start;
 	if (forced_position_to_load < 0) {
-		player_start = map_get_start_position(&current_map, &player.current_tile);
+		player_start = map_get_start_position(&current_map, &player.current_tile, &player.angle);
 	} else {
+		player.current_tile = forced_position_to_load;
+		player.angle = forced_angle_to_load;
 		player_start = map_get_position_from_map_coord(forced_position_to_load, current_map.size,
 													   current_map.width);
 	}
@@ -302,8 +305,9 @@ void move_to(s32 h_speed, s32 forward_speed) {
 					screen_transition_y = SCREEN_HT - 1;
 					return;
 				} else if (event->type == MET_Stairs) {
-					map_to_load = event->arg1;
-					forced_position_to_load = event->arg2;
+					map_to_load = event->args.stairs.map_id;
+					forced_position_to_load = event->args.stairs.tile_to_spawn;
+					forced_angle_to_load = event->args.stairs.angle;
 					current_state = GM_USING_STAIRS;
 					screen_transition_y = SCREEN_HT - 1;
 					return;
@@ -334,8 +338,9 @@ void move_to(s32 h_speed, s32 forward_speed) {
 					screen_transition_y = SCREEN_HT - 1;
 					return;
 				} else if (event->type == MET_Stairs) {
-					map_to_load = event->arg1;
-					forced_position_to_load = event->arg2;
+					map_to_load = event->args.stairs.map_id;
+					forced_position_to_load = event->args.stairs.tile_to_spawn;
+					forced_angle_to_load = event->args.stairs.angle;
 					current_state = GM_USING_STAIRS;
 					screen_transition_y = SCREEN_HT - 1;
 					return;

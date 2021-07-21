@@ -4,7 +4,6 @@ void player_init(Player *player, Vec3 position) {
 	player->pos.x = position.x;
 	player->pos.y = position.y;
 	player->pos.z = position.z;
-	player->angle = 0;
 
 	player->current_steps_taken = 0;
 }

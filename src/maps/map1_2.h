@@ -13,8 +13,9 @@ MapDef map_1_2 = {
 				{
 					[0].type = MET_Stairs,
 					[0].tile_position = 75,
-					[0].arg1 = 1,	// to map 1_1
-					[0].arg2 = 66,	// position
+					[0].args.stairs.map_id = 1,	 // to map 1_1
+					[0].args.stairs.tile_to_spawn = 66,
+					[0].args.stairs.angle = LOOK_NORTH,
 				},
 		},
 	.tiles =
