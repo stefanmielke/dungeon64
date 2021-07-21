@@ -61,5 +61,5 @@ typedef struct Combat {
 
 EnemyParty get_new_enemy_party();
 Combat combat_new(Party *party);
-void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, int pov_z);
+void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, int pov_z);
 void combat_tick(Combat *combat);

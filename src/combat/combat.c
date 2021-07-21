@@ -245,7 +245,8 @@ void combat_process_action(Combat *combat, CombatAction *action) {
 	}
 }
 
-void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, int pov_z) {
+void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x,
+				   int pov_z) {
 	int obj_count = 0;		 /* count of used objects on current frame */
 	int billboard_count = 0; /* count of used billboards on current frame */
 
@@ -274,8 +275,8 @@ void combat_render(Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, i
 	// ground
 	gSPDisplayList((*glistp)++, ground_texture_setup_dl);
 	gSPTexture((*glistp)++, 1024 * 100, 1024 * 100, 0, G_TX_RENDERTILE, G_ON);
-	gDPLoadTextureBlock((*glistp)++, spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
-						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+	gDPLoadTextureBlock((*glistp)++, map->spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+						G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
 	gDPPipeSync((*glistp)++);
 	guTranslate(&dynamicp->object_position[obj_count], -50, 0, -50);

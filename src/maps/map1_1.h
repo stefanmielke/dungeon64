@@ -1,7 +1,7 @@
 #pragma once
 
 #include "map_def.h"
-#include "../math.h"
+#include "../data/texture.h"
 
 MapDef map_1_1 = {
 	.size = 9 * 9,
@@ -26,6 +26,10 @@ MapDef map_1_1 = {
 					[2].args.stairs.angle = LOOK_NORTH,
 				},
 		},
+	.spr_ground = spr_ground,
+	.spr_wall = spr_wall,
+	.spr_wall_exit = spr_wall_exit,
+	.spr_wall_upstairs = spr_wall_upstairs,
 	.tiles =
 		{
 			0, 3,	3,	 3,	  3,   3,	3,	 3,	  0, /**/

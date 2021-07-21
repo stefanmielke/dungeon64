@@ -47,8 +47,8 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	// ground
 	gSPDisplayList((*glistp)++, ground_texture_setup_dl);
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
-	gDPLoadTextureBlock((*glistp)++, spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0, G_TX_WRAP,
-						G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
+	gDPLoadTextureBlock((*glistp)++, map->spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0,
+						G_TX_WRAP, G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
 
 	for (unsigned long i = 0; i < map->size; ++i) {
 		if (map->tiles[i] >= TL_Ground_Start && map->tiles[i] <= TL_Objects_End) {
@@ -78,18 +78,18 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	int wall_type = -1;
 	for (unsigned long i = 0; i < map->size; ++i) {
 		if (map->tiles[i] >= TT_Wall_Full && map->tiles[i] <= TT_Wall_North && wall_type != 0) {
-			gDPLoadTextureBlock((*glistp)++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+			gDPLoadTextureBlock((*glistp)++, map->spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
 								G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 			wall_type = 0;
 		} else if (map->tiles[i] >= TT_Upstairs_East && map->tiles[i] <= TT_Upstairs_North &&
 				   wall_type != 1) {
-			gDPLoadTextureBlock((*glistp)++, spr_wall_upstairs, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32,
-								0, G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+			gDPLoadTextureBlock((*glistp)++, map->spr_wall_upstairs, G_IM_FMT_RGBA, G_IM_SIZ_16b,
+								32, 32, 0, G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 			wall_type = 1;
 		} else if (map->tiles[i] >= TT_Downstairs_East && map->tiles[i] <= TT_Downstairs_North &&
 				   wall_type != 2) {
-			gDPLoadTextureBlock((*glistp)++, spr_wall_exit, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
-								G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+			gDPLoadTextureBlock((*glistp)++, map->spr_wall_exit, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32,
+								32, 0, G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 			wall_type = 2;
 		}
 

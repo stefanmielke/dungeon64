@@ -266,7 +266,7 @@ void game_screen_display() {
 		gSPClipRatio(glistp++, FRUSTRATIO_1);
 
 		// render map
-		combat_render(&current_combat, &glistp, rd.dynamicp, pov_x, pov_y);
+		combat_render(&current_map, &current_combat, &glistp, rd.dynamicp, pov_x, pov_y);
 
 		if (current_state == GM_FROM_COMBAT || current_state == GM_START_COMBAT) {
 			gDPSetCycleType(glistp++, G_CYC_FILL);
@@ -401,4 +401,8 @@ void game_screen_set_map(MapDef *map) {
 	current_map.width = map->width;
 	current_map.steps_to_combat = map->steps_to_combat;
 	current_map.events = map->events;
+	current_map.spr_ground = map->spr_ground;
+	current_map.spr_wall = map->spr_wall;
+	current_map.spr_wall_exit = map->spr_wall_exit;
+	current_map.spr_wall_upstairs = map->spr_wall_upstairs;
 }

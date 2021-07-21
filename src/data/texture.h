@@ -36,11 +36,15 @@ CLASS_ANIMS(thief, male)
 CLASS_ANIMS(thief, female)
 
 // textures
-extern unsigned short spr_ground[];
 extern unsigned short spr_plant[];
+extern unsigned short spr_ground[];
 extern unsigned short spr_wall[];
 extern unsigned short spr_wall_upstairs[];
 extern unsigned short spr_wall_exit[];
+extern unsigned short spr_ground_2[];
+extern unsigned short spr_wall_2[];
+extern unsigned short spr_wall_upstairs_2[];
+extern unsigned short spr_wall_exit_2[];
 
 // ui
 extern unsigned short spr_ui[];
