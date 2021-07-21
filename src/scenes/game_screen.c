@@ -46,6 +46,8 @@ void view_callback(void *target_object, float current_value);
 void start_combat();
 void reset_combat();
 
+void game_screen_set_map(MapDef *map);
+
 void game_screen_create() {
 	// reset random seed
 	u64 seed = osGetTime();
@@ -53,11 +55,7 @@ void game_screen_create() {
 
 	current_state = GM_WALK;
 
-	current_map.tiles = map1_1;
-	current_map.size = map1_1_size;
-	current_map.width = map1_1_width;
-	current_map.steps_to_combat.start = 10;
-	current_map.steps_to_combat.end = 20;
+	game_screen_set_map(&map_1_1);
 
 	Vec3 player_start = map_get_start_position(&current_map, &player.current_tile);
 	player_init(&player, player_start);
@@ -329,4 +327,11 @@ void reset_combat() {
 	screen_transition_y = SCREEN_HT - 1;
 	player.next_combat_at = player.current_steps_taken +
 							range_get_from_int(&current_map.steps_to_combat);
+}
+
+void game_screen_set_map(MapDef *map) {
+	current_map.tiles = map->map_data;
+	current_map.size = map->size;
+	current_map.width = map->width;
+	current_map.steps_to_combat = map->steps_to_combat;
 }

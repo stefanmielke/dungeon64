@@ -1,7 +1,8 @@
+#pragma once
 
-extern unsigned short map1_1[];
-extern unsigned long map1_1_size;
-extern unsigned long map1_1_width;
+#include "map_def.h"
+
+extern MapDef map_1_1;
 
 typedef enum {
 	TT_Empty_Space = 0,
