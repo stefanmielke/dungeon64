@@ -19,7 +19,7 @@ MapDef map_1_1 = {
 	.size = 9 * 9,
 	.width = 9,
 	.steps_to_combat = {.start = 10, .end = 20},
-	.map_data =
+	.tiles =
 		{
 			0, 3,	3,	 3,	  3,   3,	3,	 3,	  0, /**/
 			2, 100, 100, 100, 100, 100, 100, 100, 4, /**/

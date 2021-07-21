@@ -330,7 +330,7 @@ void reset_combat() {
 }
 
 void game_screen_set_map(MapDef *map) {
-	current_map.tiles = map->map_data;
+	current_map.tiles = map->tiles;
 	current_map.size = map->size;
 	current_map.width = map->width;
 	current_map.steps_to_combat = map->steps_to_combat;
