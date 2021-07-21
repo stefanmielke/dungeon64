@@ -27,7 +27,9 @@ typedef enum GameState {
 	GM_START_COMBAT,
 	GM_COMBAT,
 	GM_FROM_COMBAT,
-	GM_START_WALK
+	GM_START_WALK,
+	GM_EXITING_MAP,
+	GM_EXIT_MAP
 } GameState;
 GameState current_state;
 
@@ -36,7 +38,7 @@ s16 screen_transition_y;
 
 // helper functions for movement
 void set_angle(float angle_diff);
-bool move_to(s32 h_speed, s32 forward_speed);
+void move_to(s32 h_speed, s32 forward_speed);
 
 // tween callbacks
 void movement_callback(void *target_object, Position current_value);
@@ -87,14 +89,10 @@ short game_screen_tick() {
 		if (player.movement_tween->finished && player.view_tween->finished) {
 			if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
 				player.move_forward = TILE_SIZE;
-				if (!move_to(player.move_lateral, player.move_forward)) {
-					return SCREEN_PRE_DUNGEON;
-				}
+				move_to(player.move_lateral, player.move_forward);
 			} else if (IS_BUTTON_PRESSED(D_JPAD) || PADTHRESH(gd.pad[0]->stick_y) < 0) {
 				player.move_forward = -TILE_SIZE;
-				if (!move_to(player.move_lateral, player.move_forward)) {
-					return SCREEN_PRE_DUNGEON;
-				}
+				move_to(player.move_lateral, player.move_forward);
 			} else if (IS_BUTTON_PRESSED(L_JPAD) || PADTHRESH(gd.pad[0]->stick_x) < 0) {
 				player.view_speed = -RAD_90;
 				set_angle(player.view_speed);
@@ -103,14 +101,10 @@ short game_screen_tick() {
 				set_angle(player.view_speed);
 			} else if (IS_BUTTON_PRESSED(L_TRIG) | IS_BUTTON_PRESSED(Z_TRIG)) {
 				player.move_lateral = -TILE_SIZE;
-				if (!move_to(player.move_lateral, player.move_forward)) {
-					return SCREEN_PRE_DUNGEON;
-				}
+				move_to(player.move_lateral, player.move_forward);
 			} else if (IS_BUTTON_PRESSED(R_TRIG)) {
 				player.move_lateral = TILE_SIZE;
-				if (!move_to(player.move_lateral, player.move_forward)) {
-					return SCREEN_PRE_DUNGEON;
-				}
+				move_to(player.move_lateral, player.move_forward);
 			}
 		}
 	} else if (current_state == GM_TO_COMBAT) {
@@ -119,7 +113,6 @@ short game_screen_tick() {
 			current_state = GM_START_COMBAT;
 			screen_transition_y = SCREEN_HT - 1;
 		}
-
 	} else if (current_state == GM_START_COMBAT) {
 		combat_tick(&current_combat);
 		screen_transition_y -= 5;
@@ -127,14 +120,12 @@ short game_screen_tick() {
 			current_state = GM_COMBAT;
 			current_combat.state = CS_PLAYER_PHASE;
 		}
-
 	} else if (current_state == GM_FROM_COMBAT) {
 		screen_transition_y += 5;
 		if (screen_transition_y > SCREEN_HT + 5) {
 			current_state = GM_START_WALK;
 			screen_transition_y = 0;
 		}
-
 	} else if (current_state == GM_START_WALK) {
 		screen_transition_y += 5;
 		if (screen_transition_y > SCREEN_HT + 5)
@@ -146,6 +137,14 @@ short game_screen_tick() {
 			current_state = GM_FROM_COMBAT;
 			screen_transition_y = 0;
 		}
+	} else if (current_state == GM_EXITING_MAP) {
+		screen_transition_y -= 5;
+		if (screen_transition_y < 0) {
+			current_state = GM_EXIT_MAP;
+			screen_transition_y = SCREEN_HT - 1;
+		}
+	} else if (current_state == GM_EXIT_MAP) {
+		return SCREEN_PRE_DUNGEON;
 	}
 
 	return SCREEN_PLAY;
@@ -153,7 +152,7 @@ short game_screen_tick() {
 
 void game_screen_display() {
 	if (current_state == GM_WALK || current_state == GM_TO_COMBAT ||
-		current_state == GM_START_WALK) {
+		current_state == GM_START_WALK || current_state == GM_EXITING_MAP) {
 		// set up matrices
 		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
@@ -205,7 +204,8 @@ void game_screen_display() {
 
 		font_finish(&glistp);
 
-		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK) {
+		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK ||
+			current_state == GM_EXITING_MAP) {
 			gDPSetCycleType(glistp++, G_CYC_FILL);
 			gDPSetColorImage(glistp++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WD, rsp_cfb);
 			gDPSetFillColor(glistp++,
@@ -263,7 +263,7 @@ void set_angle(float angle_diff) {
 }
 
 // returns false if should exit map
-bool move_to(s32 h_speed, s32 forward_speed) {
+void move_to(s32 h_speed, s32 forward_speed) {
 	bool path_is_blocked = false;
 
 	Position final_position;
@@ -278,7 +278,9 @@ bool move_to(s32 h_speed, s32 forward_speed) {
 			MapEvent *event = map_get_event_on_tile(&current_map, tile);
 			if (event) {
 				if (event->type == MET_Exit) {
-					return false;
+					current_state = GM_EXITING_MAP;
+					screen_transition_y = SCREEN_HT - 1;
+					return;
 				}
 			}
 
@@ -302,7 +304,9 @@ bool move_to(s32 h_speed, s32 forward_speed) {
 			MapEvent *event = map_get_event_on_tile(&current_map, tile);
 			if (event) {
 				if (event->type == MET_Exit) {
-					return false;
+					current_state = GM_EXITING_MAP;
+					screen_transition_y = SCREEN_HT - 1;
+					return;
 				}
 			}
 
@@ -323,8 +327,6 @@ bool move_to(s32 h_speed, s32 forward_speed) {
 				  &movement_end_callback, path_is_blocked, false);
 	Position p = {player.pos.x, player.pos.z};
 	tween_set_to_position(player.movement_tween, p, final_position, &movement_callback);
-
-	return true;
 }
 
 void movement_callback(void *target_object, Position current_value) {
