@@ -15,7 +15,7 @@ typedef enum {
 	TT_Upstairs_South,
 	TT_Upstairs_West,
 	TT_Upstairs_North,
-	TT_Downstairs_East = 9,
+	TT_Downstairs_East = 10,
 	TT_Downstairs_South,
 	TT_Downstairs_West,
 	TT_Downstairs_North,

@@ -64,26 +64,45 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 
 	// walls
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
-	gDPLoadTextureBlock((*glistp)++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
-						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+	int wall_type = -1;
 	for (unsigned long i = 0; i < map->size; ++i) {
+		if (map->tiles[i] >= TT_Wall_Full && map->tiles[i] <= TT_Wall_North && wall_type != 0) {
+			gDPLoadTextureBlock((*glistp)++, spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+								G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+			wall_type = 0;
+		} else if (map->tiles[i] >= TT_Upstairs_East && map->tiles[i] <= TT_Upstairs_North &&
+				   wall_type != 1) {
+			gDPLoadTextureBlock((*glistp)++, spr_wall_upstairs, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32,
+								0, G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+			wall_type = 1;
+		} else if (map->tiles[i] >= TT_Downstairs_East && map->tiles[i] <= TT_Downstairs_North &&
+				   wall_type != 2) {
+			gDPLoadTextureBlock((*glistp)++, spr_wall_exit, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
+								G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+			wall_type = 2;
+		}
+
 		if (map->tiles[i] == TT_Wall_Full) {  // full wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SQUARE(x, z);
-		} else if (map->tiles[i] == TT_Wall_East) {	 // east wall
+		} else if (map->tiles[i] == TT_Wall_East || map->tiles[i] == TT_Upstairs_East ||
+				   map->tiles[i] == TT_Downstairs_East) {  // east wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_EAST(x, z);
-		} else if (map->tiles[i] == TT_Wall_South) {  // south wall
+		} else if (map->tiles[i] == TT_Wall_South || map->tiles[i] == TT_Upstairs_South ||
+				   map->tiles[i] == TT_Downstairs_South) {	// south wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SOUTH(x, z);
-		} else if (map->tiles[i] == TT_Wall_West) {	 // west wall
+		} else if (map->tiles[i] == TT_Wall_West || map->tiles[i] == TT_Upstairs_West ||
+				   map->tiles[i] == TT_Downstairs_West) {  // west wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_WEST(x, z);
-		} else if (map->tiles[i] == TT_Wall_North) {  // north wall
+		} else if (map->tiles[i] == TT_Wall_North || map->tiles[i] == TT_Upstairs_North ||
+				   map->tiles[i] == TT_Downstairs_North) {	// north wall
 			u32 x = ((i % map->width) * TILE_SIZE);
 			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_NORTH(x, z);

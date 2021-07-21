@@ -39,6 +39,8 @@ CLASS_ANIMS(thief, female)
 extern unsigned short spr_ground[];
 extern unsigned short spr_plant[];
 extern unsigned short spr_wall[];
+extern unsigned short spr_wall_upstairs[];
+extern unsigned short spr_wall_exit[];
 
 // ui
 extern unsigned short spr_ui[];
