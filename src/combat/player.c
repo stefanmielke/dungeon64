@@ -73,3 +73,12 @@ void player_party_retire_member(Player *player, int index) {
 
 	player->party.current_member_count--;
 }
+
+bool player_is_any_member_alive(Player *player) {
+	for (u8 i = 0; i < player->party.current_member_count; ++i) {
+		if (player->party.members[i].current_health > 0) {
+			return true;
+		}
+	}
+	return false;
+}

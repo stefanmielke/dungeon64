@@ -142,13 +142,7 @@ short game_screen_tick() {
 		}
 	} else if (current_state == GM_START_WALK) {
 		// if all players are dead exit dungeon
-		bool any_players_alive = false;
-		for (u8 i = 0; i < player.party.current_member_count; ++i) {
-			if (player.party.members[i].current_health > 0) {
-				any_players_alive = true;
-				break;
-			}
-		}
+		bool any_players_alive = player_is_any_member_alive(&player);
 		if (!any_players_alive) {
 			current_state = GM_EXIT_MAP;
 			screen_transition_y = SCREEN_HT - 1;
