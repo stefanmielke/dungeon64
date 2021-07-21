@@ -30,6 +30,15 @@ Vec3 map_get_position_from_map_coord(u32 map_coord, u32 size, u32 width) {
 	return result;
 }
 
+MapEvent *map_get_event_on_tile(Map *map, u32 tile_position) {
+	for (u8 i = 0; i < map->events.event_count; ++i) {
+		if (map->events.data[i].tile_position == tile_position)
+			return &map->events.data[i];
+	}
+
+	return NULL;
+}
+
 void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	int obj_count = 0; /* count of used objects on current frame */
 	// int billboard_count = 0; /* count of used billboards on current frame */

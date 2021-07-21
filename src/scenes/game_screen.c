@@ -36,7 +36,7 @@ s16 screen_transition_y;
 
 // helper functions for movement
 void set_angle(float angle_diff);
-void move_to(s32 h_speed, s32 forward_speed);
+bool move_to(s32 h_speed, s32 forward_speed);
 
 // tween callbacks
 void movement_callback(void *target_object, Position current_value);
@@ -87,10 +87,14 @@ short game_screen_tick() {
 		if (player.movement_tween->finished && player.view_tween->finished) {
 			if (IS_BUTTON_PRESSED(U_JPAD) || PADTHRESH(gd.pad[0]->stick_y) > 0) {
 				player.move_forward = TILE_SIZE;
-				move_to(player.move_lateral, player.move_forward);
+				if (!move_to(player.move_lateral, player.move_forward)) {
+					return SCREEN_PRE_DUNGEON;
+				}
 			} else if (IS_BUTTON_PRESSED(D_JPAD) || PADTHRESH(gd.pad[0]->stick_y) < 0) {
 				player.move_forward = -TILE_SIZE;
-				move_to(player.move_lateral, player.move_forward);
+				if (!move_to(player.move_lateral, player.move_forward)) {
+					return SCREEN_PRE_DUNGEON;
+				}
 			} else if (IS_BUTTON_PRESSED(L_JPAD) || PADTHRESH(gd.pad[0]->stick_x) < 0) {
 				player.view_speed = -RAD_90;
 				set_angle(player.view_speed);
@@ -99,10 +103,14 @@ short game_screen_tick() {
 				set_angle(player.view_speed);
 			} else if (IS_BUTTON_PRESSED(L_TRIG) | IS_BUTTON_PRESSED(Z_TRIG)) {
 				player.move_lateral = -TILE_SIZE;
-				move_to(player.move_lateral, player.move_forward);
+				if (!move_to(player.move_lateral, player.move_forward)) {
+					return SCREEN_PRE_DUNGEON;
+				}
 			} else if (IS_BUTTON_PRESSED(R_TRIG)) {
 				player.move_lateral = TILE_SIZE;
-				move_to(player.move_lateral, player.move_forward);
+				if (!move_to(player.move_lateral, player.move_forward)) {
+					return SCREEN_PRE_DUNGEON;
+				}
 			}
 		}
 	} else if (current_state == GM_TO_COMBAT) {
@@ -254,7 +262,8 @@ void set_angle(float angle_diff) {
 	tween_set_to_float(player.view_tween, player.angle, final_angle, &view_callback);
 }
 
-void move_to(s32 h_speed, s32 forward_speed) {
+// returns false if should exit map
+bool move_to(s32 h_speed, s32 forward_speed) {
 	bool path_is_blocked = false;
 
 	Position final_position;
@@ -265,6 +274,14 @@ void move_to(s32 h_speed, s32 forward_speed) {
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
+			// process exit if is an exit wall
+			MapEvent *event = map_get_event_on_tile(&current_map, tile);
+			if (event) {
+				if (event->type == MET_Exit) {
+					return false;
+				}
+			}
+
 			final_position.x = player.pos.x + (player.forward.x * (forward_speed / 4));
 			final_position.y = player.pos.z + (player.forward.z * (forward_speed / 4));
 		} else {
@@ -281,6 +298,14 @@ void move_to(s32 h_speed, s32 forward_speed) {
 
 		path_is_blocked = map_is_tile_blocked(&current_map, tile);
 		if (path_is_blocked) {
+			// process exit if is an exit wall
+			MapEvent *event = map_get_event_on_tile(&current_map, tile);
+			if (event) {
+				if (event->type == MET_Exit) {
+					return false;
+				}
+			}
+
 			final_position.x = player.pos.x + (x * (h_speed / 4));
 			final_position.y = player.pos.z + (y * (h_speed / 4));
 		} else {
@@ -298,6 +323,8 @@ void move_to(s32 h_speed, s32 forward_speed) {
 				  &movement_end_callback, path_is_blocked, false);
 	Position p = {player.pos.x, player.pos.z};
 	tween_set_to_position(player.movement_tween, p, final_position, &movement_callback);
+
+	return true;
 }
 
 void movement_callback(void *target_object, Position current_value) {

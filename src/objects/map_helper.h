@@ -14,3 +14,5 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player);
 
 bool map_is_tile_blocked(Map *map, u32 tile);
 bool map_is_position_blocked(Map *map, Position position);
+
+MapEvent *map_get_event_on_tile(Map *map, u32 tile_position);
