@@ -334,4 +334,5 @@ void game_screen_set_map(MapDef *map) {
 	current_map.size = map->size;
 	current_map.width = map->width;
 	current_map.steps_to_combat = map->steps_to_combat;
+	current_map.events = map->events;
 }

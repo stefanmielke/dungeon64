@@ -10,10 +10,11 @@
 #include "../maps/maps.h"
 
 Vec3 map_get_start_position(Map *map, u32 *tile_position) {
-	for (u32 i = 0; i < map->size; ++i) {
-		if (map->tiles[i] == TT_StartPos) {
-			*tile_position = i;
-			return map_get_position_from_map_coord(i, map->size, map->width);
+	for (u8 i = 0; i < map->events.event_count; ++i) {
+		if (map->events.data[i].type == MET_Spawn) {
+			*tile_position = map->events.data[i].tile_position;
+			return map_get_position_from_map_coord(map->events.data[i].tile_position, map->size,
+												   map->width);
 		}
 	}
 
