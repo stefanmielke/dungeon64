@@ -47,8 +47,8 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	// ground
 	gSPDisplayList((*glistp)++, ground_texture_setup_dl);
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
-	gDPLoadTextureBlock((*glistp)++, spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
-						G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+	gDPLoadTextureBlock((*glistp)++, spr_ground, G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, 32, 0, G_TX_WRAP,
+						G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
 
 	for (unsigned long i = 0; i < map->size; ++i) {
 		if (map->tiles[i] >= TL_Ground_Start && map->tiles[i] <= TL_Objects_End) {
