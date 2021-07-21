@@ -7,6 +7,8 @@
 
 #include "../text/texts.h"
 
+#include "game_screen.h"
+
 enum {
 	PDM_Inn,
 	PDM_Tavern,
@@ -42,8 +44,11 @@ short predungeon_screen_tick() {
 			case PDM_Guild:
 				return SCREEN_PRE_DUNGEON_GUILD;
 			case PDM_Start:
-				if (player.party.current_member_count > 0)
+				if (player.party.current_member_count > 0) {
+					forced_position_to_load = -1;
+					map_to_load = 1;
 					return SCREEN_PLAY;
+				}
 			default:
 				break;
 		}

@@ -137,3 +137,14 @@ bool map_is_position_blocked(Map *map, Position position) {
 
 	return map_is_tile_blocked(map, tile);
 }
+
+MapDef *map_get_def_by_id(u16 map_id) {
+	switch (map_id) {
+		case 1:
+			return &map_1_1;
+		case 2:
+			return &map_1_2;
+		default:
+			return NULL;
+	}
+}

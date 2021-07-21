@@ -14,7 +14,8 @@ typedef enum {
 	SCREEN_PRE_DUNGEON_GUILD,
 	SCREEN_PRE_DUNGEON_GUILD_ADD_MEMBER,
 	SCREEN_PRE_DUNGEON_GUILD_RETIRE_MEMBER,
-	SCREEN_PLAY
+	SCREEN_PLAY,
+	SCREEN_PLAY_MOVE_TO_MAP,
 } ScreenType;
 
 void change_screen(short curr_screen, short next_screen);

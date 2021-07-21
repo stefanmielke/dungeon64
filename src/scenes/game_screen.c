@@ -28,6 +28,8 @@ typedef enum GameState {
 	GM_COMBAT,
 	GM_FROM_COMBAT,
 	GM_START_WALK,
+	GM_USING_STAIRS,
+	GM_USED_STAIR,
 	GM_EXITING_MAP,
 	GM_EXIT_MAP
 } GameState;
@@ -35,6 +37,8 @@ GameState current_state;
 
 Tween *combat_start_end_tween;
 s16 screen_transition_y;
+u16 map_to_load;
+s32 forced_position_to_load;
 
 // helper functions for movement
 void set_angle(float angle_diff);
@@ -57,9 +61,16 @@ void game_screen_create() {
 
 	current_state = GM_WALK;
 
-	game_screen_set_map(&map_1_1);
+	MapDef *map_def = map_get_def_by_id(map_to_load);
+	game_screen_set_map(map_def);
 
-	Vec3 player_start = map_get_start_position(&current_map, &player.current_tile);
+	Vec3 player_start;
+	if (forced_position_to_load < 0) {
+		player_start = map_get_start_position(&current_map, &player.current_tile);
+	} else {
+		player_start = map_get_position_from_map_coord(forced_position_to_load, current_map.size,
+													   current_map.width);
+	}
 	player_init(&player, player_start);
 
 	player.movement_tween = tween_init(&memory_pool);
@@ -145,6 +156,14 @@ short game_screen_tick() {
 		}
 	} else if (current_state == GM_EXIT_MAP) {
 		return SCREEN_PRE_DUNGEON;
+	} else if (current_state == GM_USING_STAIRS) {
+		screen_transition_y -= 5;
+		if (screen_transition_y < 0) {
+			current_state = GM_USED_STAIR;
+			screen_transition_y = SCREEN_HT - 1;
+		}
+	} else if (current_state == GM_USED_STAIR) {
+		return SCREEN_PLAY_MOVE_TO_MAP;
 	}
 
 	return SCREEN_PLAY;
@@ -152,7 +171,8 @@ short game_screen_tick() {
 
 void game_screen_display() {
 	if (current_state == GM_WALK || current_state == GM_TO_COMBAT ||
-		current_state == GM_START_WALK || current_state == GM_EXITING_MAP) {
+		current_state == GM_START_WALK || current_state == GM_EXITING_MAP ||
+		current_state == GM_USING_STAIRS) {
 		// set up matrices
 		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
@@ -205,7 +225,7 @@ void game_screen_display() {
 		font_finish(&glistp);
 
 		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK ||
-			current_state == GM_EXITING_MAP) {
+			current_state == GM_EXITING_MAP || current_state == GM_USING_STAIRS) {
 			gDPSetCycleType(glistp++, G_CYC_FILL);
 			gDPSetColorImage(glistp++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WD, rsp_cfb);
 			gDPSetFillColor(glistp++,
@@ -281,6 +301,12 @@ void move_to(s32 h_speed, s32 forward_speed) {
 					current_state = GM_EXITING_MAP;
 					screen_transition_y = SCREEN_HT - 1;
 					return;
+				} else if (event->type == MET_Stairs) {
+					map_to_load = event->arg1;
+					forced_position_to_load = event->arg2;
+					current_state = GM_USING_STAIRS;
+					screen_transition_y = SCREEN_HT - 1;
+					return;
 				}
 			}
 
@@ -305,6 +331,12 @@ void move_to(s32 h_speed, s32 forward_speed) {
 			if (event) {
 				if (event->type == MET_Exit) {
 					current_state = GM_EXITING_MAP;
+					screen_transition_y = SCREEN_HT - 1;
+					return;
+				} else if (event->type == MET_Stairs) {
+					map_to_load = event->arg1;
+					forced_position_to_load = event->arg2;
+					current_state = GM_USING_STAIRS;
 					screen_transition_y = SCREEN_HT - 1;
 					return;
 				}

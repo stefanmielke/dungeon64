@@ -5,6 +5,7 @@
 #include "../../libs/ultra64-extensions/include/scene_manager.h"
 
 #include "game_screen.h"
+#include "game_load_map_screen.h"
 #include "main_screen.h"
 #include "main_menu_screen.h"
 #include "predungeon_screen.h"
@@ -71,6 +72,11 @@ void change_screen(short curr_screen, short next_screen) {
 		case SCREEN_PLAY:
 			scene_manager_set_callbacks(scene_manager, &game_screen_create, &game_screen_tick,
 										&game_screen_display, NULL);
+			break;
+		case SCREEN_PLAY_MOVE_TO_MAP:
+			scene_manager_set_callbacks(scene_manager, &game_load_map_screen_create,
+										&game_load_map_screen_tick, &game_load_map_screen_display,
+										NULL);
 			break;
 		default:
 			break;

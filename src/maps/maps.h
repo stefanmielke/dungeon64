@@ -3,6 +3,7 @@
 #include "map_def.h"
 
 extern MapDef map_1_1;
+extern MapDef map_1_2;
 
 typedef enum {
 	TT_Empty_Space = 0,
@@ -37,11 +38,11 @@ typedef enum {
 	TL_Empty_Space = 0,
 
 	TL_Wall_Start = 1,
-	TL_Wall_End = 10,
+	TL_Wall_End = TT_Ground_1 - 1,
 
-	TL_Ground_Start = 100,
-	TL_Ground_End = 254,
+	TL_Ground_Start = TT_Ground_1,
+	TL_Ground_End = TT_StartPos - 1,
 
-	TL_Objects_Start = 255,
+	TL_Objects_Start = TT_StartPos,
 	TL_Objects_End = 65535,
 } TileLimits;
