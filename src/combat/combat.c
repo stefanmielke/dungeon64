@@ -15,6 +15,7 @@
 #include "../scenes/scene_defs.h"
 
 #define get_ticks_ms() (OS_CYCLES_TO_NSEC(osGetTime()) / 1000000)
+u64 last_tick;
 
 void combat_process_action(Combat *combat, CombatAction *action);
 u8 get_enemy_size(EnemyType type);
@@ -33,6 +34,8 @@ void combat_new(Combat *combat, Party *party, Tween *camera_tween) {
 	combat->data.camera_tween = camera_tween;
 
 	set_camera_movement(combat, -10, 0, 1000);
+
+	last_tick = get_ticks_ms();
 }
 
 void combat_tick(Combat *combat) {
@@ -249,8 +252,10 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 	int obj_count = 0;		 /* count of used objects on current frame */
 	int billboard_count = 0; /* count of used billboards on current frame */
 
+	u64 this_tick = get_ticks_ms();
 	static float frame_counter = 0;
-	frame_counter += 0.09f;
+	frame_counter += 0.09f * ((this_tick - last_tick) / 20.f);
+	last_tick = this_tick;
 
 	if (combat->state == CS_PLAYER_PHASE) {
 		const u8 enemy_size = get_enemy_size(
