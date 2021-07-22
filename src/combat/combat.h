@@ -2,6 +2,8 @@
 
 #include <stdbool.h>
 
+#include "../../libs/ultra64-extensions/include/tween.h"
+
 #include "../definitions.h"
 #include "../game.h"
 #include "../types.h"
@@ -50,6 +52,8 @@ typedef struct CombatData {
 	u64 timer_target;
 	u8 current_attacker;
 	u8 current_defender;
+
+	Tween *camera_tween;
 } CombatData;
 
 typedef struct Combat {
@@ -60,6 +64,6 @@ typedef struct Combat {
 } Combat;
 
 EnemyParty get_new_enemy_party();
-Combat combat_new(Party *party);
+void combat_new(Combat *combat, Party *party, Tween *camera_tween);
 void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, int pov_z);
 void combat_tick(Combat *combat);

@@ -1,6 +1,8 @@
 #include "combat.h"
 
 #include <nustd/math.h>
+#include "../../libs/ultra64-extensions/include/mem_pool.h"
+#include "../../libs/ultra64-extensions/include/easing.h"
 
 #include "combat_animations.h"
 #include "enemy_party.h"
@@ -16,24 +18,21 @@
 
 void combat_process_action(Combat *combat, CombatAction *action);
 u8 get_enemy_size(EnemyType type);
+void set_camera_movement(Combat *combat, float from, float to, u16 time_in_ms);
 
-Combat combat_new(Party *party) {
-	Combat combat = {
-		.party = party,
-		.enemy_party = get_new_enemy_party(),
-		.state = CS_START,
-		.data =
-			{
-				.selected = 0,
-				.current_member_choosing = 0,
-				.camera_x = -10,
-				.timer_target = 0,
-				.current_attacker = 0,
-				.current_defender = 0,
-			},
-	};
+void combat_new(Combat *combat, Party *party, Tween *camera_tween) {
+	combat->party = party;
+	combat->enemy_party = get_new_enemy_party();
+	combat->state = CS_START;
+	combat->data.selected = 0;
+	combat->data.current_member_choosing = 0;
+	combat->data.camera_x = -10;
+	combat->data.timer_target = 0;
+	combat->data.current_attacker = 0;
+	combat->data.current_defender = 0;
+	combat->data.camera_tween = camera_tween;
 
-	return combat;
+	set_camera_movement(combat, -10, 0, 1000);
 }
 
 void combat_tick(Combat *combat) {
@@ -42,16 +41,18 @@ void combat_tick(Combat *combat) {
 		combat->state = CS_ENDING;
 	}
 
-	static float camera_speed = 0.1f;
-	if (combat->state == CS_PLAYER_PHASE) {
-		if (combat->data.camera_x < 5)
-			combat->data.camera_x += camera_speed;
-	} else {
-		if (combat->data.camera_x > 0)
-			combat->data.camera_x -= camera_speed;
-		else if (combat->data.camera_x < 0)
-			combat->data.camera_x += camera_speed;
-	}
+	tween_tick(combat->data.camera_tween);
+
+	// static float camera_speed = 0.1f;
+	// if (combat->state == CS_PLAYER_PHASE) {
+	// 	if (combat->data.camera_x < 5)
+	// 		combat->data.camera_x += camera_speed;
+	// } else {
+	// 	if (combat->data.camera_x > 0)
+	// 		combat->data.camera_x -= camera_speed;
+	// 	else if (combat->data.camera_x < 0)
+	// 		combat->data.camera_x += camera_speed;
+	// }
 
 	switch (combat->state) {
 		case CS_PLAYER_PHASE:
@@ -65,9 +66,6 @@ void combat_tick(Combat *combat) {
 				combat->state = CS_RUN_COMBAT;
 				break;
 			}
-
-			if (combat->data.camera_x < 5)
-				combat->data.camera_x += camera_speed;
 
 			if (IS_BUTTON_PRESSED(U_JPAD)) {
 				combat->data.selected--;
@@ -89,6 +87,7 @@ void combat_tick(Combat *combat) {
 				combat->data.current_member_choosing++;
 				if (combat->data.current_member_choosing >= combat->party->current_member_count) {
 					combat->state = CS_RUN_COMBAT;
+					set_camera_movement(combat, combat->data.camera_x, -10, 4000);
 				}
 			} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
 				if (combat->data.current_member_choosing > 0)
@@ -96,9 +95,6 @@ void combat_tick(Combat *combat) {
 			}
 			break;
 		case CS_RUN_COMBAT: {
-			if (combat->data.camera_x > 0)
-				combat->data.camera_x -= camera_speed;
-
 			u64 current_time = get_ticks_ms();
 			if (combat->data.timer_target == 0) {
 				// combat just started
@@ -109,6 +105,7 @@ void combat_tick(Combat *combat) {
 									 combat->enemy_party.current_enemy_count;
 				if (combat->data.current_attacker >= total_attackers) {
 					combat->state = CS_PLAYER_PHASE;
+					set_camera_movement(combat, combat->data.camera_x, 5, 1000);
 					combat->data.timer_target = 0;
 					combat->data.current_attacker = 0;
 					combat->data.current_defender = 0;
@@ -177,8 +174,10 @@ void combat_tick(Combat *combat) {
 			}
 		} break;
 		case CS_START:
-			if (combat->data.camera_x < 0)
-				combat->data.camera_x += camera_speed;
+			if (combat->data.camera_tween->finished) {
+				combat->state = CS_PLAYER_PHASE;
+				set_camera_movement(combat, combat->data.camera_x, 5, 1000);
+			}
 			break;
 		case CS_ENDING: {
 			u64 current_time = get_ticks_ms();
@@ -187,7 +186,7 @@ void combat_tick(Combat *combat) {
 		}  // purposefully goes down to the next
 		case CS_END:
 			if (combat->data.camera_x > -10)
-				combat->data.camera_x -= camera_speed;
+				combat->data.camera_x -= 0.1f;
 		default:
 			break;
 	}
@@ -394,4 +393,15 @@ u8 get_enemy_size(EnemyType type) {
 		default:
 			return 1;
 	}
+}
+
+void combat_camera_movement_callback(void *target, float value) {
+	Combat *combat = target;
+	combat->data.camera_x = value;
+}
+
+void set_camera_movement(Combat *combat, float from, float to, u16 time_in_ms) {
+	Tween *tween = combat->data.camera_tween;
+	tween_restart(tween, combat, &easing_sine_in_out, time_in_ms, NULL, false, false);
+	tween_set_to_float(tween, from, to, &combat_camera_movement_callback);
 }

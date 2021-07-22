@@ -17,9 +17,6 @@
 #include "../../libs/ultra64-extensions/include/mem_pool.h"
 #include "../../libs/ultra64-extensions/include/tween.h"
 
-Map current_map;
-Combat current_combat;
-
 typedef enum GameState {
 	GM_PAUSE,
 	GM_WALK,
@@ -35,10 +32,14 @@ typedef enum GameState {
 } GameState;
 GameState current_state;
 
+Combat current_combat;
+Tween *combat_camera_tween;
+
 Tween *screen_transition_tween;
 f32 screen_transition_y_top;
 f32 screen_transition_y_bottom;
 
+Map current_map;
 u16 map_to_load;
 s32 forced_position_to_load;
 float forced_angle_to_load;
@@ -97,6 +98,7 @@ void game_screen_create() {
 	player.movement_tween = tween_init(&memory_pool);
 	player.view_tween = tween_init(&memory_pool);
 	screen_transition_tween = tween_init(&memory_pool);
+	combat_camera_tween = tween_init(&memory_pool);
 	reset_combat();
 
 	set_angle(0);
@@ -150,7 +152,6 @@ short game_screen_tick() {
 		combat_tick(&current_combat);
 		if (screen_transition_tween->finished) {
 			current_state = GM_COMBAT;
-			current_combat.state = CS_PLAYER_PHASE;
 		}
 	} else if (current_state == GM_FROM_COMBAT) {
 		if (screen_transition_tween->finished) {
@@ -428,7 +429,7 @@ void start_combat() {
 	reset_combat();
 
 	current_state = GM_TO_COMBAT;
-	current_combat = combat_new(&player.party);
+	combat_new(&current_combat, &player.party, combat_camera_tween);
 	set_screen_transition_close_bottom_up();
 }
 
