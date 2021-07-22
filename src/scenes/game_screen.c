@@ -35,11 +35,22 @@ typedef enum GameState {
 } GameState;
 GameState current_state;
 
-Tween *combat_start_end_tween;
-s16 screen_transition_y;
+Tween *screen_transition_tween;
+f32 screen_transition_y_top;
+f32 screen_transition_y_bottom;
+
 u16 map_to_load;
 s32 forced_position_to_load;
 float forced_angle_to_load;
+
+#define RENDER_SCREEN_TRANSITION()                                                                 \
+	{                                                                                              \
+		gDPSetCycleType(glistp++, G_CYC_FILL);                                                     \
+		gDPSetColorImage(glistp++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WD, rsp_cfb);               \
+		gDPSetFillColor(glistp++, GPACK_RGBA5551(0, 0, 0, 1) << 16 | GPACK_RGBA5551(0, 0, 0, 1));  \
+		gDPFillRectangle(glistp++, 0, screen_transition_y_top, SCREEN_WD - 1,                      \
+						 screen_transition_y_bottom);                                              \
+	}
 
 // helper functions for movement
 void set_angle(float angle_diff);
@@ -49,6 +60,13 @@ void move_to(s32 h_speed, s32 forward_speed);
 void movement_callback(void *target_object, Position current_value);
 void movement_end_callback(void *target);  // starts combat when needed
 void view_callback(void *target_object, float current_value);
+
+void set_screen_transition_close_bottom_up();
+void set_screen_transition_open_bottom_up();
+void set_screen_transition_close_top_down();
+void set_screen_transition_open_top_down();
+void set_screen_transition(float *value_to_change, float initial_value, float end_value);
+void screen_transition_callback(void *target_object, float current_value);
 
 void start_combat();
 void reset_combat();
@@ -78,7 +96,7 @@ void game_screen_create() {
 
 	player.movement_tween = tween_init(&memory_pool);
 	player.view_tween = tween_init(&memory_pool);
-	combat_start_end_tween = tween_init(&memory_pool);
+	screen_transition_tween = tween_init(&memory_pool);
 	reset_combat();
 
 	set_angle(0);
@@ -86,6 +104,8 @@ void game_screen_create() {
 }
 
 short game_screen_tick() {
+	tween_tick(screen_transition_tween);
+
 	if (current_state == GM_WALK) {
 		gd.pad = ReadController(START_BUTTON | B_BUTTON);
 		tween_tick(player.movement_tween);
@@ -122,55 +142,46 @@ short game_screen_tick() {
 			}
 		}
 	} else if (current_state == GM_TO_COMBAT) {
-		screen_transition_y -= 5;
-		if (screen_transition_y < 0) {
+		if (screen_transition_tween->finished) {
 			current_state = GM_START_COMBAT;
-			screen_transition_y = SCREEN_HT - 1;
+			set_screen_transition_open_bottom_up();
 		}
 	} else if (current_state == GM_START_COMBAT) {
 		combat_tick(&current_combat);
-		screen_transition_y -= 5;
-		if (screen_transition_y < 0) {
+		if (screen_transition_tween->finished) {
 			current_state = GM_COMBAT;
 			current_combat.state = CS_PLAYER_PHASE;
 		}
 	} else if (current_state == GM_FROM_COMBAT) {
-		screen_transition_y += 5;
-		if (screen_transition_y > SCREEN_HT + 5) {
+		if (screen_transition_tween->finished) {
 			current_state = GM_START_WALK;
-			screen_transition_y = 0;
+			set_screen_transition_open_top_down();
 		}
 	} else if (current_state == GM_START_WALK) {
 		// if all players are dead exit dungeon
 		bool any_players_alive = player_is_any_member_alive(&player);
 		if (!any_players_alive) {
 			current_state = GM_EXIT_MAP;
-			screen_transition_y = SCREEN_HT - 1;
 		}
 
-		screen_transition_y += 5;
-		if (screen_transition_y > SCREEN_HT + 5)
+		if (screen_transition_tween->finished) {
 			current_state = GM_WALK;
-
+		}
 	} else if (current_state == GM_COMBAT) {
 		combat_tick(&current_combat);
 		if (current_combat.state == CS_END) {
 			current_state = GM_FROM_COMBAT;
-			screen_transition_y = 0;
+			set_screen_transition_close_top_down();
 		}
 	} else if (current_state == GM_EXITING_MAP) {
-		screen_transition_y -= 5;
-		if (screen_transition_y < 0) {
+		if (screen_transition_tween->finished) {
 			current_state = GM_EXIT_MAP;
-			screen_transition_y = SCREEN_HT - 1;
 		}
 	} else if (current_state == GM_EXIT_MAP) {
 		return SCREEN_PRE_DUNGEON;
 	} else if (current_state == GM_USING_STAIRS) {
-		screen_transition_y -= 5;
-		if (screen_transition_y < 0) {
+		if (screen_transition_tween->finished) {
 			current_state = GM_USED_STAIR;
-			screen_transition_y = SCREEN_HT - 1;
 		}
 	} else if (current_state == GM_USED_STAIR) {
 		return SCREEN_PLAY_MOVE_TO_MAP;
@@ -236,11 +247,7 @@ void game_screen_display() {
 
 		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK ||
 			current_state == GM_EXITING_MAP || current_state == GM_USING_STAIRS) {
-			gDPSetCycleType(glistp++, G_CYC_FILL);
-			gDPSetColorImage(glistp++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WD, rsp_cfb);
-			gDPSetFillColor(glistp++,
-							GPACK_RGBA5551(0, 0, 0, 1) << 16 | GPACK_RGBA5551(0, 0, 0, 1));
-			gDPFillRectangle(glistp++, 0, screen_transition_y, SCREEN_WD - 1, SCREEN_HT - 1);
+			RENDER_SCREEN_TRANSITION();
 		}
 	} else if (current_state == GM_COMBAT || current_state == GM_FROM_COMBAT ||
 			   current_state == GM_START_COMBAT) {
@@ -276,11 +283,7 @@ void game_screen_display() {
 		combat_render(&current_map, &current_combat, &glistp, rd.dynamicp, pov_x, pov_y);
 
 		if (current_state == GM_FROM_COMBAT || current_state == GM_START_COMBAT) {
-			gDPSetCycleType(glistp++, G_CYC_FILL);
-			gDPSetColorImage(glistp++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WD, rsp_cfb);
-			gDPSetFillColor(glistp++,
-							GPACK_RGBA5551(0, 0, 0, 1) << 16 | GPACK_RGBA5551(0, 0, 0, 1));
-			gDPFillRectangle(glistp++, 0, 0, SCREEN_WD - 1, screen_transition_y);
+			RENDER_SCREEN_TRANSITION();
 		}
 	}
 }
@@ -309,14 +312,14 @@ void move_to(s32 h_speed, s32 forward_speed) {
 			if (event) {
 				if (event->type == MET_Exit) {
 					current_state = GM_EXITING_MAP;
-					screen_transition_y = SCREEN_HT - 1;
+					set_screen_transition_close_bottom_up();
 					return;
 				} else if (event->type == MET_Stairs) {
 					map_to_load = event->args.stairs.map_id;
 					forced_position_to_load = event->args.stairs.tile_to_spawn;
 					forced_angle_to_load = event->args.stairs.angle;
 					current_state = GM_USING_STAIRS;
-					screen_transition_y = SCREEN_HT - 1;
+					set_screen_transition_close_bottom_up();
 					return;
 				}
 			}
@@ -342,14 +345,14 @@ void move_to(s32 h_speed, s32 forward_speed) {
 			if (event) {
 				if (event->type == MET_Exit) {
 					current_state = GM_EXITING_MAP;
-					screen_transition_y = SCREEN_HT - 1;
+					set_screen_transition_close_bottom_up();
 					return;
 				} else if (event->type == MET_Stairs) {
 					map_to_load = event->args.stairs.map_id;
 					forced_position_to_load = event->args.stairs.tile_to_spawn;
 					forced_angle_to_load = event->args.stairs.angle;
 					current_state = GM_USING_STAIRS;
-					screen_transition_y = SCREEN_HT - 1;
+					set_screen_transition_close_bottom_up();
 					return;
 				}
 			}
@@ -389,15 +392,47 @@ void view_callback(void *target_object, float current_value) {
 	get_forward_vector_from_angle(player.angle, &player.forward.x, &player.forward.z);
 }
 
+void screen_transition_callback(void *target_object, float current_value) {
+	float *target = target_object;
+	*target = current_value;
+}
+
+void set_screen_transition_close_bottom_up() {
+	set_screen_transition(&screen_transition_y_top, SCREEN_HT - 1, 0);
+	screen_transition_y_bottom = SCREEN_HT - 1;
+}
+
+void set_screen_transition_open_bottom_up() {
+	screen_transition_y_top = 0;
+	set_screen_transition(&screen_transition_y_bottom, SCREEN_HT - 1, 0);
+}
+
+void set_screen_transition_close_top_down() {
+	screen_transition_y_top = 0;
+	set_screen_transition(&screen_transition_y_bottom, 0, SCREEN_HT - 1);
+}
+
+void set_screen_transition_open_top_down() {
+	set_screen_transition(&screen_transition_y_top, 0, SCREEN_HT - 1);
+	screen_transition_y_bottom = SCREEN_HT - 1;
+}
+
+void set_screen_transition(float *value_to_change, float initial_value, float end_value) {
+	tween_restart(screen_transition_tween, value_to_change, &easing_linear, 1000, NULL, false,
+				  false);
+	tween_set_to_float(screen_transition_tween, initial_value, end_value,
+					   &screen_transition_callback);
+}
+
 void start_combat() {
 	reset_combat();
 
 	current_state = GM_TO_COMBAT;
 	current_combat = combat_new(&player.party);
+	set_screen_transition_close_bottom_up();
 }
 
 void reset_combat() {
-	screen_transition_y = SCREEN_HT - 1;
 	player.next_combat_at = player.current_steps_taken +
 							range_get_from_int(&current_map.steps_to_combat);
 }
