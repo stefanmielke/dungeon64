@@ -42,22 +42,54 @@ int _menu_tick_internal(Menu *menu) {
 		return _menu_tick_internal(active_submenu);
 	}
 
+	if (!menu->items[menu->current_menu_option].enabled) {
+		for (u8 i = 0; i < menu->current_add_index; ++i) {
+			menu->current_menu_option += 1;
+			if (menu->current_menu_option >= menu->current_add_index)
+				menu->current_menu_option = 0;
+
+			if (menu->items[menu->current_menu_option].enabled) {
+				break;
+			}
+		}
+	}
+
 	if (IS_BUTTON_PRESSED(U_JPAD)) {
-		menu->current_menu_option -= menu->move_vertical_skip;
-		if (menu->current_menu_option < 0)
-			menu->current_menu_option = menu->current_add_index + menu->current_menu_option;
+		for (u8 i = 0; i < menu->current_add_index; ++i) {
+			menu->current_menu_option -= menu->move_vertical_skip;
+			if (menu->current_menu_option < 0)
+				menu->current_menu_option = menu->current_add_index + menu->current_menu_option;
+
+			if (menu->items[menu->current_menu_option].enabled)
+				break;
+		}
 	} else if (IS_BUTTON_PRESSED(D_JPAD)) {
-		menu->current_menu_option += menu->move_vertical_skip;
-		if (menu->current_menu_option >= menu->current_add_index)
-			menu->current_menu_option = menu->current_menu_option - menu->current_add_index;
+		for (u8 i = 0; i < menu->current_add_index; ++i) {
+			menu->current_menu_option += menu->move_vertical_skip;
+			if (menu->current_menu_option >= menu->current_add_index)
+				menu->current_menu_option = menu->current_menu_option - menu->current_add_index;
+
+			if (menu->items[menu->current_menu_option].enabled)
+				break;
+		}
 	} else if (IS_BUTTON_PRESSED(L_JPAD)) {
-		menu->current_menu_option -= 1;
-		if (menu->current_menu_option < 0)
-			menu->current_menu_option = menu->current_add_index - 1;
+		for (u8 i = 0; i < menu->current_add_index; ++i) {
+			menu->current_menu_option -= 1;
+			if (menu->current_menu_option < 0)
+				menu->current_menu_option = menu->current_add_index - 1;
+
+			if (menu->items[menu->current_menu_option].enabled)
+				break;
+		}
 	} else if (IS_BUTTON_PRESSED(R_JPAD)) {
-		menu->current_menu_option += 1;
-		if (menu->current_menu_option >= menu->current_add_index)
-			menu->current_menu_option = 0;
+		for (u8 i = 0; i < menu->current_add_index; ++i) {
+			menu->current_menu_option += 1;
+			if (menu->current_menu_option >= menu->current_add_index)
+				menu->current_menu_option = 0;
+
+			if (menu->items[menu->current_menu_option].enabled)
+				break;
+		}
 	} else if (IS_BUTTON_PRESSED(A_BUTTON) || IS_BUTTON_PRESSED(START_BUTTON)) {
 		if (menu->items[menu->current_menu_option].enabled)
 			return menu->current_menu_option;
