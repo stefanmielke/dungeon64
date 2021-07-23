@@ -30,7 +30,7 @@
 #define TEXT_GUILD_ADD_MEMBER_GENDER "Sexo"
 #define TEXT_GUILD_ADD_MEMBER_DONE "Pronto"
 
-#define TEXT_VACANT "Vago"
+#define TEXT_VACANT "-Vago-"
 
 // Class Names
 
