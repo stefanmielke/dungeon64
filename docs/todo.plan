@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 2,
   "AutoSave": false,
-  "Pan.X": -118.51406860351562,
-  "Pan.Y": 128.5,
+  "Pan.X": -10.752708435058594,
+  "Pan.Y": 294.7019348144531,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -687,8 +687,8 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": -144,
-      "Position.Y": -320,
+      "Position.X": 192,
+      "Position.Y": -448,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -711,8 +711,8 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": -128,
-      "Position.Y": -272,
+      "Position.X": 208,
+      "Position.Y": -400,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -723,8 +723,8 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": -128,
-      "Position.Y": -304,
+      "Position.X": 208,
+      "Position.Y": -432,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -735,8 +735,8 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": -128,
-      "Position.Y": -240,
+      "Position.X": 208,
+      "Position.Y": -368,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -747,8 +747,8 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": -128,
-      "Position.Y": -256,
+      "Position.X": 208,
+      "Position.Y": -384,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -798,8 +798,8 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": -128,
-      "Position.Y": -288,
+      "Position.X": 208,
+      "Position.Y": -416,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -819,6 +819,66 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Jul 24 2021 19:12:42"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 208,
+      "Position.Y": -336,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Items cost money",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 24 2021 20:01:03"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 208,
+      "Position.Y": -320,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Item drops from monsters",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 24 2021 20:01:08"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 208,
+      "Position.Y": -304,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Items can be sold for money",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 24 2021 20:01:28"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 208,
+      "Position.Y": -352,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Start with 100 gold",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 24 2021 20:01:37"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -384,
+      "Position.Y": -480,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "MVP:\n\n- Create a party\n- Talk to mayor and get main quest. Gain 100 gold.\n- Buy items/equip\n- Go into dungeon\n- Go back/forth for healing, and sell/buy new items/equip\n- Second level ends with a boss standing in front of a chest\n- Chest contains master key\n- Player has to go back to town and show key to mayor to receive text flavor",
+      "Selected": false,
+      "TaskType.CurrentChoice": 2,
+      "CreationTime": "Jul 24 2021 20:33:49"
     }
   ]
 }
