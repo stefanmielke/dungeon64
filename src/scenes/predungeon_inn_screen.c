@@ -22,7 +22,7 @@ void predungeon_inn_screen_create() {
 }
 
 short predungeon_inn_screen_tick() {
-	int option = menu_tick(menu);
+	int option = menu_tick(menu, true);
 	if (option >= 0) {
 		switch (option) {
 			case PDIM_Stay:

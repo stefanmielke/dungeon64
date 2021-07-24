@@ -29,7 +29,7 @@ void predungeon_guild_screen_create() {
 }
 
 short predungeon_guild_screen_tick() {
-	int option = menu_tick(menu);
+	int option = menu_tick(menu, true);
 	if (option >= 0) {
 		switch (option) {
 			case PDGM_AddMember:

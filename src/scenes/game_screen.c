@@ -12,6 +12,7 @@
 #include "../combat/player.h"
 #include "../objects/map_helper.h"
 #include "../maps/maps.h"
+#include "../text/texts.h"
 
 #include "../../libs/ultra64-extensions/include/easing.h"
 #include "../../libs/ultra64-extensions/include/mem_pool.h"
@@ -19,6 +20,7 @@
 
 typedef enum GameState {
 	GM_PAUSE,
+	GM_VIEW_ITEMS,
 	GM_WALK,
 	GM_TO_COMBAT,
 	GM_START_COMBAT,
@@ -74,6 +76,8 @@ void reset_combat();
 
 void game_screen_set_map(MapDef *map);
 
+void game_screen_set_menu_items();
+
 void game_screen_create() {
 	// reset random seed
 	u64 seed = osGetTime();
@@ -103,13 +107,16 @@ void game_screen_create() {
 
 	set_angle(0);
 	move_to(0, 0);
+
+	menu = menu_init(&memory_pool, player.item_bag.cur_item_bag_count);
+	game_screen_set_menu_items();
 }
 
 short game_screen_tick() {
 	tween_tick(screen_transition_tween);
 
 	if (current_state == GM_WALK) {
-		gd.pad = ReadController(START_BUTTON | B_BUTTON);
+		gd.pad = ReadController(START_BUTTON | B_BUTTON | L_CBUTTONS);
 		tween_tick(player.movement_tween);
 		tween_tick(player.view_tween);
 
@@ -141,6 +148,8 @@ short game_screen_tick() {
 			} else if (IS_BUTTON_PRESSED(R_TRIG)) {
 				player.move_lateral = TILE_SIZE;
 				move_to(player.move_lateral, player.move_forward);
+			} else if (IS_BUTTON_PRESSED(L_CBUTTONS)) {
+				current_state = GM_VIEW_ITEMS;
 			}
 		}
 	} else if (current_state == GM_TO_COMBAT) {
@@ -186,6 +195,20 @@ short game_screen_tick() {
 		}
 	} else if (current_state == GM_USED_STAIR) {
 		return SCREEN_PLAY_MOVE_TO_MAP;
+	} else if (current_state == GM_VIEW_ITEMS) {
+		gd.pad = ReadController(START_BUTTON | A_BUTTON | B_BUTTON | U_JPAD | D_JPAD | L_JPAD |
+								R_JPAD | L_CBUTTONS);
+
+		if (IS_BUTTON_PRESSED(L_CBUTTONS) || IS_BUTTON_PRESSED(B_BUTTON)) {
+			current_state = GM_WALK;
+		} else {
+			int option = menu_tick(menu, false);
+			if (option >= 0) {
+				// use item!
+				menu_reset_items(menu);
+				game_screen_set_menu_items();
+			}
+		}
 	}
 
 	return SCREEN_PLAY;
@@ -194,7 +217,7 @@ short game_screen_tick() {
 void game_screen_display() {
 	if (current_state == GM_WALK || current_state == GM_TO_COMBAT ||
 		current_state == GM_START_WALK || current_state == GM_EXITING_MAP ||
-		current_state == GM_USING_STAIRS) {
+		current_state == GM_USING_STAIRS || current_state == GM_VIEW_ITEMS) {
 		// set up matrices
 		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
@@ -243,6 +266,12 @@ void game_screen_display() {
 				player.forward.x, player.forward.z, player.current_steps_taken,
 				player.next_combat_at);
 		SHOWFONT(&glistp, position, 20, 10);
+
+		if (current_state == GM_VIEW_ITEMS) {
+			FONTCOLM(FONT_COL_WHITE);
+			SHOWFONT(&glistp, TEXT_ITEMS, 30, 30);
+			menu_render(menu, &glistp);
+		}
 
 		font_finish(&glistp);
 
@@ -449,3 +478,17 @@ void game_screen_set_map(MapDef *map) {
 	current_map.spr_wall_exit = map->spr_wall_exit;
 	current_map.spr_wall_upstairs = map->spr_wall_upstairs;
 }
+
+/* VIEW ITEMS */
+
+void game_screen_set_menu_items() {
+	const int x = 40, start_y = 60;
+	for (u8 i = 0; i < player.item_bag.cur_item_bag_count; ++i) {
+		menu_add_item(menu, player.item_bag.items[i].item_def->name, x, start_y + (i * 20), true);
+	}
+
+	menu_add_item(menu, TEXT_GO_BACK, x, start_y + (player.item_bag.cur_item_bag_count * 20) + 20,
+				  true);
+}
+
+/* VIEW ITEMS END*/

@@ -107,8 +107,10 @@ int _menu_tick_internal(Menu *menu) {
 	return -1;
 }
 
-int menu_tick(Menu *menu) {
-	gd.pad = ReadController(START_BUTTON | A_BUTTON | B_BUTTON | U_JPAD | D_JPAD | L_JPAD | R_JPAD);
+int menu_tick(Menu *menu, bool should_read_controller) {
+	if (should_read_controller)
+		gd.pad = ReadController(START_BUTTON | A_BUTTON | B_BUTTON | U_JPAD | D_JPAD | L_JPAD |
+								R_JPAD);
 
 	return _menu_tick_internal(menu);
 }

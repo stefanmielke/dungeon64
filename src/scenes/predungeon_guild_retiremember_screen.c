@@ -38,7 +38,7 @@ void predungeon_guild_retiremember_screen_create() {
 }
 
 short predungeon_guild_retiremember_screen_tick() {
-	int option = menu_tick(menu);
+	int option = menu_tick(menu, true);
 	if (option >= 0) {
 		if (option >= 4) {
 			return SCREEN_PRE_DUNGEON_GUILD;

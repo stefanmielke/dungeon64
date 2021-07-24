@@ -52,4 +52,5 @@
 
 // Items
 
+#define TEXT_ITEMS "Items"
 #define TEXT_SMALL_HEAL "Small Heal"

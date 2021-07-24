@@ -20,7 +20,7 @@ void predungeon_tavern_screen_create() {
 }
 
 short predungeon_tavern_screen_tick() {
-	int option = menu_tick(menu);
+	int option = menu_tick(menu, true);
 	if (option >= 0) {
 		return SCREEN_PRE_DUNGEON;
 	} else if (IS_BUTTON_PRESSED(B_BUTTON)) {

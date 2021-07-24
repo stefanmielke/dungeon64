@@ -104,7 +104,7 @@ void predungeon_guild_addmember_name_screen_add_letter(char letter) {
 }
 
 short predungeon_guild_addmember_screen_tick() {
-	int option = menu_tick(menu);
+	int option = menu_tick(menu, true);
 	if (option >= 0) {
 		if (menu->active_submenu == -1) {  // Setup menu
 			switch (option) {

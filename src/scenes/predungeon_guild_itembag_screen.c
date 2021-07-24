@@ -30,7 +30,7 @@ void predungeon_guild_itembag_screen_create() {
 }
 
 short predungeon_guild_itembag_screen_tick() {
-	int option = menu_tick(menu);
+	int option = menu_tick(menu, true);
 
 	const int back_option = player.item_bag.cur_item_bag_count + PDGITM_Back;
 

@@ -699,6 +699,18 @@
     }, 
     {
       "BoardIndex": 0,
+      "Position.X": 208,
+      "Position.Y": -16,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Move some functions from game_screen to other files",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 24 2021 19:29:37"
+    }, 
+    {
+      "BoardIndex": 0,
       "Position.X": -128,
       "Position.Y": -272,
       "Checkbox.Checked": true,

@@ -25,7 +25,7 @@ void predungeon_shop_buy_screen_create() {
 }
 
 short predungeon_shop_buy_screen_tick() {
-	int option = menu_tick(menu);
+	int option = menu_tick(menu, true);
 	if (option >= 0) {
 		switch (option) {
 			case II_Max + PDBSM_Back:
