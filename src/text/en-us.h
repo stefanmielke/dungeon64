@@ -48,3 +48,7 @@
 
 #define TEXT_MALE "Male"
 #define TEXT_FEMALE "Female"
+
+// Items
+
+#define TEXT_SMALL_HEAL "Small Heal"

@@ -1,6 +1,6 @@
 #include "player.h"
 
-void player_init(Player *player, Vec3 position) {
+void player_dungeon_init(Player *player, Vec3 position) {
 	player->pos.x = position.x;
 	player->pos.y = position.y;
 	player->pos.z = position.z;
@@ -8,7 +8,9 @@ void player_init(Player *player, Vec3 position) {
 	player->current_steps_taken = 0;
 }
 
-void player_party_init(Player *player) {
+void player_game_init(Player *player) {
+	item_bag_init(&player->item_bag);
+
 	player->party.current_member_count = 0;
 	for (u8 i = 0; i < 4; ++i) {
 		player->party.members[i].class = PC_None;

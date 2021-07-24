@@ -93,7 +93,7 @@ void game_screen_create() {
 		player_start = map_get_position_from_map_coord(forced_position_to_load, current_map.size,
 													   current_map.width);
 	}
-	player_init(&player, player_start);
+	player_dungeon_init(&player, player_start);
 
 	player.movement_tween = tween_init(&memory_pool);
 	player.view_tween = tween_init(&memory_pool);

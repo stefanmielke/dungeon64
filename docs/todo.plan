@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 2,
   "AutoSave": false,
-  "Pan.X": -176,
-  "Pan.Y": 86.25,
+  "Pan.X": 72,
+  "Pan.Y": 280,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -700,7 +700,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -128,
-      "Position.Y": -256,
+      "Position.Y": -240,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -712,7 +712,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -128,
-      "Position.Y": -288,
+      "Position.Y": -272,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -736,7 +736,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -128,
-      "Position.Y": -240,
+      "Position.Y": -224,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -748,7 +748,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -128,
-      "Position.Y": -272,
+      "Position.Y": -256,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -795,6 +795,18 @@
       "Selected": false,
       "TaskType.CurrentChoice": 3,
       "CreationTime": "Jul 16 2021 16:32:03"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -128,
+      "Position.Y": -288,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Sell on Shop",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Jul 24 2021 17:21:51"
     }
   ]
 }

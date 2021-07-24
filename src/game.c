@@ -80,7 +80,7 @@ void setup() {
 
 	scene_manager_change_scene(scene_manager, SCREEN_MAIN);
 
-	player_party_init(&player);
+	player_game_init(&player);
 }
 
 void update() {
