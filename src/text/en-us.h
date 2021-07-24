@@ -29,6 +29,7 @@
 
 #define TEXT_GUILD_ADD_MEMBER "Add Member"
 #define TEXT_GUILD_RETIRE_MEMBER "Retire Member"
+#define TEXT_GUILD_ITEM_BAG "Item Bag"
 
 #define TEXT_GUILD_ADD_MEMBER_NAME "Name"
 #define TEXT_GUILD_ADD_MEMBER_CLASS "Class"

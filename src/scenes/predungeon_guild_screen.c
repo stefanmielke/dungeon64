@@ -10,6 +10,7 @@
 enum {
 	PDGM_AddMember,
 	PDGM_RetireMember,
+	PDGM_ItemBag,
 	PDGM_Back,
 	PDGM_MAX,
 };
@@ -23,7 +24,8 @@ void predungeon_guild_screen_create() {
 	const int x = 40, start_y = 60;
 	menu_add_item(menu, TEXT_GUILD_ADD_MEMBER, x, start_y, can_add_member);
 	menu_add_item(menu, TEXT_GUILD_RETIRE_MEMBER, x, start_y + 20, can_retire_member);
-	menu_add_item(menu, TEXT_GO_BACK, x, start_y + 40, true);
+	menu_add_item(menu, TEXT_GUILD_ITEM_BAG, x, start_y + 40, true);
+	menu_add_item(menu, TEXT_GO_BACK, x, start_y + 80, true);
 }
 
 short predungeon_guild_screen_tick() {
@@ -34,6 +36,8 @@ short predungeon_guild_screen_tick() {
 				return SCREEN_PRE_DUNGEON_GUILD_ADD_MEMBER;
 			case PDGM_RetireMember:
 				return SCREEN_PRE_DUNGEON_GUILD_RETIRE_MEMBER;
+			case PDGM_ItemBag:
+				return SCREEN_PRE_DUNGEON_GUILD_ITEMBAG;
 			default:
 				return SCREEN_PRE_DUNGEON;
 		}

@@ -48,7 +48,7 @@ void predungeon_shop_buy_screen_display() {
 	font_set_win(200, 1);
 
 	FONTCOLM(FONT_COL_WHITE);
-	SHOWFONT(&glistp, TEXT_SHOP, 30, 30);
+	SHOWFONT(&glistp, TEXT_BUY, 30, 30);
 
 	menu_render(menu, &glistp);
 
