@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 2,
   "AutoSave": false,
-  "Pan.X": -10.752708435058594,
-  "Pan.Y": 294.7019348144531,
+  "Pan.X": 49.44926452636719,
+  "Pan.Y": 563.07958984375,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -879,6 +879,21 @@
       "Selected": false,
       "TaskType.CurrentChoice": 2,
       "CreationTime": "Jul 24 2021 20:33:49"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -512,
+      "Position.Y": -688,
+      "ImageDisplaySize.X": 640,
+      "ImageDisplaySize.Y": 192,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "",
+      "FilePath": ["images", "mvp-maps.png"],
+      "Selected": false,
+      "TaskType.CurrentChoice": 3,
+      "CreationTime": "Jul 24 2021 20:40:26"
     }
   ]
 }
