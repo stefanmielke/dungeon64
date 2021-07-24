@@ -13,7 +13,6 @@ typedef enum ItemType {
 } ItemType;
 
 typedef struct ItemDef {
-	ItemId id;
 	ItemType type;
 	const char *name;
 	f32 value;

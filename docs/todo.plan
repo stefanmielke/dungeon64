@@ -700,18 +700,6 @@
     {
       "BoardIndex": 0,
       "Position.X": -128,
-      "Position.Y": -240,
-      "Checkbox.Checked": false,
-      "Progression.Current": 0,
-      "Progression.Max": 0,
-      "Description": "Drop from enemies",
-      "Selected": false,
-      "TaskType.CurrentChoice": 0,
-      "CreationTime": "Jul 23 2021 14:05:11"
-    }, 
-    {
-      "BoardIndex": 0,
-      "Position.X": -128,
       "Position.Y": -272,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
@@ -736,7 +724,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -128,
-      "Position.Y": -224,
+      "Position.Y": -240,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,

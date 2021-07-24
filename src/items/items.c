@@ -2,9 +2,9 @@
 
 #include "../text/texts.h"
 
+// follows the order on 'ItemId'
 ItemDef item_defs[] = {
 	{
-		.id = II_SmallHeal,
 		.type = IT_Heal,
 		.name = TEXT_SMALL_HEAL,
 		.value = 10,
