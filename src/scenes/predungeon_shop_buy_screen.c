@@ -31,7 +31,7 @@ short predungeon_shop_buy_screen_tick() {
 			case II_Max + PDBSM_Back:
 				return SCREEN_PRE_DUNGEON_SHOP;
 			default:
-				item_bag_add_item(&player.item_bag, option, 1);
+				item_bag_add_item(&player.item_bag, option);
 				break;
 		}
 	} else if (IS_BUTTON_PRESSED(B_BUTTON)) {

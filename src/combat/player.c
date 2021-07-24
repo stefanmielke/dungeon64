@@ -68,6 +68,7 @@ void player_party_retire_member(Player *player, int index) {
 			for (u8 j = i + 1; j < 4; ++j) {
 				if (player->party.members[j].class != PC_None) {
 					player_party_move_member(player, j, i);
+					break;
 				}
 			}
 		}

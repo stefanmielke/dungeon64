@@ -38,7 +38,7 @@ short predungeon_shop_sell_screen_tick() {
 		if (option == back_option)
 			return SCREEN_PRE_DUNGEON_SHOP;
 
-		item_bag_remove_item_by_index(&player.item_bag, option, 1);
+		item_bag_remove_item_by_index(&player.item_bag, option);
 		menu_reset_items(menu);
 		predungeon_shop_sell_screen_set_menu_items();
 	} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
