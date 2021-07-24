@@ -48,9 +48,8 @@ int _menu_tick_internal(Menu *menu) {
 			if (menu->current_menu_option >= menu->current_add_index)
 				menu->current_menu_option = 0;
 
-			if (menu->items[menu->current_menu_option].enabled) {
+			if (menu->items[menu->current_menu_option].enabled)
 				break;
-			}
 		}
 	}
 

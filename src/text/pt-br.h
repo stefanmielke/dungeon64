@@ -20,6 +20,11 @@
 
 #define TEXT_GO_STAY "Dormir"
 
+// Pre-Dungeon Shop
+
+#define TEXT_BUY "Comprar"
+#define TEXT_SELL "Vender"
+
 // Pre-Dungeon Guild
 
 #define TEXT_GUILD_ADD_MEMBER "+ Membro"

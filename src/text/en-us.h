@@ -20,6 +20,11 @@
 
 #define TEXT_GO_STAY "Stay"
 
+// Pre-Dungeon Shop
+
+#define TEXT_BUY "Buy"
+#define TEXT_SELL "Sell"
+
 // Pre-Dungeon Guild
 
 #define TEXT_GUILD_ADD_MEMBER "Add Member"
