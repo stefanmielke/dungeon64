@@ -4,6 +4,7 @@
 
 #include "../fonts/font_ext.h"
 #include "../util/menu.h"
+#include "../items/items.h"
 
 #include "../text/texts.h"
 
@@ -13,16 +14,26 @@ enum {
 };
 
 void predungeon_shop_buy_screen_create() {
-	menu = menu_init(&memory_pool, PDBSM_MAX);
+	menu = menu_init(&memory_pool, PDBSM_MAX + II_Max);
 
 	const int x = 40, start_y = 60;
-	menu_add_item(menu, TEXT_GO_BACK, x, start_y, true);
+	for (u8 i = 0; i < II_Max; ++i) {
+		menu_add_item(menu, item_defs[i].name, x, start_y + (i * 20), true);
+	}
+
+	menu_add_item(menu, TEXT_GO_BACK, x, start_y + (II_Max * 20) + 20, true);
 }
 
 short predungeon_shop_buy_screen_tick() {
 	int option = menu_tick(menu);
 	if (option >= 0) {
-		return SCREEN_PRE_DUNGEON_SHOP;
+		switch (option) {
+			case PDBSM_Back:
+				return SCREEN_PRE_DUNGEON_SHOP;
+			default:
+				item_bag_add_item(&player.item_bag, option, 1);
+				break;
+		}
 	} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
 		return SCREEN_PRE_DUNGEON_SHOP;
 	}
