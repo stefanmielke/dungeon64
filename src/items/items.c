@@ -24,7 +24,7 @@ void item_bag_init(ItemBag *bag) {
 void item_bag_add_item(ItemBag *bag, ItemId id, s32 qty) {
 	Item *item_to_change = NULL;
 	for (u8 i = 0; i < ITEM_BAG_MAX_ITEM_COUNT; ++i) {
-		if (bag->items[i].item_def->id == id) {
+		if (bag->items[i].item_def && bag->items[i].item_def->id == id) {
 			item_to_change = &bag->items[i];
 			break;
 		}
@@ -36,6 +36,10 @@ void item_bag_add_item(ItemBag *bag, ItemId id, s32 qty) {
 	}
 
 	item_to_change->qty += qty;
+}
+
+void item_bag_remove_item_by_index(ItemBag *bag, u8 index, s32 qty) {
+	item_bag_remove_item(bag, bag->items[index].item_def->id, qty);
 }
 
 void item_bag_remove_item(ItemBag *bag, ItemId id, s32 qty) {

@@ -28,7 +28,7 @@ short predungeon_shop_buy_screen_tick() {
 	int option = menu_tick(menu);
 	if (option >= 0) {
 		switch (option) {
-			case PDBSM_Back:
+			case II_Max + PDBSM_Back:
 				return SCREEN_PRE_DUNGEON_SHOP;
 			default:
 				item_bag_add_item(&player.item_bag, option, 1);

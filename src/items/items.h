@@ -36,4 +36,5 @@ extern ItemDef item_defs[];
 void item_bag_init(ItemBag *bag);
 void item_bag_add_item(ItemBag *bag, ItemId id, s32 qty);
 void item_bag_remove_item(ItemBag *bag, ItemId id, s32 qty);
+void item_bag_remove_item_by_index(ItemBag *bag, u8 index, s32 qty);
 void item_bag_move_item(ItemBag *bag, u8 slot_from, u8 slot_to);

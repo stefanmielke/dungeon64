@@ -23,6 +23,7 @@ typedef struct Menu {
 } Menu;
 
 Menu *menu_init(MemZone *memory_pool, u8 total_items);
+void menu_reset_items(Menu *menu);
 void menu_set_horizontal(Menu *menu, int move_vertical_skip);
 int menu_tick(Menu *menu);
 void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled);

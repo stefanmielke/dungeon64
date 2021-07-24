@@ -19,7 +19,7 @@ void predungeon_shop_screen_create() {
 
 	const int x = 40, start_y = 60;
 	menu_add_item(menu, TEXT_BUY, x, start_y, true);
-	menu_add_item(menu, TEXT_SELL, x, start_y + 20, false);
+	menu_add_item(menu, TEXT_SELL, x, start_y + 20, true);
 	menu_add_item(menu, TEXT_GO_BACK, x, start_y + 60, true);
 }
 
@@ -30,6 +30,7 @@ short predungeon_shop_screen_tick() {
 			case PDSM_Buy:
 				return SCREEN_PRE_DUNGEON_SHOP_BUY;
 			case PDSM_Sell:
+				return SCREEN_PRE_DUNGEON_SHOP_SELL;
 			case PDSM_Back:
 			default:
 				return SCREEN_PRE_DUNGEON;

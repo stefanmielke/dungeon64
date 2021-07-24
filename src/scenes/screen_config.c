@@ -15,6 +15,7 @@
 #include "predungeon_guild_retiremember_screen.h"
 #include "predungeon_shop_screen.h"
 #include "predungeon_shop_buy_screen.h"
+#include "predungeon_shop_sell_screen.h"
 #include "predungeon_tavern_screen.h"
 // #include "no_save_screen.h"
 
@@ -59,6 +60,11 @@ void change_screen(short curr_screen, short next_screen) {
 			scene_manager_set_callbacks(scene_manager, &predungeon_shop_buy_screen_create,
 										&predungeon_shop_buy_screen_tick,
 										&predungeon_shop_buy_screen_display, NULL);
+			break;
+		case SCREEN_PRE_DUNGEON_SHOP_SELL:
+			scene_manager_set_callbacks(scene_manager, &predungeon_shop_sell_screen_create,
+										&predungeon_shop_sell_screen_tick,
+										&predungeon_shop_sell_screen_display, NULL);
 			break;
 		case SCREEN_PRE_DUNGEON_GUILD:
 			scene_manager_set_callbacks(scene_manager, &predungeon_guild_screen_create,

@@ -6,15 +6,26 @@ Menu *menu_init(MemZone *memory_pool, u8 total_items) {
 	Menu *menu = mem_zone_alloc(memory_pool, sizeof(Menu));
 	menu->total_items = total_items;
 	menu->items = mem_zone_alloc(memory_pool, sizeof(MenuItem) * total_items);
-	menu->current_add_index = 0;
 	menu->current_menu_option = 0;
-	menu->active_submenu = -1;
-	menu->submenus = NULL;
+	menu_reset_items(menu);
 
 	menu->is_horizontal = false;
 	menu->move_vertical_skip = 1;
 
+	menu->active_submenu = -1;
+	menu->submenus = NULL;
+
 	return menu;
+}
+
+void menu_reset_items(Menu *menu) {
+	menu->current_add_index = 0;
+	for (u8 i = 0; i < menu->total_items; ++i) {
+		menu->items[i].enabled = false;
+		menu->items[i].text = NULL;
+		menu->items[i].x = 0;
+		menu->items[i].y = 0;
+	}
 }
 
 void menu_set_horizontal(Menu *menu, int move_vertical_skip) {
