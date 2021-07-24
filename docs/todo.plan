@@ -749,7 +749,7 @@
       "BoardIndex": 0,
       "Position.X": -128,
       "Position.Y": -256,
-      "Checkbox.Checked": false,
+      "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
       "Description": "C< to show and use on dungeon",
