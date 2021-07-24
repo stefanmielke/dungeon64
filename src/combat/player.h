@@ -31,3 +31,6 @@ void player_party_add_member(Player *player, Class class, char name[], Gender ge
 void player_party_retire_member(Player *player, int index);
 bool player_is_any_member_alive(Player *player);
 void player_heal_all_party_members(Player *player);
+void player_heal_hp_amount_all_party_members(Player *player, int amount);
+
+void player_use_item(Player *player, u8 item_index);

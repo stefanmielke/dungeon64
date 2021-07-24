@@ -92,3 +92,26 @@ void player_heal_all_party_members(Player *player) {
 		player->party.members[i].current_tp = player->party.members[i].max_tp;
 	}
 }
+
+void player_heal_hp_amount_all_party_members(Player *player, int amount) {
+	for (u8 i = 0; i < player->party.current_member_count; ++i) {
+		player->party.members[i].current_health += amount;
+		if (player->party.members[i].current_health > player->party.members[i].max_health)
+			player->party.members[i].current_health = player->party.members[i].max_health;
+	}
+}
+
+void player_use_item(Player *player, u8 item_index) {
+	Item *item = &player->item_bag.items[item_index];
+	if (!item || !item->item_def)
+		return;
+
+	switch (item->item_def->type) {
+		case IT_Heal:
+			player_heal_hp_amount_all_party_members(player, item->item_def->value);
+			item_bag_remove_item_by_index(&player->item_bag, item_index);
+			break;
+		default:
+			break;
+	}
+}

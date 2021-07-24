@@ -204,7 +204,7 @@ short game_screen_tick() {
 		} else {
 			int option = menu_tick(menu, false);
 			if (option >= 0) {
-				// use item!
+				player_use_item(&player, option);
 				menu_reset_items(menu);
 				game_screen_set_menu_items();
 			}
@@ -486,9 +486,6 @@ void game_screen_set_menu_items() {
 	for (u8 i = 0; i < player.item_bag.cur_item_bag_count; ++i) {
 		menu_add_item(menu, player.item_bag.items[i].item_def->name, x, start_y + (i * 20), true);
 	}
-
-	menu_add_item(menu, TEXT_GO_BACK, x, start_y + (player.item_bag.cur_item_bag_count * 20) + 20,
-				  true);
 }
 
 /* VIEW ITEMS END*/
