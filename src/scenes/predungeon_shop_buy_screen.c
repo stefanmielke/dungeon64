@@ -45,7 +45,8 @@ void predungeon_shop_buy_screen_create() {
 			item_descs[i][value_start + c] = value_text[c];
 		}
 
-		menu_add_item(menu, item_descs[i], x, start_y + (i * 20), true);
+		menu_add_item(menu, item_descs[i], x, start_y + (i * 20),
+					  item_defs[i].buy_value <= player.item_bag.money);
 	}
 
 	menu_add_item(menu, TEXT_GO_BACK, x, start_y + (II_Max * 20) + 20, true);
