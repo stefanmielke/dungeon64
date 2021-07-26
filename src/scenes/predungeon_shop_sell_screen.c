@@ -57,6 +57,11 @@ void predungeon_shop_sell_screen_display() {
 	FONTCOLM(FONT_COL_WHITE);
 	SHOWFONT(&glistp, TEXT_SELL, 30, 30);
 
+	char money_text[8];
+	sprintf(money_text, "S%d", player.item_bag.money);
+	FONTCOLM(FONT_COL_GREY);
+	SHOWFONT(&glistp, money_text, 120, 30);
+
 	menu_render(menu, &glistp);
 
 	font_finish(&glistp);
