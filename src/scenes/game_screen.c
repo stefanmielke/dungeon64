@@ -412,7 +412,7 @@ void movement_callback(void *target_object, Position current_value) {
 }
 
 void movement_end_callback(void *target) {
-	if (player.current_steps_taken >= player.next_combat_at) {
+	if (current_map.has_random_encounters && player.current_steps_taken >= player.next_combat_at) {
 		start_combat();
 	}
 }
@@ -472,6 +472,7 @@ void game_screen_set_map(MapDef *map) {
 	current_map.size = map->size;
 	current_map.width = map->width;
 	current_map.steps_to_combat = map->steps_to_combat;
+	current_map.has_random_encounters = map->has_random_encounters;
 	current_map.events = map->events;
 	current_map.spr_ground = map->spr_ground;
 	current_map.spr_wall = map->spr_wall;

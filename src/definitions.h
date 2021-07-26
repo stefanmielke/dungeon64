@@ -12,7 +12,9 @@ typedef struct Map {
 	u32 size;
 	u32 width;
 	RangeInt steps_to_combat;
+	bool has_random_encounters;
 	MapEvents events;
+
 	u16 *spr_ground;
 	u16 *spr_wall;
 	u16 *spr_wall_exit;

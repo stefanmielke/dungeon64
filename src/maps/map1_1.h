@@ -7,6 +7,7 @@ MapDef map_1_1 = {
 	.size = 9 * 9,
 	.width = 9,
 	.steps_to_combat = {.start = 1, .end = 2},
+	.has_random_encounters = false,
 	.events =
 		{
 			.event_count = 3,
