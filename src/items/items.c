@@ -8,6 +8,13 @@ ItemDef item_defs[] = {
 		.type = IT_Heal,
 		.name = TEXT_SMALL_HEAL,
 		.value = 10,
+		.buy_value = 20,
+	},
+	{
+		.type = IT_Heal,
+		.name = TEXT_LARGE_HEAL,
+		.value = 40,
+		.buy_value = 100,
 	},
 };
 

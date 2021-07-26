@@ -4,6 +4,7 @@
 
 typedef enum ItemId {
 	II_SmallHeal,
+	II_LargeHeal,
 	II_Max,
 } ItemId;
 
@@ -16,13 +17,14 @@ typedef struct ItemDef {
 	ItemType type;
 	const char *name;
 	f32 value;
+	u32 buy_value;
 } ItemDef;
 
 typedef struct Item {
 	ItemDef *item_def;
 } Item;
 
-#define ITEM_BAG_MAX_ITEM_COUNT 99
+#define ITEM_BAG_MAX_ITEM_COUNT 20
 typedef struct ItemBag {
 	s32 money;
 	u16 cur_item_bag_count;

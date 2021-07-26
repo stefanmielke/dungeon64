@@ -44,9 +44,9 @@ Vp vp = {
 	SCREEN_WD * 2, SCREEN_HT * 2, G_MAXZ / 2, 0, /* translate */
 };
 
-#define GLOBAL_MEM_POOL_SIZE (1024 * 1024)
-#define MEM_POOL_SIZE (1024 * 1024)
-char global_memory[MEM_POOL_SIZE];
+#define GLOBAL_MEM_POOL_SIZE (1024)
+#define MEM_POOL_SIZE (4 * 1024)
+char global_memory[GLOBAL_MEM_POOL_SIZE];
 MemZone global_memory_pool;
 char scene_memory[MEM_POOL_SIZE];
 MemZone memory_pool;

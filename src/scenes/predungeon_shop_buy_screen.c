@@ -1,7 +1,8 @@
 #include "predungeon_shop_buy_screen.h"
 
-#include "scene_defs.h"
+#include <nustd/string.h>
 
+#include "scene_defs.h"
 #include "../fonts/font_ext.h"
 #include "../util/menu.h"
 #include "../items/items.h"
@@ -13,12 +14,38 @@ enum {
 	PDBSM_MAX,
 };
 
+char **item_descs;
+#define ITEM_NAME_LENGTH 30
+
 void predungeon_shop_buy_screen_create() {
 	menu = menu_init(&memory_pool, PDBSM_MAX + II_Max);
+	item_descs = mem_zone_alloc(&memory_pool, sizeof(char *) * II_Max);
+	for (u8 i = 0; i < II_Max; ++i) {
+		item_descs[i] = mem_zone_alloc(&memory_pool, sizeof(char) * ITEM_NAME_LENGTH);
+	}
 
+	char value_text[6];
 	const int x = 40, start_y = 60;
 	for (u8 i = 0; i < II_Max; ++i) {
-		menu_add_item(menu, item_defs[i].name, x, start_y + (i * 20), true);
+		int name_length = strlen(item_defs[i].name);
+
+		{
+			u8 c = 0;
+			for (; c < name_length; ++c)
+				item_descs[i][c] = item_defs[i].name[c];
+			for (; c < ITEM_NAME_LENGTH - 1; ++c)
+				item_descs[i][c] = ' ';
+			item_descs[i][c] = '\0';
+		}
+
+		sprintf(value_text, "%d", item_defs[i].buy_value);
+		int value_length = strlen(value_text);
+		int value_start = ITEM_NAME_LENGTH - value_length - 1;
+		for (u8 c = 0; c < value_length; ++c) {
+			item_descs[i][value_start + c] = value_text[c];
+		}
+
+		menu_add_item(menu, item_descs[i], x, start_y + (i * 20), true);
 	}
 
 	menu_add_item(menu, TEXT_GO_BACK, x, start_y + (II_Max * 20) + 20, true);
