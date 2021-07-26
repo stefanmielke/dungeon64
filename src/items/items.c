@@ -1,5 +1,8 @@
 #include "items.h"
 
+#include <nustd/stdio.h>
+#include <nustd/string.h>
+
 #include "../text/texts.h"
 
 // follows the order on 'ItemId'
@@ -17,6 +20,27 @@ ItemDef item_defs[] = {
 		.buy_value = 100,
 	},
 };
+
+void item_def_get_name_and_price(ItemDef *item_def, char *item_desc) {
+	char value_text[6];
+	int name_length = strlen(item_def->name);
+
+	{
+		u8 c = 0;
+		for (; c < name_length; ++c)
+			item_desc[c] = item_def->name[c];
+		for (; c < ITEM_NAME_LENGTH - 1; ++c)
+			item_desc[c] = ' ';
+		item_desc[c] = '\0';
+	}
+
+	sprintf(value_text, "%d", item_def->buy_value);
+	int value_length = strlen(value_text);
+	int value_start = ITEM_NAME_LENGTH - value_length - 1;
+	for (u8 c = 0; c < value_length; ++c) {
+		item_desc[value_start + c] = value_text[c];
+	}
+}
 
 void item_bag_init(ItemBag *bag) {
 	bag->cur_item_bag_count = 0;

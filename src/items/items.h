@@ -32,7 +32,9 @@ typedef struct ItemBag {
 	Item items[ITEM_BAG_MAX_ITEM_COUNT];
 } ItemBag;
 
+#define ITEM_NAME_LENGTH 30
 extern ItemDef item_defs[];
+void item_def_get_name_and_price(ItemDef *item_def, char *item_desc);
 
 void item_bag_init(ItemBag *bag);
 void item_bag_add_money(ItemBag *bag, u32 value);

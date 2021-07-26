@@ -13,10 +13,14 @@ enum {
 	PDSSM_MAX,
 };
 
+char **shop_sell_item_descs;
+
 void predungeon_shop_sell_screen_set_menu_items() {
 	const int x = 40, start_y = 60;
 	for (u8 i = 0; i < player.item_bag.cur_item_bag_count; ++i) {
-		menu_add_item(menu, player.item_bag.items[i].item_def->name, x, start_y + (i * 20), true);
+		item_def_get_name_and_price(player.item_bag.items[i].item_def, shop_sell_item_descs[i]);
+
+		menu_add_item(menu, shop_sell_item_descs[i], x, start_y + (i * 20), true);
 	}
 
 	menu_add_item(menu, TEXT_GO_BACK, x, start_y + (player.item_bag.cur_item_bag_count * 20) + 20,
@@ -25,6 +29,11 @@ void predungeon_shop_sell_screen_set_menu_items() {
 
 void predungeon_shop_sell_screen_create() {
 	menu = menu_init(&memory_pool, PDSSM_MAX + player.item_bag.cur_item_bag_count);
+	shop_sell_item_descs = mem_zone_alloc(&memory_pool,
+										  sizeof(char *) * player.item_bag.cur_item_bag_count);
+	for (u8 i = 0; i < player.item_bag.cur_item_bag_count; ++i) {
+		shop_sell_item_descs[i] = mem_zone_alloc(&memory_pool, sizeof(char) * ITEM_NAME_LENGTH);
+	}
 
 	predungeon_shop_sell_screen_set_menu_items();
 }
@@ -38,6 +47,7 @@ short predungeon_shop_sell_screen_tick() {
 		if (option == back_option)
 			return SCREEN_PRE_DUNGEON_SHOP;
 
+		item_bag_add_money(&player.item_bag, item_defs[option].buy_value);
 		item_bag_remove_item_by_index(&player.item_bag, option);
 		menu_reset_items(menu);
 		predungeon_shop_sell_screen_set_menu_items();
