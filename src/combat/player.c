@@ -10,6 +10,7 @@ void player_dungeon_init(Player *player, Vec3 position) {
 
 void player_game_init(Player *player) {
 	item_bag_init(&player->item_bag);
+	player->item_bag.money = 100;
 
 	player->party.current_member_count = 0;
 	for (u8 i = 0; i < 4; ++i) {
