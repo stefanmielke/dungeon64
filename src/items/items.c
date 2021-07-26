@@ -27,6 +27,18 @@ void item_bag_init(ItemBag *bag) {
 	}
 }
 
+void item_bag_add_money(ItemBag *bag, u32 value) {
+	bag->money += value;
+}
+
+bool item_bag_spend_money(ItemBag *bag, u32 value) {
+	if (bag->money < value)
+		return false;
+
+	bag->money -= value;
+	return true;
+}
+
 void item_bag_add_item(ItemBag *bag, ItemId id) {
 	Item *item_to_change = &bag->items[bag->cur_item_bag_count];
 	item_to_change->item_def = &item_defs[id];

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <ultratypes.h>
 
 typedef enum ItemId {
@@ -34,6 +35,8 @@ typedef struct ItemBag {
 extern ItemDef item_defs[];
 
 void item_bag_init(ItemBag *bag);
+void item_bag_add_money(ItemBag *bag, u32 value);
+bool item_bag_spend_money(ItemBag *bag, u32 value);
 void item_bag_add_item(ItemBag *bag, ItemId id);
 void item_bag_remove_item_by_index(ItemBag *bag, u8 index);
 void item_bag_move_item(ItemBag *bag, u8 slot_from, u8 slot_to);
