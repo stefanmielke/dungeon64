@@ -6,6 +6,8 @@
 #include "controller.h"
 #include "scenes/screen_config.h"
 
+#include "debug.h"
+
 #include "../libs/ultra64-extensions/include/scene_manager.h"
 
 // Task header
@@ -45,6 +47,7 @@ Vp vp = {
 };
 
 #define GLOBAL_MEM_POOL_SIZE (1024)
+abort();
 #define MEM_POOL_SIZE (4 * 1024)
 char global_memory[GLOBAL_MEM_POOL_SIZE];
 MemZone global_memory_pool;
@@ -73,6 +76,10 @@ void game(void) {
 }
 
 void setup() {
+#if DEBUG_MODE
+	debug_initialize();
+#endif
+
 	mem_zone_init(&global_memory_pool, global_memory, GLOBAL_MEM_POOL_SIZE);
 	mem_zone_init(&memory_pool, scene_memory, MEM_POOL_SIZE);
 

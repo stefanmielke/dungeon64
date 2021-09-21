@@ -48,7 +48,7 @@ OBJECTS = $(CODESEGMENT) $(DATAOBJECTS) $(ASMOBJECTS) $(BOOT_OBJ)
 
 LCDEFS += $(HW_FLAGS)
 LCINCS  = -I. -I$(NUSTDINCDIR) -I/usr/include/n64/PR
-LCOPTS  = -G 0 -fno-toplevel-reorder -fno-zero-initialized-in-bss
+LCOPTS  = -fno-toplevel-reorder -fno-zero-initialized-in-bss
 LDFLAGS = -L/usr/lib/n64 $(N64LIB) -L$(N64_LIBGCCDIR) -lgcc -L$(NUSTDLIBDIR) -lnustd_d
 
 # When testing is needed. Gives false positives, so we keep it commented most of the time.
