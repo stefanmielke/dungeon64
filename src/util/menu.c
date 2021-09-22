@@ -52,6 +52,8 @@ int _menu_tick_internal(Menu *menu) {
 		Menu *active_submenu = menus[menu->active_submenu];
 		return _menu_tick_internal(active_submenu);
 	}
+	if (menu->current_add_index <= 0)
+		return -1;
 
 	if (!menu->items[menu->current_menu_option].enabled) {
 		for (u8 i = 0; i < menu->current_add_index; ++i) {
