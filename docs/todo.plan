@@ -2,10 +2,10 @@
   "Version": "0.7.2",
   "LockProject": false,
   "BoardIndex": 0,
-  "BoardCount": 2,
+  "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": -304,
-  "Pan.Y": 296,
+  "Pan.X": -580.80859375,
+  "Pan.Y": 25.73046875,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -29,7 +29,7 @@
   "DeadlineAnimation": 0,
   "TableColumnsRotatedVertical": false,
   "TableColumnVerticalSpacing": 60,
-  "BoardNames": ["To Do", "Combat"],
+  "BoardNames": ["To Do", "Combat", "Story"],
   "Tasks": [
     {
       "BoardIndex": 0,
@@ -446,7 +446,7 @@
       "BoardIndex": 0,
       "Position.X": -352,
       "Position.Y": -80,
-      "Checkbox.Checked": false,
+      "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
       "Description": "Shop (buy/sell items)",
@@ -899,13 +899,49 @@
       "BoardIndex": 0,
       "Position.X": 400,
       "Position.Y": -16,
-      "Checkbox.Checked": false,
+      "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
       "Description": "Fix crash when opening item menu on dungeon without items",
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Jul 26 2021 17:12:07"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 400,
+      "Position.Y": 0,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Control stick to move cursor",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 21 2021 21:10:53"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 80,
+      "Position.Y": 192,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Permadeath Mode",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 21 2021 21:11:05"
+    }, 
+    {
+      "BoardIndex": 2,
+      "Position.X": 16,
+      "Position.Y": 80,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Ending\n\nAfter the hero reaches the end and kill the boss, touching the orb unleashes several monsters throughout the whole world.\n\nSetting the story for the second game.",
+      "Selected": false,
+      "TaskType.CurrentChoice": 2,
+      "CreationTime": "Sep 22 2021 17:54:19"
     }
   ]
 }
