@@ -4,9 +4,9 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": -496.5,
-  "Pan.Y": 0,
-  "ZoomLevel": 4,
+  "Pan.X": -36.9613037109375,
+  "Pan.Y": -187,
+  "ZoomLevel": 3,
   "TaskTransparency": 5,
   "OutlineTasks": true,
   "BracketSubtasks": true,
@@ -33,7 +33,7 @@
   "Tasks": [
     {
       "BoardIndex": 0,
-      "Position.X": 64,
+      "Position.X": 112,
       "Position.Y": 32,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -45,7 +45,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 48,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
@@ -81,7 +81,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 64,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -93,7 +93,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 80,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -117,7 +117,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 96,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
@@ -129,7 +129,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 144,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -141,7 +141,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 160,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -153,7 +153,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 176,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -229,7 +229,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -368,
-      "Position.Y": 160,
+      "Position.Y": 176,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -241,7 +241,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 176,
+      "Position.Y": 192,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -252,7 +252,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 112,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -265,7 +265,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 192,
+      "Position.Y": 208,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -276,7 +276,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 96,
+      "Position.X": 144,
       "Position.Y": 128,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
@@ -361,7 +361,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 208,
+      "Position.Y": 224,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -373,7 +373,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 224,
+      "Position.Y": 240,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -385,7 +385,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 240,
+      "Position.Y": 256,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -397,7 +397,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 256,
+      "Position.Y": 272,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -409,7 +409,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 272,
+      "Position.Y": 288,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -625,7 +625,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 288,
+      "Position.Y": 304,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -921,7 +921,7 @@
     }, 
     {
       "BoardIndex": 0,
-      "Position.X": 80,
+      "Position.X": 128,
       "Position.Y": 192,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
@@ -954,6 +954,30 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Sep 23 2021 17:34:15"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 400,
+      "Position.Y": 32,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Add menu item color to display enemy health",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 23 2021 18:43:36"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -336,
+      "Position.Y": 160,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Render 2 rectangles instead of 4 squares for enemies on combat",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 23 2021 19:17:30"
     }
   ]
 }

@@ -45,6 +45,7 @@ typedef struct CombatAction {
 } CombatAction;
 
 typedef struct CombatData {
+	bool selecting_target;
 	s8 selected;
 	u8 current_member_choosing;
 	CombatAction player_actions[4];
