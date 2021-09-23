@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": -580.80859375,
-  "Pan.Y": 25.73046875,
+  "Pan.X": -496.5,
+  "Pan.Y": 0,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -700,7 +700,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": -32,
+      "Position.Y": 0,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -811,7 +811,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": -48,
+      "Position.Y": -16,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -898,7 +898,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": -16,
+      "Position.Y": -48,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -910,7 +910,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 0,
+      "Position.Y": 16,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -942,6 +942,18 @@
       "Selected": false,
       "TaskType.CurrentChoice": 2,
       "CreationTime": "Sep 22 2021 17:54:19"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 400,
+      "Position.Y": -32,
+      "Checkbox.Checked": true,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Refactor submenu to receive another menu",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 23 2021 17:34:15"
     }
   ]
 }
