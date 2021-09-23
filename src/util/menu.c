@@ -153,18 +153,20 @@ void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus, u8 
 	menu->submenus = (void *)menus;
 }
 
+void menu_add_submenu(Menu *parent, Menu *submenu, int submenu_index) {
+	parent->submenus[submenu_index] = submenu;
+}
+
 void menu_submenu_set_horizontal(Menu *menu, int submenu_index, int move_vertical_skip) {
 	if (!menu->submenus)
 		return;
 
-	Menu **menus = menu->submenus;
-	menu_set_horizontal(menus[submenu_index], move_vertical_skip);
+	menu_set_horizontal(menu->submenus[submenu_index], move_vertical_skip);
 }
 
 void menu_submenu_add_item(Menu *menu, int submenu_index, char *text, int x, int y, bool enabled) {
 	if (!menu->submenus)
 		return;
 
-	Menu **menus = menu->submenus;
-	menu_add_item(menus[submenu_index], text, x, y, enabled);
+	menu_add_item(menu->submenus[submenu_index], text, x, y, enabled);
 }

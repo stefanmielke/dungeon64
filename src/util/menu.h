@@ -16,7 +16,7 @@ typedef struct Menu {
 	int current_menu_option;
 
 	int active_submenu;
-	void *submenus;
+	struct Menu **submenus;
 
 	bool is_horizontal;
 	int move_vertical_skip;
@@ -30,5 +30,6 @@ void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled);
 void menu_render(Menu *menu, Gfx **gfx);
 
 void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus, u8 max_submenu_items);
+void menu_add_submenu(Menu *parent, Menu *submenu, int submenu_index);
 void menu_submenu_set_horizontal(Menu *menu, int submenu_index, int move_vertical_skip);
 void menu_submenu_add_item(Menu *menu, int submenu_index, char *text, int x, int y, bool enabled);
