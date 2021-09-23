@@ -7,6 +7,7 @@
 #include "../definitions.h"
 #include "../game.h"
 #include "../types.h"
+#include "../util/menu.h"
 
 #include "party.h"
 #include "enemy.h"
@@ -61,9 +62,11 @@ typedef struct Combat {
 	EnemyParty enemy_party;
 	CombatState state;
 	CombatData data;
+	Menu *actions_menu;
 } Combat;
 
 EnemyParty get_new_enemy_party();
+void combat_init(Combat *combat);
 void combat_new(Combat *combat, Party *party, Tween *camera_tween);
 void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, int pov_x, int pov_z);
 void combat_tick(Combat *combat);

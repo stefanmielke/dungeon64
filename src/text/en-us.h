@@ -55,3 +55,11 @@
 #define TEXT_ITEMS "Items"
 #define TEXT_SMALL_HEAL "Small Heal"
 #define TEXT_LARGE_HEAL "Large Heal"
+
+// Combat
+
+#define TEXT_COMBAT_ATK "Attack"
+#define TEXT_COMBAT_DEF "Defend"
+#define TEXT_COMBAT_SKL "Skill"
+#define TEXT_COMBAT_ITM "Items"
+#define TEXT_COMBAT_RUN "Run"

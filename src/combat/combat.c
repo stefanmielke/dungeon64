@@ -13,6 +13,7 @@
 #include "../objects/combat/enemies.h"
 #include "../objects/combat/player.h"
 #include "../scenes/scene_defs.h"
+#include "../text/texts.h"
 
 #define get_ticks_ms() (OS_CYCLES_TO_NSEC(osGetTime()) / 1000000)
 u64 last_tick;
@@ -20,6 +21,23 @@ u64 last_tick;
 void combat_process_action(Combat *combat, CombatAction *action);
 u8 get_enemy_size(EnemyType type);
 void set_camera_movement(Combat *combat, float from, float to, u16 time_in_ms);
+
+void combat_init(Combat *combat) {
+	combat->actions_menu = menu_init(&memory_pool, 5);
+	const int x = 40, start_y = 60;
+	menu_add_item(combat->actions_menu, TEXT_COMBAT_ATK, x, start_y, true);
+	menu_add_item(combat->actions_menu, TEXT_COMBAT_DEF, x, start_y + 20, true);
+	menu_add_item(combat->actions_menu, TEXT_COMBAT_SKL, x, start_y + 40, true);
+	menu_add_item(combat->actions_menu, TEXT_COMBAT_ITM, x, start_y + 60, true);
+	menu_add_item(combat->actions_menu, TEXT_COMBAT_RUN, x, start_y + 80, true);
+
+	// atk, skill, items
+	menu_init_submenus(combat->actions_menu, &memory_pool, 3, ITEM_BAG_MAX_ITEM_COUNT);
+
+	// init items with an additional submenu for chars and enemies (2)
+	Menu *items_submenu = combat->actions_menu->submenus[2];
+	menu_init_submenus(items_submenu, &memory_pool, 2, 4);
+}
 
 void combat_new(Combat *combat, Party *party, Tween *camera_tween) {
 	combat->party = party;
