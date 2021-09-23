@@ -44,51 +44,54 @@ void predungeon_guild_addmember_screen_create() {
 	menu_add_item(menu, TEXT_GO_BACK, x, start_y + 80, true);
 
 	menu_init_submenus(menu, &memory_pool, 3, 30);
+	Menu *class_submenu = menu->submenus[0];
+	Menu *gender_submenu = menu->submenus[1];
+	Menu *name_submenu = menu->submenus[2];
 	// Class Sub-Menu
-	menu_submenu_add_item(menu, 0, TEXT_WARRIOR, x, start_y, true);
-	menu_submenu_add_item(menu, 0, TEXT_WIZARD, x, start_y + 20, true);
-	menu_submenu_add_item(menu, 0, TEXT_CLERIC, x, start_y + 40, true);
-	menu_submenu_add_item(menu, 0, TEXT_THIEF, x, start_y + 60, true);
+	menu_add_item(class_submenu, TEXT_WARRIOR, x, start_y, true);
+	menu_add_item(class_submenu, TEXT_WIZARD, x, start_y + 20, true);
+	menu_add_item(class_submenu, TEXT_CLERIC, x, start_y + 40, true);
+	menu_add_item(class_submenu, TEXT_THIEF, x, start_y + 60, true);
 	// Gender Sub-Menu
-	menu_submenu_add_item(menu, 1, TEXT_MALE, x, start_y, true);
-	menu_submenu_add_item(menu, 1, TEXT_FEMALE, x, start_y + 20, true);
+	menu_add_item(gender_submenu, TEXT_MALE, x, start_y, true);
+	menu_add_item(gender_submenu, TEXT_FEMALE, x, start_y + 20, true);
 	// Name Sub-Menu
-	menu_submenu_set_horizontal(menu, 2, 5);
-	menu_submenu_add_item(menu, 2, "A", x + 00, start_y + 0, true);
-	menu_submenu_add_item(menu, 2, "B", x + 20, start_y + 0, true);
-	menu_submenu_add_item(menu, 2, "C", x + 40, start_y + 0, true);
-	menu_submenu_add_item(menu, 2, "D", x + 60, start_y + 0, true);
-	menu_submenu_add_item(menu, 2, "E", x + 80, start_y + 0, true);
+	menu_set_horizontal(name_submenu, 5);
+	menu_add_item(name_submenu, "A", x + 00, start_y + 0, true);
+	menu_add_item(name_submenu, "B", x + 20, start_y + 0, true);
+	menu_add_item(name_submenu, "C", x + 40, start_y + 0, true);
+	menu_add_item(name_submenu, "D", x + 60, start_y + 0, true);
+	menu_add_item(name_submenu, "E", x + 80, start_y + 0, true);
 
-	menu_submenu_add_item(menu, 2, "F", x + 00, start_y + 20, true);
-	menu_submenu_add_item(menu, 2, "G", x + 20, start_y + 20, true);
-	menu_submenu_add_item(menu, 2, "H", x + 40, start_y + 20, true);
-	menu_submenu_add_item(menu, 2, "I", x + 60, start_y + 20, true);
-	menu_submenu_add_item(menu, 2, "J", x + 80, start_y + 20, true);
+	menu_add_item(name_submenu, "F", x + 00, start_y + 20, true);
+	menu_add_item(name_submenu, "G", x + 20, start_y + 20, true);
+	menu_add_item(name_submenu, "H", x + 40, start_y + 20, true);
+	menu_add_item(name_submenu, "I", x + 60, start_y + 20, true);
+	menu_add_item(name_submenu, "J", x + 80, start_y + 20, true);
 
-	menu_submenu_add_item(menu, 2, "K", x + 00, start_y + 40, true);
-	menu_submenu_add_item(menu, 2, "L", x + 20, start_y + 40, true);
-	menu_submenu_add_item(menu, 2, "M", x + 40, start_y + 40, true);
-	menu_submenu_add_item(menu, 2, "N", x + 60, start_y + 40, true);
-	menu_submenu_add_item(menu, 2, "O", x + 80, start_y + 40, true);
+	menu_add_item(name_submenu, "K", x + 00, start_y + 40, true);
+	menu_add_item(name_submenu, "L", x + 20, start_y + 40, true);
+	menu_add_item(name_submenu, "M", x + 40, start_y + 40, true);
+	menu_add_item(name_submenu, "N", x + 60, start_y + 40, true);
+	menu_add_item(name_submenu, "O", x + 80, start_y + 40, true);
 
-	menu_submenu_add_item(menu, 2, "P", x + 00, start_y + 60, true);
-	menu_submenu_add_item(menu, 2, "Q", x + 20, start_y + 60, true);
-	menu_submenu_add_item(menu, 2, "R", x + 40, start_y + 60, true);
-	menu_submenu_add_item(menu, 2, "S", x + 60, start_y + 60, true);
-	menu_submenu_add_item(menu, 2, "T", x + 80, start_y + 60, true);
+	menu_add_item(name_submenu, "P", x + 00, start_y + 60, true);
+	menu_add_item(name_submenu, "Q", x + 20, start_y + 60, true);
+	menu_add_item(name_submenu, "R", x + 40, start_y + 60, true);
+	menu_add_item(name_submenu, "S", x + 60, start_y + 60, true);
+	menu_add_item(name_submenu, "T", x + 80, start_y + 60, true);
 
-	menu_submenu_add_item(menu, 2, "U", x + 00, start_y + 80, true);
-	menu_submenu_add_item(menu, 2, "V", x + 20, start_y + 80, true);
-	menu_submenu_add_item(menu, 2, "W", x + 40, start_y + 80, true);
-	menu_submenu_add_item(menu, 2, "X", x + 60, start_y + 80, true);
-	menu_submenu_add_item(menu, 2, "Y", x + 80, start_y + 80, true);
+	menu_add_item(name_submenu, "U", x + 00, start_y + 80, true);
+	menu_add_item(name_submenu, "V", x + 20, start_y + 80, true);
+	menu_add_item(name_submenu, "W", x + 40, start_y + 80, true);
+	menu_add_item(name_submenu, "X", x + 60, start_y + 80, true);
+	menu_add_item(name_submenu, "Y", x + 80, start_y + 80, true);
 
-	menu_submenu_add_item(menu, 2, "Z", x + 00, start_y + 100, true);
-	menu_submenu_add_item(menu, 2, "!", x + 20, start_y + 100, true);
-	menu_submenu_add_item(menu, 2, "?", x + 40, start_y + 100, true);
-	menu_submenu_add_item(menu, 2, "BSP", x + 60, start_y + 100, true);
-	menu_submenu_add_item(menu, 2, "DONE", x + 90, start_y + 100, true);
+	menu_add_item(name_submenu, "Z", x + 00, start_y + 100, true);
+	menu_add_item(name_submenu, "!", x + 20, start_y + 100, true);
+	menu_add_item(name_submenu, "?", x + 40, start_y + 100, true);
+	menu_add_item(name_submenu, "BSP", x + 60, start_y + 100, true);
+	menu_add_item(name_submenu, "DONE", x + 90, start_y + 100, true);
 }
 
 void predungeon_guild_addmember_name_screen_add_letter(char letter) {
