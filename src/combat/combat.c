@@ -21,10 +21,11 @@ u64 last_tick;
 void combat_process_action(Combat *combat, CombatAction *action);
 u8 get_enemy_size(EnemyType type);
 void set_camera_movement(Combat *combat, float from, float to, u16 time_in_ms);
+void reset_menus(Combat *combat);
 
 void combat_init(Combat *combat) {
 	combat->actions_menu = menu_init(&memory_pool, 5);
-	const int x = 40, start_y = 60;
+	const int x = 20, start_y = 20;
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_ATK, x, start_y, true);
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_DEF, x, start_y + 20, true);
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_SKL, x, start_y + 40, true);
@@ -64,17 +65,6 @@ void combat_tick(Combat *combat) {
 
 	tween_tick(combat->data.camera_tween);
 
-	// static float camera_speed = 0.1f;
-	// if (combat->state == CS_PLAYER_PHASE) {
-	// 	if (combat->data.camera_x < 5)
-	// 		combat->data.camera_x += camera_speed;
-	// } else {
-	// 	if (combat->data.camera_x > 0)
-	// 		combat->data.camera_x -= camera_speed;
-	// 	else if (combat->data.camera_x < 0)
-	// 		combat->data.camera_x += camera_speed;
-	// }
-
 	switch (combat->state) {
 		case CS_PLAYER_PHASE:
 			// skipping dead party members
@@ -88,6 +78,8 @@ void combat_tick(Combat *combat) {
 				break;
 			}
 
+			menu_tick(combat->actions_menu, false);
+
 			if (IS_BUTTON_PRESSED(U_JPAD)) {
 				combat->data.selected--;
 				if (combat->data.selected < 0)
@@ -97,6 +89,15 @@ void combat_tick(Combat *combat) {
 				if (combat->data.selected >= combat->enemy_party.current_enemy_count)
 					combat->data.selected = 0;
 			} else if (IS_BUTTON_PRESSED(A_BUTTON)) {
+				// selected action
+				/*
+				Menu:
+				- Atk -> Show enemies -> Go
+				- Def -> Go
+				- Skill -> Show skills -> Go
+				- Items -> Show Items -> Show targets (chars/enemies) -> Go
+				- Run -> Go
+				*/
 				u8 member_index = combat->data.current_member_choosing;
 				CombatAction *action = &combat->data.player_actions[member_index];
 				action->target = combat->data.selected;
@@ -109,6 +110,8 @@ void combat_tick(Combat *combat) {
 				if (combat->data.current_member_choosing >= combat->party->current_member_count) {
 					combat->state = CS_RUN_COMBAT;
 					set_camera_movement(combat, combat->data.camera_x, -10, 4000);
+				} else {
+					reset_menus(combat);
 				}
 			} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
 				if (combat->data.current_member_choosing > 0)
@@ -140,6 +143,7 @@ void combat_tick(Combat *combat) {
 						combat->data.selected = 0;
 
 					combat->data.current_member_choosing = 0;
+					reset_menus(combat);
 					break;
 				}
 
@@ -198,6 +202,7 @@ void combat_tick(Combat *combat) {
 			if (combat->data.camera_tween->finished) {
 				combat->state = CS_PLAYER_PHASE;
 				set_camera_movement(combat, combat->data.camera_x, 5, 1000);
+				reset_menus(combat);
 			}
 			break;
 		case CS_ENDING: {
@@ -378,33 +383,36 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 	font_set_win(200, 1);
 
 	// render enemy data
-	char text[100];
-	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
-		const int start_y = 20 + (i * 15);
-		EnemyCombat *member = &combat->enemy_party.enemies[i];
+	// char text[100];
+	// for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
+	// 	const int start_y = 20 + (i * 15);
+	// 	EnemyCombat *member = &combat->enemy_party.enemies[i];
 
-		float health_perc = member->current_health / (float)member->enemy->health;
-		if (health_perc > .7f) {
-			FONTCOLM(FONT_COL_GREEN);
-		} else if (health_perc > .3f) {
-			FONTCOLM(FONT_COL_YELLOW);
-		} else if (health_perc > 0) {
-			FONTCOLM(FONT_COL_RED);
-		} else {
-			FONTCOLM(FONT_COL_GREY);
-		}
+	// 	float health_perc = member->current_health / (float)member->enemy->health;
+	// 	if (health_perc > .7f) {
+	// 		FONTCOLM(FONT_COL_GREEN);
+	// 	} else if (health_perc > .3f) {
+	// 		FONTCOLM(FONT_COL_YELLOW);
+	// 	} else if (health_perc > 0) {
+	// 		FONTCOLM(FONT_COL_RED);
+	// 	} else {
+	// 		FONTCOLM(FONT_COL_GREY);
+	// 	}
 
-		if (combat->state == CS_PLAYER_PHASE && combat->data.selected == i)
-			sprintf(text, "-%s %d/%d", member->enemy->name, member->current_health,
-					member->enemy->health);
-		else
-			sprintf(text, " %s %d/%d", member->enemy->name, member->current_health,
-					member->enemy->health);
-		SHOWFONT(glistp, text, 20, start_y);
-	}
+	// 	if (combat->state == CS_PLAYER_PHASE && combat->data.selected == i)
+	// 		sprintf(text, "-%s %d/%d", member->enemy->name, member->current_health,
+	// 				member->enemy->health);
+	// 	else
+	// 		sprintf(text, " %s %d/%d", member->enemy->name, member->current_health,
+	// 				member->enemy->health);
+	// 	SHOWFONT(glistp, text, 20, start_y);
+	// }
 
 	party_render(combat->party, glistp, dynamicp,
 				 combat->state == CS_PLAYER_PHASE ? combat->data.current_member_choosing : -1);
+
+	if (combat->state == CS_PLAYER_PHASE)
+		menu_render(combat->actions_menu, glistp);
 
 	font_finish(glistp);
 }
@@ -427,4 +435,7 @@ void set_camera_movement(Combat *combat, float from, float to, u16 time_in_ms) {
 	Tween *tween = combat->data.camera_tween;
 	tween_restart(tween, combat, &easing_sine_in_out, time_in_ms, NULL, false, false);
 	tween_set_to_float(tween, from, to, &combat_camera_movement_callback);
+}
+
+void reset_menus(Combat *combat) {
 }

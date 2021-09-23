@@ -103,6 +103,8 @@ void game_screen_create() {
 	player.view_tween = tween_init(&memory_pool);
 	screen_transition_tween = tween_init(&memory_pool);
 	combat_camera_tween = tween_init(&memory_pool);
+
+	combat_init(&current_combat);
 	reset_combat();
 
 	set_angle(0);
