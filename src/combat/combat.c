@@ -472,7 +472,7 @@ void reset_menus(Combat *combat) {
 	menu_reset_items(items_menu);
 
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
-		const int x = 20, y = 20 + (i * 15);
+		const int x = 20, y = 20 + (i * 20);
 		EnemyCombat *member = &combat->enemy_party.enemies[i];
 
 		// 	float health_perc = member->current_health / (float)member->enemy->health;
