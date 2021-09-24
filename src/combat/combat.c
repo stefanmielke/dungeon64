@@ -33,13 +33,22 @@ void combat_init(Combat *combat) {
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_RUN, x, start_y + 80, false);
 
 	// atk, skill, items
-	menu_init_submenus(combat->actions_menu, &memory_pool, 3, ITEM_BAG_MAX_ITEM_COUNT);
+	menu_init_submenus(combat->actions_menu, &memory_pool, 3);
+	combat->actions_menu->submenus[0] = menu_init(&memory_pool, 4);
+	// todo: add max amount of skills per char
+	combat->actions_menu->submenus[1] = menu_init(&memory_pool, 0);
+	combat->actions_menu->submenus[2] = menu_init(&memory_pool, ITEM_BAG_MAX_ITEM_COUNT);
 
 	// init items/skills with an additional submenu for chars and enemies (2)
 	Menu *skills_submenu = combat->actions_menu->submenus[1];
-	menu_init_submenus(skills_submenu, &memory_pool, 2, 4);
+	menu_init_submenus(skills_submenu, &memory_pool, 2);
+	skills_submenu->submenus[0] = menu_init(&memory_pool, 4);
+	skills_submenu->submenus[1] = menu_init(&memory_pool, 4);
+
 	Menu *items_submenu = combat->actions_menu->submenus[2];
-	menu_init_submenus(items_submenu, &memory_pool, 2, 4);
+	menu_init_submenus(items_submenu, &memory_pool, 2);
+	items_submenu->submenus[0] = menu_init(&memory_pool, 4);
+	items_submenu->submenus[1] = menu_init(&memory_pool, 4);
 }
 
 void combat_new(Combat *combat, Party *party, Tween *camera_tween) {

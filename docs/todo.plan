@@ -4,9 +4,9 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": -36.9613037109375,
-  "Pan.Y": -187,
-  "ZoomLevel": 3,
+  "Pan.X": -544,
+  "Pan.Y": -8,
+  "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
   "BracketSubtasks": true,
@@ -700,7 +700,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 0,
+      "Position.Y": 32,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -811,7 +811,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": -16,
+      "Position.Y": 16,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -910,7 +910,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 16,
+      "Position.Y": 48,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -958,7 +958,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 32,
+      "Position.Y": 0,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -978,6 +978,18 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Sep 23 2021 19:17:30"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 400,
+      "Position.Y": -16,
+      "Checkbox.Checked": true,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Add menu as submenu to replace menu_add_submenu",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 24 2021 15:51:26"
     }
   ]
 }

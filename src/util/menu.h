@@ -29,4 +29,4 @@ int menu_tick(Menu *menu, bool should_read_controller);
 void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled);
 void menu_render(Menu *menu, Gfx **gfx);
 
-void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus, u8 max_submenu_items);
+void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus);

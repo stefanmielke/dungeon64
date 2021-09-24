@@ -141,14 +141,10 @@ void menu_render(Menu *menu, Gfx **gfx) {
 	}
 }
 
-void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus, u8 max_submenu_items) {
+void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus) {
 	// do not recreate submenus
 	if (menu->submenus)
 		return;
 
-	Menu **menus = mem_zone_alloc(memory_pool, sizeof(Menu *) * total_submenus);
-	for (u8 i = 0; i < total_submenus; ++i) {
-		menus[i] = menu_init(memory_pool, max_submenu_items);
-	}
-	menu->submenus = menus;
+	menu->submenus = mem_zone_alloc(memory_pool, sizeof(Menu *) * total_submenus);
 }

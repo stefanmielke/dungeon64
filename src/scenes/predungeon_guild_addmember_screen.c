@@ -43,7 +43,11 @@ void predungeon_guild_addmember_screen_create() {
 	menu_add_item(menu, TEXT_GUILD_ADD_MEMBER_DONE, x, start_y + 60, false);
 	menu_add_item(menu, TEXT_GO_BACK, x, start_y + 80, true);
 
-	menu_init_submenus(menu, &memory_pool, 3, 30);
+	menu_init_submenus(menu, &memory_pool, 3);
+	menu->submenus[0] = menu_init(&memory_pool, 4);	  // classes
+	menu->submenus[1] = menu_init(&memory_pool, 2);	  // genders
+	menu->submenus[2] = menu_init(&memory_pool, 30);  // letters
+
 	Menu *class_submenu = menu->submenus[0];
 	Menu *gender_submenu = menu->submenus[1];
 	Menu *name_submenu = menu->submenus[2];
