@@ -471,21 +471,30 @@ void reset_menus(Combat *combat) {
 	menu_reset_items(skill_menu);
 	menu_reset_items(items_menu);
 
+	const u8 color_selected[] = {FONT_COL_WHITE};
+	const u8 color_disabled[] = {FONT_COL_GREY};
+
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
 		const int x = 20, y = 20 + (i * 20);
 		EnemyCombat *member = &combat->enemy_party.enemies[i];
 
-		// 	float health_perc = member->current_health / (float)member->enemy->health;
-		// 	if (health_perc > .7f) {
-		// 		FONTCOLM(FONT_COL_GREEN);
-		// 	} else if (health_perc > .3f) {
-		// 		FONTCOLM(FONT_COL_YELLOW);
-		// 	} else if (health_perc > 0) {
-		// 		FONTCOLM(FONT_COL_RED);
-		// 	} else {
-		// 		FONTCOLM(FONT_COL_GREY);
-		// 	}
+		u8 color_enabled[4] = {255, 255, 255, 255};
+		float health_perc = member->current_health / (float)member->enemy->health;
+		if (health_perc > .7f) {
+			color_enabled[0] = 55;
+			color_enabled[2] = 55;
+		} else if (health_perc > .3f) {
+			color_enabled[2] = 55;
+		} else if (health_perc > 0) {
+			color_enabled[1] = 55;
+			color_enabled[2] = 55;
+		} else {
+			color_enabled[0] = 100;
+			color_enabled[1] = 100;
+			color_enabled[2] = 100;
+		}
 
-		menu_add_item(atk_menu, member->enemy->name, x, y, member->current_health >= 0);
+		menu_add_item_colored(atk_menu, member->enemy->name, x, y, member->current_health >= 0,
+							  color_selected, color_enabled, color_disabled);
 	}
 }

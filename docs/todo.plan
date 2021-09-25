@@ -959,7 +959,7 @@
       "BoardIndex": 0,
       "Position.X": 400,
       "Position.Y": 0,
-      "Checkbox.Checked": false,
+      "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
       "Description": "Add menu item color to display enemy health",

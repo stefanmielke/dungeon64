@@ -7,6 +7,10 @@ typedef struct MenuItem {
 	int x;
 	int y;
 	bool enabled;
+	bool has_custom_colors;
+	u8 color_enabled[4];
+	u8 color_disabled[4];
+	u8 color_selected[4];
 } MenuItem;
 
 typedef struct Menu {
@@ -27,6 +31,8 @@ void menu_reset_items(Menu *menu);
 void menu_set_horizontal(Menu *menu, int move_vertical_skip);
 int menu_tick(Menu *menu, bool should_read_controller);
 void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled);
+void menu_add_item_colored(Menu *menu, char *text, int x, int y, bool enabled, u8 color_selected[4],
+						   u8 color_enabled[4], u8 color_disabled[4]);
 void menu_render(Menu *menu, Gfx **gfx);
 
 void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus);

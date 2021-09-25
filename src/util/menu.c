@@ -42,6 +42,37 @@ void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled) {
 	item->x = x;
 	item->y = y;
 	item->enabled = enabled;
+	item->has_custom_colors = false;
+
+	menu->current_add_index++;
+}
+
+void menu_add_item_colored(Menu *menu, char *text, int x, int y, bool enabled, u8 color_selected[4],
+						   u8 color_enabled[4], u8 color_disabled[4]) {
+	if (menu->current_add_index >= menu->total_items)
+		return;
+
+	MenuItem *item = &menu->items[menu->current_add_index];
+	item->text = text;
+	item->x = x;
+	item->y = y;
+	item->enabled = enabled;
+	item->has_custom_colors = true;
+
+	item->color_selected[0] = color_selected[0];
+	item->color_selected[1] = color_selected[1];
+	item->color_selected[2] = color_selected[2];
+	item->color_selected[3] = color_selected[3];
+
+	item->color_enabled[0] = color_enabled[0];
+	item->color_enabled[1] = color_enabled[1];
+	item->color_enabled[2] = color_enabled[2];
+	item->color_enabled[3] = color_enabled[3];
+
+	item->color_disabled[0] = color_disabled[0];
+	item->color_disabled[1] = color_disabled[1];
+	item->color_disabled[2] = color_disabled[2];
+	item->color_disabled[3] = color_disabled[3];
 
 	menu->current_add_index++;
 }
@@ -127,18 +158,28 @@ void menu_render(Menu *menu, Gfx **gfx) {
 
 	for (u8 i = 0; i < menu->current_add_index; ++i) {
 		if (i == menu->current_menu_option) {
-			FONTCOLM(FONT_COL);
+			if (menu->items[i].has_custom_colors) {
+				FONTCOLEX(menu->items[i].color_selected);
+			} else {
+				FONTCOLM(FONT_COL);
+			}
 		} else if (menu->items[i].enabled) {
-			FONTCOLM(FONT_COL_WHITE);
+			if (menu->items[i].has_custom_colors) {
+				FONTCOLEX(menu->items[i].color_enabled);
+			} else {
+				FONTCOLM(FONT_COL_WHITE);
+			}
 		} else {
-			FONTCOLM(FONT_COL_GREY);
+			if (menu->items[i].has_custom_colors) {
+				FONTCOLEX(menu->items[i].color_disabled);
+			} else {
+				FONTCOLM(FONT_COL_GREY);
+			}
 		}
 
 		SHOWFONT(gfx, menu->items[i].text, menu->items[i].x, menu->items[i].y);
-
-		if (i == menu->current_menu_option)
-			FONTCOLM(FONT_COL_GREY);
 	}
+	FONTCOLM(FONT_COL_GREY);
 }
 
 void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus) {

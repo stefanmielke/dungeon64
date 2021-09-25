@@ -51,6 +51,13 @@ extern int fontcol[4];
 		fontcol[2] = b;                                                                            \
 		fontcol[3] = a;                                                                            \
 	}
+#define FONTCOLEX(colors)                                                                          \
+	{                                                                                              \
+		fontcol[0] = colors[0];                                                                    \
+		fontcol[1] = colors[1];                                                                    \
+		fontcol[2] = colors[2];                                                                    \
+		fontcol[3] = colors[3];                                                                    \
+	}
 #define FONTCOLM(c) FONTCOL(c)
 #define SHOWFONT(glp, str, x, y)                                                                   \
 	{                                                                                              \
