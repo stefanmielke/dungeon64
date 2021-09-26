@@ -20,6 +20,7 @@ enum {
 
 void predungeon_screen_create() {
 	menu = menu_init(&memory_pool, PDM_MAX);
+	menu_set_hand(menu, 30);
 
 	const bool enable_game = player.party.current_member_count > 0;
 	const bool enable_play = enable_game && player_is_any_member_alive(&player);
@@ -61,6 +62,8 @@ short predungeon_screen_tick() {
 }
 
 void predungeon_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

@@ -87,3 +87,15 @@ Gfx ceiling_dl[] = {
 	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
 	gsSPEndDisplayList(),
 };
+
+Gfx ui_setup_dl[] = {
+	gsDPSetCycleType(G_CYC_1CYCLE),
+	gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
+	gsDPSetRenderMode(G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE),
+	gsDPSetDepthImage(OS_K0_TO_PHYSICAL(zbuffer)),
+	gsDPSetDepthSource(G_ZS_PRIM),
+	gsDPSetPrimDepth(0, 0),
+	gsDPSetTexturePersp(G_TP_NONE),
+	gsDPPipeSync(),
+	gsSPEndDisplayList(),
+};

@@ -16,6 +16,7 @@ enum {
 
 void predungeon_shop_screen_create() {
 	menu = menu_init(&memory_pool, PDSM_MAX);
+	menu_set_hand(menu, 30);
 
 	const int x = 40, start_y = 60;
 	menu_add_item(menu, TEXT_BUY, x, start_y, true);
@@ -43,6 +44,8 @@ short predungeon_shop_screen_tick() {
 }
 
 void predungeon_shop_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

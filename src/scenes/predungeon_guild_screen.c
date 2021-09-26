@@ -17,6 +17,7 @@ enum {
 
 void predungeon_guild_screen_create() {
 	menu = menu_init(&memory_pool, PDGM_MAX);
+	menu_set_hand(menu, 30);
 
 	bool can_add_member = player.party.current_member_count < 4;
 	bool can_retire_member = player.party.current_member_count > 0;
@@ -49,6 +50,8 @@ short predungeon_guild_screen_tick() {
 }
 
 void predungeon_guild_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

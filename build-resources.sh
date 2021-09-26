@@ -22,5 +22,5 @@ done
 for n in $(find resources/gfx/ui/ -name '*.png'); do
     from="$n"
     to=$(echo "$n" | sed "s/resources/src\/res/g; s/png/gen.h/g")
-    n64graphics -i $to -g $from -s u16 -f rgba16 -w 120 -h 12
+    n64graphics -i $to -g $from -s u16 -f rgba16 -w 48 -h 36
 done

@@ -14,6 +14,7 @@ enum {
 
 void main_menu_screen_create() {
 	menu = menu_init(&memory_pool, MMM_MAX);
+	menu_set_hand(menu, 130);
 
 	const int x = 140, start_y = 140;
 	menu_add_item(menu, TEXT_NEW_GAME, x, start_y, true);
@@ -31,6 +32,8 @@ short main_menu_screen_tick() {
 }
 
 void main_menu_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

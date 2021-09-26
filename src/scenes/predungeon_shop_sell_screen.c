@@ -29,6 +29,8 @@ void predungeon_shop_sell_screen_set_menu_items() {
 
 void predungeon_shop_sell_screen_create() {
 	menu = menu_init(&memory_pool, PDSSM_MAX + player.item_bag.cur_item_bag_count);
+	menu_set_hand(menu, 30);
+
 	shop_sell_item_descs = mem_zone_alloc(&memory_pool,
 										  sizeof(char *) * player.item_bag.cur_item_bag_count);
 	for (u8 i = 0; i < player.item_bag.cur_item_bag_count; ++i) {
@@ -59,6 +61,8 @@ short predungeon_shop_sell_screen_tick() {
 }
 
 void predungeon_shop_sell_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

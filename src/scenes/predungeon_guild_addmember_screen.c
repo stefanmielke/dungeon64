@@ -28,6 +28,8 @@ bool should_enable_done();
 
 void predungeon_guild_addmember_screen_create() {
 	menu = menu_init(&memory_pool, PDGAMM_MAX);
+	menu_set_hand(menu, 30);
+
 	guild_add_member_data = mem_zone_alloc(&memory_pool, sizeof(GuildAddMemberData));
 	guild_add_member_data->class = PC_None;
 	guild_add_member_data->gender = G_None;
@@ -52,11 +54,13 @@ void predungeon_guild_addmember_screen_create() {
 	Menu *gender_submenu = menu->submenus[1];
 	Menu *name_submenu = menu->submenus[2];
 	// Class Sub-Menu
+	menu_set_hand(class_submenu, x - 10);
 	menu_add_item(class_submenu, TEXT_WARRIOR, x, start_y, true);
 	menu_add_item(class_submenu, TEXT_WIZARD, x, start_y + 20, true);
 	menu_add_item(class_submenu, TEXT_CLERIC, x, start_y + 40, true);
 	menu_add_item(class_submenu, TEXT_THIEF, x, start_y + 60, true);
 	// Gender Sub-Menu
+	menu_set_hand(gender_submenu, x - 10);
 	menu_add_item(gender_submenu, TEXT_MALE, x, start_y, true);
 	menu_add_item(gender_submenu, TEXT_FEMALE, x, start_y + 20, true);
 	// Name Sub-Menu
@@ -178,6 +182,8 @@ bool should_enable_done() {
 }
 
 void predungeon_guild_addmember_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

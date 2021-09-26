@@ -111,6 +111,8 @@ void game_screen_create() {
 	move_to(0, 0);
 
 	menu = menu_init(&memory_pool, player.item_bag.cur_item_bag_count);
+	menu_set_hand(menu, 30);
+
 	game_screen_set_menu_items();
 }
 
@@ -276,6 +278,10 @@ void game_screen_display() {
 		}
 
 		font_finish(&glistp);
+
+		if (current_state == GM_VIEW_ITEMS) {
+			menu_render_images(menu, &glistp);
+		}
 
 		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK ||
 			current_state == GM_EXITING_MAP || current_state == GM_USING_STAIRS) {

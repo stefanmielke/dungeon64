@@ -37,3 +37,6 @@ extern Gfx player_dl[];
 extern Gfx player_dl2[];
 extern Gfx player_dl3[];
 extern Gfx player_dl4[];
+
+// ui
+extern Gfx ui_setup_dl[];

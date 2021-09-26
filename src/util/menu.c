@@ -1,6 +1,26 @@
 #include "menu.h"
 
+#include "../graphics.h"
+#include "../static.h"
+#include "../data/texture.h"
 #include "../scenes/scene_defs.h"
+
+typedef enum MenuIcon {
+	MI_ABUTTON = 0,
+	MI_BBUTTON,
+	MI_CBUTTON_UP,
+	MI_CBUTTON_RIGHT,
+	MI_CBUTTON_LEFT,
+	MI_CBUTTON_DOWN,
+	MI_ZBUTTON,
+	MI_STICK,
+	MI_COIN,
+	MI_HAND,
+	MI_STARTBUTTON,
+	MI_RBUTTON,
+} MenuIcon;
+
+void menu_draw_ui_icon(Gfx **gfx, MenuIcon icon, int x, int y);
 
 Menu *menu_init(MemZone *memory_pool, u8 total_items) {
 	Menu *menu = mem_zone_alloc(memory_pool, sizeof(Menu));
@@ -31,6 +51,10 @@ void menu_reset_items(Menu *menu) {
 void menu_set_horizontal(Menu *menu, int move_vertical_skip) {
 	menu->is_horizontal = true;
 	menu->move_vertical_skip = move_vertical_skip;
+}
+
+void menu_set_hand(Menu *menu, int hand_position_x) {
+	menu->hand_position_x = hand_position_x;
 }
 
 void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled) {
@@ -182,10 +206,38 @@ void menu_render(Menu *menu, Gfx **gfx) {
 	FONTCOLM(FONT_COL_GREY);
 }
 
+void menu_render_images(Menu *menu, Gfx **gfx) {
+	if (menu->active_submenu >= 0 && menu->submenus) {
+		Menu **menus = menu->submenus;
+		Menu *active_submenu = menus[menu->active_submenu];
+
+		return menu_render_images(active_submenu, gfx);
+	}
+
+	if (menu->is_horizontal || menu->current_add_index <= 0)
+		return;
+
+	gSPDisplayList((*gfx)++, ui_setup_dl);
+	gDPLoadTextureBlock((*gfx)++, spr_ui, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 36, 0, G_TX_CLAMP,
+						G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+	int option = menu->current_menu_option;
+	if (menu->current_add_index > 0)
+		menu_draw_ui_icon(gfx, MI_HAND, menu->hand_position_x, menu->items[option].y + 10);
+}
+
 void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus) {
 	// do not recreate submenus
 	if (menu->submenus)
 		return;
 
 	menu->submenus = mem_zone_alloc(memory_pool, sizeof(Menu *) * total_submenus);
+}
+
+void menu_draw_ui_icon(Gfx **gfx, MenuIcon icon, int x, int y) {
+	int __s_x = 12 * (icon % 4);
+	int __s_y = 12 * (icon / 4);
+	gSPTextureRectangle((*gfx)++, (int)(x - 6) << 2, (int)(y - 6) << 2, (int)(x + 6) << 2,
+						(int)(y + 6) << 2, G_TX_RENDERTILE, __s_x << 5, __s_y << 5, 1 << 10,
+						1 << 10);
 }

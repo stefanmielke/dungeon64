@@ -26,6 +26,7 @@ void predungeon_guild_retire_member_update_menu_items() {
 
 void predungeon_guild_retiremember_screen_create() {
 	menu = menu_init(&memory_pool, PDGAMM_MAX + 4);
+	menu_set_hand(menu, 30);
 
 	const int x = 40, start_y = 60;
 	menu_add_item(menu, TEXT_VACANT, x, start_y, false);
@@ -54,6 +55,8 @@ short predungeon_guild_retiremember_screen_tick() {
 }
 
 void predungeon_guild_retiremember_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

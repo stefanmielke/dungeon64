@@ -28,6 +28,8 @@ void predungeon_shop_buy_screen_rebuild_menu() {
 
 void predungeon_shop_buy_screen_create() {
 	menu = menu_init(&memory_pool, PDBSM_MAX + II_Max);
+	menu_set_hand(menu, 30);
+
 	shop_buy_item_descs = mem_zone_alloc(&memory_pool, sizeof(char *) * II_Max);
 	for (u8 i = 0; i < II_Max; ++i) {
 		shop_buy_item_descs[i] = mem_zone_alloc(&memory_pool, sizeof(char) * ITEM_NAME_LENGTH);
@@ -58,6 +60,8 @@ short predungeon_shop_buy_screen_tick() {
 }
 
 void predungeon_shop_buy_screen_display() {
+	menu_render_images(menu, &glistp);
+
 	font_init(&glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);

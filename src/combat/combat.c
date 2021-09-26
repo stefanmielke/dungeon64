@@ -25,6 +25,8 @@ void reset_menus(Combat *combat);
 
 void combat_init(Combat *combat) {
 	combat->actions_menu = menu_init(&memory_pool, 5);
+	menu_set_hand(combat->actions_menu, 10);
+
 	const int x = 20, start_y = 20;
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_ATK, x, start_y, true);
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_DEF, x, start_y + 20, false);
@@ -35,20 +37,27 @@ void combat_init(Combat *combat) {
 	// atk, skill, items
 	menu_init_submenus(combat->actions_menu, &memory_pool, 3);
 	combat->actions_menu->submenus[0] = menu_init(&memory_pool, 4);
+	menu_set_hand(combat->actions_menu->submenus[0], 10);
 	// todo: add max amount of skills per char
 	combat->actions_menu->submenus[1] = menu_init(&memory_pool, 0);
+	menu_set_hand(combat->actions_menu->submenus[1], 10);
 	combat->actions_menu->submenus[2] = menu_init(&memory_pool, ITEM_BAG_MAX_ITEM_COUNT);
+	menu_set_hand(combat->actions_menu->submenus[2], 10);
 
 	// init items/skills with an additional submenu for chars and enemies (2)
 	Menu *skills_submenu = combat->actions_menu->submenus[1];
 	menu_init_submenus(skills_submenu, &memory_pool, 2);
 	skills_submenu->submenus[0] = menu_init(&memory_pool, 4);
+	menu_set_hand(skills_submenu->submenus[0], 10);
 	skills_submenu->submenus[1] = menu_init(&memory_pool, 4);
+	menu_set_hand(skills_submenu->submenus[1], 10);
 
 	Menu *items_submenu = combat->actions_menu->submenus[2];
 	menu_init_submenus(items_submenu, &memory_pool, 2);
 	items_submenu->submenus[0] = menu_init(&memory_pool, 4);
+	menu_set_hand(items_submenu->submenus[0], 10);
 	items_submenu->submenus[1] = menu_init(&memory_pool, 4);
+	menu_set_hand(items_submenu->submenus[1], 10);
 }
 
 void combat_new(Combat *combat, Party *party, Tween *camera_tween) {
@@ -426,6 +435,9 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 		}
 	}
 
+	if (combat->state == CS_PLAYER_PHASE)
+		menu_render_images(combat->actions_menu, glistp);
+
 	font_init(glistp);
 	font_set_transparent(1);
 	font_set_scale(1.0, 1.0);
@@ -471,7 +483,6 @@ void reset_menus(Combat *combat) {
 	menu_reset_items(skill_menu);
 	menu_reset_items(items_menu);
 
-	const u8 color_selected[] = {FONT_COL_WHITE};
 	const u8 color_disabled[] = {FONT_COL_GREY};
 
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
@@ -495,6 +506,6 @@ void reset_menus(Combat *combat) {
 		}
 
 		menu_add_item_colored(atk_menu, member->enemy->name, x, y, member->current_health >= 0,
-							  color_selected, color_enabled, color_disabled);
+							  color_enabled, color_enabled, color_disabled);
 	}
 }
