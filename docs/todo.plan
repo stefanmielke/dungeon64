@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": -584,
-  "Pan.Y": -328,
+  "Pan.X": 304,
+  "Pan.Y": -24,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -229,7 +229,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -368,
-      "Position.Y": 176,
+      "Position.Y": 208,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -241,7 +241,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 192,
+      "Position.Y": 224,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -265,7 +265,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 208,
+      "Position.Y": 240,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -361,7 +361,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 224,
+      "Position.Y": 256,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -373,7 +373,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 240,
+      "Position.Y": 272,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -385,7 +385,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 256,
+      "Position.Y": 288,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -397,7 +397,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 272,
+      "Position.Y": 304,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -409,7 +409,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 288,
+      "Position.Y": 320,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -469,7 +469,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -368,
-      "Position.Y": 0,
+      "Position.Y": 32,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -481,7 +481,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 16,
+      "Position.Y": 48,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -493,7 +493,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 32,
+      "Position.Y": 64,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -505,7 +505,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 48,
+      "Position.Y": 80,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -517,7 +517,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 64,
+      "Position.Y": 96,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -529,7 +529,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 80,
+      "Position.Y": 112,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -541,7 +541,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 96,
+      "Position.Y": 128,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -553,7 +553,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 112,
+      "Position.Y": 144,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -565,7 +565,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 128,
+      "Position.Y": 160,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -577,7 +577,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 144,
+      "Position.Y": 176,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -625,7 +625,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 304,
+      "Position.Y": 336,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -970,7 +970,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 160,
+      "Position.Y": 192,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1206,6 +1206,78 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Sep 26 2021 19:05:40"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 560,
+      "Position.Y": 416,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Skill",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 26 2021 19:06:42"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -352,
+      "Position.Y": 352,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Better camera angles",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 26 2021 19:08:50"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -352,
+      "Position.Y": 368,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "run from combat",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 26 2021 19:09:08"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -352,
+      "Position.Y": 384,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "use skills",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 26 2021 19:09:16"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -352,
+      "Position.Y": 0,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Mayor conversation - give gold",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 26 2021 19:09:34"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -352,
+      "Position.Y": 16,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Save/Load game",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 26 2021 19:10:05"
     }
   ]
 }
