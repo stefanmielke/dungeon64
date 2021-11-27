@@ -36,8 +36,10 @@ EnemyParty get_new_enemy_party() {
 	EnemyParty party = {.current_enemy_count = def.party_size};
 	for (u8 i = 0; i < def.party_size; ++i) {
 		Enemy *enemy = get_enemy_data_for_type(def.enemies[i]);
-		party.enemies[i].enemy = enemy;
-		party.enemies[i].current_health = enemy->health;
+		if (enemy) {
+			party.enemies[i].enemy = enemy;
+			party.enemies[i].current_health = enemy->health;
+		}
 	}
 
 	return party;

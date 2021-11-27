@@ -11,4 +11,6 @@ Enemy *get_enemy_data_for_type(EnemyType type) {
 		if (enemy_defaults[i].type == type)
 			return &enemy_defaults[i];
 	}
+
+	return NULL;
 }
