@@ -52,7 +52,7 @@ LCOPTS  = -fno-toplevel-reorder -fno-zero-initialized-in-bss
 LDFLAGS = -L/usr/lib/n64 $(N64LIB) -L$(N64_LIBGCCDIR) -lgcc -L$(NUSTDLIBDIR) -lnustd_d
 
 # When testing is needed. Gives false positives, so we keep it commented most of the time.
-# LCOPTS += -Wall -Wno-missing-braces
+LCOPTS += -Wall -Wno-missing-braces -Wno-unused-variable -Wno-discarded-qualifiers
 
 LDIRT  = $(ELF) $(CP_LD_SCRIPT) $(MAP) $(ASMOBJECTS) $(TARGETS)
 
