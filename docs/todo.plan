@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": 304,
-  "Pan.Y": -24,
+  "Pan.X": 216.00003051757812,
+  "Pan.Y": -216,
   "ZoomLevel": 4,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -229,7 +229,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -368,
-      "Position.Y": 208,
+      "Position.Y": 224,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -241,7 +241,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 224,
+      "Position.Y": 240,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -265,7 +265,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 240,
+      "Position.Y": 256,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -361,7 +361,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 256,
+      "Position.Y": 272,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -373,7 +373,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 272,
+      "Position.Y": 288,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -385,7 +385,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 288,
+      "Position.Y": 304,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -397,7 +397,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 304,
+      "Position.Y": 320,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -409,7 +409,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 320,
+      "Position.Y": 336,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -625,7 +625,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 336,
+      "Position.Y": 352,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1222,7 +1222,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 352,
+      "Position.Y": 368,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1234,7 +1234,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 368,
+      "Position.Y": 384,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1246,7 +1246,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 384,
+      "Position.Y": 400,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1278,6 +1278,18 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Sep 26 2021 19:10:05"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -336,
+      "Position.Y": 208,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Text rendering as a single texture",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Sep 29 2021 22:15:56"
     }
   ]
 }
