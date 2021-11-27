@@ -170,7 +170,7 @@ short predungeon_guild_addmember_screen_tick() {
 		if (menu->active_submenu == -1)
 			return SCREEN_PRE_DUNGEON_GUILD;
 		else
-			menu->active_submenu == -1;
+			menu->active_submenu = -1;
 	}
 
 	return SCREEN_PRE_DUNGEON_GUILD_ADD_MEMBER;
