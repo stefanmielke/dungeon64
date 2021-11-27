@@ -47,7 +47,6 @@ Vp vp = {
 };
 
 #define GLOBAL_MEM_POOL_SIZE (1024)
-abort();
 #define MEM_POOL_SIZE (4 * 1024)
 char global_memory[GLOBAL_MEM_POOL_SIZE];
 MemZone global_memory_pool;
