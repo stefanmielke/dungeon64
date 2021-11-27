@@ -333,7 +333,6 @@ void set_angle(float angle_diff) {
 	tween_set_to_float(player.view_tween, player.angle, final_angle, &view_callback);
 }
 
-// returns false if should exit map
 void move_to(s32 h_speed, s32 forward_speed) {
 	bool path_is_blocked = false;
 
