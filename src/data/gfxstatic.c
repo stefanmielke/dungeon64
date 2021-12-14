@@ -61,7 +61,6 @@ Gfx combat_selection_setup_dl[] = {
 
 	gsDPSetCycleType(G_CYC_1CYCLE),
 	gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
-	gsSPClearGeometryMode(G_SHADING_SMOOTH | G_ZBUFFER),
 	gsSPSetGeometryMode(G_SHADE | G_CULL_BACK),
 	gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_OPA_SURF2),
 	gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
