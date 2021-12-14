@@ -144,7 +144,7 @@ void combat_tick(Combat *combat) {
 						if (combat->data.current_member_choosing >=
 							combat->party->current_member_count) {
 							combat->state = CS_RUN_COMBAT;
-							set_camera_movement(combat, combat->data.camera_x, -10, 4000);
+							set_camera_movement(combat, combat->data.camera_x, -5, 4000);
 						} else {
 							reset_menus(combat);
 						}
@@ -338,26 +338,6 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 	frame_counter += 0.09f * ((this_tick - last_tick) / 20.f);
 	last_tick = this_tick;
 
-	// select triangle
-	if (combat->state == CS_PLAYER_PHASE && combat->data.selecting_target) {
-		const u8 enemy_size = get_enemy_size(
-			combat->enemy_party.enemies[combat->data.selected].enemy->type);
-
-		const float x = (-1.5 * enemy_size) - (3 * combat->data.selected);
-		const float y = -5 + combat->data.selected * 3;
-
-		gSPDisplayList((*glistp)++, combat_selection_setup_dl);
-		guTranslate(&dynamicp->object_position[obj_count], x, 5 * enemy_size, y);
-		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->object_position[obj_count])),
-				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-		guRotate(&dynamicp->billboard_rotation[billboard_count], frame_counter * 10, 0, 1, 0);
-		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->billboard_rotation[billboard_count])),
-				  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-		gSPDisplayList((*glistp)++, combat_selection_dl);
-		obj_count++;
-		billboard_count++;
-	}
-
 	// ground
 	gSPDisplayList((*glistp)++, ground_texture_setup_dl);
 	gSPTexture((*glistp)++, 1024 * 100, 1024 * 100, 0, G_TX_RENDERTILE, G_ON);
@@ -378,62 +358,86 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 	s8 current_attacker = combat->data.current_attacker - 1;
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
 		if (combat->enemy_party.enemies[i].current_health > 0) {
+			const int x_pos = -0 - (3 * i);
+			const int y_pos = -5 + (3 * i);
 			if (current_attacker >= combat->party->current_member_count &&
 				current_attacker - combat->party->current_member_count == i) {
-				DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, 0 - (3 * i), -5 + i * 3,
-						   pov_x, pov_z, (int)frame_counter);
+				DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, x_pos, y_pos, pov_x, pov_z,
+						   (int)frame_counter);
 			} else {
-				DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, -3 - (3 * i), -5 + i * 3,
-						   pov_x, pov_z, (int)frame_counter);
+				DRAW_ENEMY(combat->enemy_party.enemies[i].enemy->type, x_pos - 3, y_pos, pov_x,
+						   pov_z, (int)frame_counter);
 			}
 		}
 	}
 
 	for (u8 i = 0; i < combat->party->current_member_count; ++i) {
+		const int x_pos = 16 - (3 * i);
+		const int y_pos = 5 - (3 * i);
 		if (combat->party->members[i].current_health > 0) {
 			if (combat->state == CS_PLAYER_PHASE) {
 				if (combat->data.current_member_choosing == i) {
 					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-							   4 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+							   x_pos - 1, y_pos, pov_x, pov_z, (int)frame_counter, 3, idle);
 				} else {
 					DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-							   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+							   x_pos, y_pos, pov_x, pov_z, (int)frame_counter, 3, idle);
 				}
 			} else if (combat->state == CS_RUN_COMBAT) {
 				if (current_attacker < combat->party->current_member_count) {
 					// a player is attacking
 					if (current_attacker == i) {
 						DRAW_CLASS(combat->party->members[i].class,
-								   combat->party->members[i].gender, 0 + (3 * i), 5 - i * 3, pov_x,
-								   pov_z, (int)frame_counter, 3, attack_1);
+								   combat->party->members[i].gender, x_pos - 3, y_pos, pov_x, pov_z,
+								   (int)frame_counter, 3, attack_1);
 					} else {
 						DRAW_CLASS(combat->party->members[i].class,
-								   combat->party->members[i].gender, 3 + (3 * i), 5 - i * 3, pov_x,
-								   pov_z, (int)frame_counter, 3, idle);
+								   combat->party->members[i].gender, x_pos, y_pos, pov_x, pov_z,
+								   (int)frame_counter, 3, idle);
 					}
 				} else {
 					// an enemy is attacking
 					if (combat->data.current_defender == i) {
 						DRAW_CLASS(combat->party->members[i].class,
-								   combat->party->members[i].gender, 3 + (3 * i), 5 - i * 3, pov_x,
-								   pov_z, (int)frame_counter, 3, hit);
+								   combat->party->members[i].gender, x_pos, y_pos, pov_x, pov_z,
+								   (int)frame_counter, 3, hit);
 					} else {
 						DRAW_CLASS(combat->party->members[i].class,
-								   combat->party->members[i].gender, 3 + (3 * i), 5 - i * 3, pov_x,
-								   pov_z, (int)frame_counter, 3, idle);
+								   combat->party->members[i].gender, x_pos, y_pos, pov_x, pov_z,
+								   (int)frame_counter, 3, idle);
 					}
 				}
 			} else if (combat->state == CS_START) {
-				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 3, idle);
+				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender, x_pos,
+						   y_pos, pov_x, pov_z, (int)frame_counter, 3, idle);
 			} else if (combat->state == CS_END || combat->state == CS_ENDING) {
-				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-						   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 4, win);
+				DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender, x_pos,
+						   y_pos, pov_x, pov_z, (int)frame_counter, 4, win);
 			}
 		} else {
-			DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender,
-					   3 + (3 * i), 5 - i * 3, pov_x, pov_z, (int)frame_counter, 1, dead);
+			DRAW_CLASS(combat->party->members[i].class, combat->party->members[i].gender, x_pos,
+					   y_pos, pov_x, pov_z, (int)frame_counter, 1, dead);
 		}
+	}
+
+	// select triangle
+	if (combat->state == CS_PLAYER_PHASE && combat->data.selecting_target) {
+		const u8 enemy_size = get_enemy_size(
+			combat->enemy_party.enemies[combat->data.selected].enemy->type);
+
+		const float x = (-1.5 * enemy_size) - (3 * combat->data.selected);
+		const float y = -5 + combat->data.selected * 3;
+
+		gSPDisplayList((*glistp)++, combat_selection_setup_dl);
+		guTranslate(&dynamicp->object_position[obj_count], x, 5 * enemy_size, y);
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->object_position[obj_count])),
+				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+		guRotate(&dynamicp->billboard_rotation[billboard_count], frame_counter * 10, 0, 1, 0);
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->billboard_rotation[billboard_count])),
+				  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+		gSPDisplayList((*glistp)++, combat_selection_dl);
+		obj_count++;
+		billboard_count++;
 	}
 
 	if (combat->state == CS_PLAYER_PHASE)

@@ -17,7 +17,10 @@ void player_game_init(Player *player) {
 		player->party.members[i].class = PC_None;
 	}
 
-	player_party_add_member(player, PC_Warrior, "MIELKE", G_Male);
+	player_party_add_member(player, PC_Warrior, "MIELK1", G_Female);
+	player_party_add_member(player, PC_Cleric, "MIELK2", G_Female);
+	player_party_add_member(player, PC_Wizard, "MIELK3", G_Female);
+	player_party_add_member(player, PC_Thief, "MIELK4", G_Female);
 }
 
 void player_party_member_init(Player *player, int index, Class class, char name[], Gender gender) {
