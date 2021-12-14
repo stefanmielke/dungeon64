@@ -203,8 +203,8 @@ void menu_render_images(Menu *menu, Gfx **gfx) {
 		return;
 
 	gSPDisplayList((*gfx)++, ui_setup_dl);
-	gDPLoadTextureBlock((*gfx)++, spr_ui, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 36, 0, G_TX_CLAMP,
-						G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+	gDPLoadTextureBlock((*gfx)++, spr_ui, G_IM_FMT_RGBA, G_IM_SIZ_16b, 48, 36, 0, G_TX_WRAP,
+						G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
 	int option = menu->current_menu_option;
 	if (!menu->is_horizontal && menu->current_add_index > 0)
