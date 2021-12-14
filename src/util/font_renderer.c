@@ -55,8 +55,8 @@ void font_renderer_text(Gfx **glistp, int x, int y, char *text) {
 
 		const int font_size = 8, font_half = 4;
 
-		int __tile_x = font_size * ((c) % 8);
-		int __tile_y = font_size * ((c) / 8);
+		int __tile_x = font_size * (c % 8);
+		int __tile_y = font_size * (c / 8);
 		gSPTextureRectangle((*glistp)++, (int)((cur_x)-font_half) << 2, (int)((y)-font_half) << 2,
 							(int)((cur_x) + font_half) << 2, (int)((y) + font_half) << 2,
 							G_TX_RENDERTILE, __tile_x << 5, __tile_y << 5, 1 << 10, 1 << 10);
