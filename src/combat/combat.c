@@ -437,10 +437,6 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 
 	// TODO: remove this code once find out why it crashes when entering combat if this is not here
 	font_init(glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
-	font_finish(glistp);
 
 	// select triangle
 	if (combat->state == CS_PLAYER_PHASE && combat->data.selecting_target) {

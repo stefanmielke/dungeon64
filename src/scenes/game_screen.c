@@ -276,11 +276,8 @@ void game_screen_display() {
 
 		font_renderer_end(&glistp);
 
+		// TODO: remove this code once we understand why it crashes if removed
 		font_init(&glistp);
-		font_set_transparent(1);
-		font_set_scale(1.0, 1.0);
-		font_set_win(200, 1);
-		font_finish(&glistp);
 
 		if (current_state == GM_VIEW_ITEMS) {
 			menu_render_images(menu, &glistp);
