@@ -420,26 +420,6 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 		}
 	}
 
-	// select triangle
-	if (combat->state == CS_PLAYER_PHASE && combat->data.selecting_target) {
-		const u8 enemy_size = get_enemy_size(
-			combat->enemy_party.enemies[combat->data.selected].enemy->type);
-
-		const float x = (-1.5 * enemy_size) - (3 * combat->data.selected);
-		const float y = -5 + combat->data.selected * 3;
-
-		gSPDisplayList((*glistp)++, combat_selection_setup_dl);
-		guTranslate(&dynamicp->object_position[obj_count], x, 5 * enemy_size, y);
-		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->object_position[obj_count])),
-				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
-		guRotate(&dynamicp->billboard_rotation[billboard_count], frame_counter * 10, 0, 1, 0);
-		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->billboard_rotation[billboard_count])),
-				  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
-		gSPDisplayList((*glistp)++, combat_selection_dl);
-		obj_count++;
-		billboard_count++;
-	}
-
 	if (combat->state == CS_PLAYER_PHASE)
 		menu_render_images(combat->actions_menu, glistp);
 	else
@@ -461,6 +441,26 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 	font_set_scale(1.0, 1.0);
 	font_set_win(200, 1);
 	font_finish(glistp);
+
+	// select triangle
+	if (combat->state == CS_PLAYER_PHASE && combat->data.selecting_target) {
+		const u8 enemy_size = get_enemy_size(
+			combat->enemy_party.enemies[combat->data.selected].enemy->type);
+
+		const float x = (-1.5 * enemy_size) - (3 * combat->data.selected);
+		const float y = -5 + combat->data.selected * 3;
+
+		gSPDisplayList((*glistp)++, combat_selection_setup_dl);
+		guTranslate(&dynamicp->object_position[obj_count], x, 5 * enemy_size, y);
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->object_position[obj_count])),
+				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
+		guRotate(&dynamicp->billboard_rotation[billboard_count], frame_counter * 10, 0, 1, 0);
+		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamicp->billboard_rotation[billboard_count])),
+				  G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_NOPUSH);
+		gSPDisplayList((*glistp)++, combat_selection_dl);
+		obj_count++;
+		billboard_count++;
+	}
 }
 
 u8 get_enemy_size(EnemyType type) {
