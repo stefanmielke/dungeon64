@@ -12,7 +12,6 @@ typedef enum FontColorPalette {
 	FCP_MAX,
 } FontColorPalette;
 
-void font_renderer_init();
 void font_renderer_begin(Gfx **glistp);
 void font_renderer_end(Gfx **glistp);
 

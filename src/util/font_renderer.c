@@ -4,9 +4,6 @@
 
 #include "../data/texture.h"
 
-void font_renderer_init() {
-}
-
 void font_renderer_begin(Gfx **glistp) {
 	gDPSetTextureLUT((*glistp)++, G_TT_RGBA16);
 	gDPLoadTLUT_pal256((*glistp)++, spr_font_palette_white);
