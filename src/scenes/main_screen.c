@@ -3,8 +3,9 @@
 #include "scene_defs.h"
 
 #include "../fonts/font_ext.h"
-
+#include "../static.h"
 #include "../text/texts.h"
+#include "../util/font_renderer.h"
 
 void main_screen_create() {
 }
@@ -20,19 +21,15 @@ short main_screen_tick() {
 }
 
 void main_screen_display() {
-	font_init(&glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
+	gSPDisplayList(glistp++, ui_setup_dl);
 
-	FONTCOLM(FONT_COL);
-	SHOWFONT(&glistp, "Dungeon 64", 120, 100);
+	font_renderer_begin(&glistp);
 
-	FONTCOLM(FONT_COL_WHITE);
-	SHOWFONT(&glistp, TEXT_MAIN_START, 116, 200);
+	font_renderer_set_color(&glistp, FCP_BLUE);
+	font_renderer_text(&glistp, 120, 100, "DUNGEON 64");
 
-	font_finish(&glistp);
+	font_renderer_set_color(&glistp, FCP_WHITE);
+	font_renderer_text(&glistp, 116, 200, TEXT_MAIN_START);
 
-	gDPFullSync(glistp++);
-	gSPEndDisplayList(glistp++);
+	font_renderer_end(&glistp);
 }

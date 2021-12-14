@@ -34,18 +34,12 @@ short main_menu_screen_tick() {
 void main_menu_screen_display() {
 	menu_render_images(menu, &glistp);
 
-	font_init(&glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
+	font_renderer_begin(&glistp);
 
-	FONTCOLM(FONT_COL);
-	SHOWFONT(&glistp, "Dungeon 64", 120, 100);
+	font_renderer_set_color(&glistp, FCP_BLUE);
+	font_renderer_text(&glistp, 120, 100, "DUNGEON 64");
 
 	menu_render(menu, &glistp);
 
-	font_finish(&glistp);
-
-	gDPFullSync(glistp++);
-	gSPEndDisplayList(glistp++);
+	font_renderer_end(&glistp);
 }

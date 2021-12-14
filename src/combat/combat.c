@@ -14,6 +14,7 @@
 #include "../objects/combat/player.h"
 #include "../scenes/scene_defs.h"
 #include "../text/texts.h"
+#include "../util/font_renderer.h"
 
 #define get_ticks_ms() (OS_CYCLES_TO_NSEC(osGetTime()) / 1000000)
 u64 last_tick;
@@ -437,11 +438,10 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 
 	if (combat->state == CS_PLAYER_PHASE)
 		menu_render_images(combat->actions_menu, glistp);
+	else
+		gSPDisplayList((*glistp)++, ui_setup_dl);
 
-	font_init(glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
+	font_renderer_begin(glistp);
 
 	party_render(combat->party, glistp, dynamicp,
 				 combat->state == CS_PLAYER_PHASE ? combat->data.current_member_choosing : -1);
@@ -449,6 +449,13 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 	if (combat->state == CS_PLAYER_PHASE)
 		menu_render(combat->actions_menu, glistp);
 
+	font_renderer_end(glistp);
+
+	// TODO: remove this code once find out why it crashes when entering combat if this is not here
+	font_init(glistp);
+	font_set_transparent(1);
+	font_set_scale(1.0, 1.0);
+	font_set_win(200, 1);
 	font_finish(glistp);
 }
 
@@ -483,26 +490,20 @@ void reset_menus(Combat *combat) {
 	menu_reset_items(skill_menu);
 	menu_reset_items(items_menu);
 
-	const u8 color_disabled[] = {FONT_COL_GREY};
+	const FontColorPalette color_disabled = FCP_GREY;
 
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
 		const int x = 20, y = 20 + (i * 20);
 		EnemyCombat *member = &combat->enemy_party.enemies[i];
 
-		u8 color_enabled[4] = {255, 255, 255, 255};
+		FontColorPalette color_enabled = FCP_GREY;
 		float health_perc = member->current_health / (float)member->enemy->health;
 		if (health_perc > .7f) {
-			color_enabled[0] = 55;
-			color_enabled[2] = 55;
+			color_enabled = FCP_GREEN;
 		} else if (health_perc > .3f) {
-			color_enabled[2] = 55;
+			color_enabled = FCP_YELLOW;
 		} else if (health_perc > 0) {
-			color_enabled[1] = 55;
-			color_enabled[2] = 55;
-		} else {
-			color_enabled[0] = 100;
-			color_enabled[1] = 100;
-			color_enabled[2] = 100;
+			color_enabled = FCP_RED;
 		}
 
 		menu_add_item_colored(atk_menu, member->enemy->name, x, y, member->current_health >= 0,

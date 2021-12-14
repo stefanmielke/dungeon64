@@ -4,6 +4,7 @@
 #include "../static.h"
 #include "../data/texture.h"
 #include "../scenes/scene_defs.h"
+#include "../util/font_renderer.h"
 
 typedef enum MenuIcon {
 	MI_ABUTTON = 0,
@@ -71,8 +72,9 @@ void menu_add_item(Menu *menu, char *text, int x, int y, bool enabled) {
 	menu->current_add_index++;
 }
 
-void menu_add_item_colored(Menu *menu, char *text, int x, int y, bool enabled, u8 color_selected[4],
-						   u8 color_enabled[4], u8 color_disabled[4]) {
+void menu_add_item_colored(Menu *menu, char *text, int x, int y, bool enabled,
+						   FontColorPalette color_selected, FontColorPalette color_enabled,
+						   FontColorPalette color_disabled) {
 	if (menu->current_add_index >= menu->total_items)
 		return;
 
@@ -83,20 +85,9 @@ void menu_add_item_colored(Menu *menu, char *text, int x, int y, bool enabled, u
 	item->enabled = enabled;
 	item->has_custom_colors = true;
 
-	item->color_selected[0] = color_selected[0];
-	item->color_selected[1] = color_selected[1];
-	item->color_selected[2] = color_selected[2];
-	item->color_selected[3] = color_selected[3];
-
-	item->color_enabled[0] = color_enabled[0];
-	item->color_enabled[1] = color_enabled[1];
-	item->color_enabled[2] = color_enabled[2];
-	item->color_enabled[3] = color_enabled[3];
-
-	item->color_disabled[0] = color_disabled[0];
-	item->color_disabled[1] = color_disabled[1];
-	item->color_disabled[2] = color_disabled[2];
-	item->color_disabled[3] = color_disabled[3];
+	item->color_selected = color_selected;
+	item->color_enabled = color_enabled;
+	item->color_disabled = color_disabled;
 
 	menu->current_add_index++;
 }
@@ -174,47 +165,41 @@ int menu_tick(Menu *menu, bool should_read_controller) {
 
 void menu_render(Menu *menu, Gfx **gfx) {
 	if (menu->active_submenu >= 0 && menu->submenus) {
-		Menu **menus = menu->submenus;
-		Menu *active_submenu = menus[menu->active_submenu];
-
-		return menu_render(active_submenu, gfx);
+		return menu_render(menu->submenus[menu->active_submenu], gfx);
 	}
 
 	for (u8 i = 0; i < menu->current_add_index; ++i) {
 		if (i == menu->current_menu_option) {
 			if (menu->items[i].has_custom_colors) {
-				FONTCOLEX(menu->items[i].color_selected);
+				font_renderer_set_color(gfx, menu->items[i].color_selected);
 			} else {
-				FONTCOLM(FONT_COL);
+				font_renderer_set_color(gfx, FCP_BLUE);
 			}
 		} else if (menu->items[i].enabled) {
 			if (menu->items[i].has_custom_colors) {
-				FONTCOLEX(menu->items[i].color_enabled);
+				font_renderer_set_color(gfx, menu->items[i].color_enabled);
 			} else {
-				FONTCOLM(FONT_COL_WHITE);
+				font_renderer_set_color(gfx, FCP_WHITE);
 			}
 		} else {
 			if (menu->items[i].has_custom_colors) {
-				FONTCOLEX(menu->items[i].color_disabled);
+				font_renderer_set_color(gfx, menu->items[i].color_disabled);
 			} else {
-				FONTCOLM(FONT_COL_GREY);
+				font_renderer_set_color(gfx, FCP_GREY);
 			}
 		}
 
-		SHOWFONT(gfx, menu->items[i].text, menu->items[i].x, menu->items[i].y);
+		font_renderer_text(gfx, menu->items[i].x, menu->items[i].y, menu->items[i].text);
 	}
-	FONTCOLM(FONT_COL_GREY);
+	font_renderer_set_color(gfx, FCP_GREY);
 }
 
 void menu_render_images(Menu *menu, Gfx **gfx) {
 	if (menu->active_submenu >= 0 && menu->submenus) {
-		Menu **menus = menu->submenus;
-		Menu *active_submenu = menus[menu->active_submenu];
-
-		return menu_render_images(active_submenu, gfx);
+		return menu_render_images(menu->submenus[menu->active_submenu], gfx);
 	}
 
-	if (menu->is_horizontal || menu->current_add_index <= 0)
+	if (menu->current_add_index <= 0)
 		return;
 
 	gSPDisplayList((*gfx)++, ui_setup_dl);
@@ -222,8 +207,8 @@ void menu_render_images(Menu *menu, Gfx **gfx) {
 						G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
 	int option = menu->current_menu_option;
-	if (menu->current_add_index > 0)
-		menu_draw_ui_icon(gfx, MI_HAND, menu->hand_position_x, menu->items[option].y + 10);
+	if (!menu->is_horizontal && menu->current_add_index > 0)
+		menu_draw_ui_icon(gfx, MI_HAND, menu->hand_position_x - 2, menu->items[option].y + 3);
 }
 
 void menu_init_submenus(Menu *menu, MemZone *memory_pool, u8 total_submenus) {

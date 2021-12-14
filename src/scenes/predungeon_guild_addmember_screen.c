@@ -184,68 +184,61 @@ bool should_enable_done() {
 void predungeon_guild_addmember_screen_display() {
 	menu_render_images(menu, &glistp);
 
-	font_init(&glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
+	font_renderer_begin(&glistp);
 
-	FONTCOLM(FONT_COL_WHITE);
-	SHOWFONT(&glistp, TEXT_GUILD_ADD_MEMBER, 30, 30);
+	font_renderer_text(&glistp, 30, 30, TEXT_GUILD_ADD_MEMBER);
 
 	menu_render(menu, &glistp);
 
 	const int text_x = 200, name_y = 60;
 	if (guild_add_member_data->cur_char == 0) {
-		FONTCOLM(FONT_COL_GREY);
-		SHOWFONT(&glistp, "No Name", text_x, name_y);
+		font_renderer_set_color(&glistp, FCP_GREY);
+		font_renderer_text(&glistp, text_x, name_y, TEXT_NO_NAME);
 	} else {
-		FONTCOLM(FONT_COL_GREEN);
-		SHOWFONT(&glistp, guild_add_member_data->name, text_x, name_y);
+		font_renderer_set_color(&glistp, FCP_GREEN);
+		font_renderer_text(&glistp, text_x, name_y, guild_add_member_data->name);
 	}
 
 	const int class_y = 80;
 	if (guild_add_member_data->class == PC_None) {
-		FONTCOLM(FONT_COL_GREY);
+		font_renderer_set_color(&glistp, FCP_GREY);
 	} else {
-		FONTCOLM(FONT_COL_GREEN);
+		font_renderer_set_color(&glistp, FCP_GREEN);
 	}
 	switch (guild_add_member_data->class) {
 		case PC_Warrior:
-			SHOWFONT(&glistp, TEXT_WARRIOR, text_x, class_y);
+			font_renderer_text(&glistp, text_x, class_y, TEXT_WARRIOR);
 			break;
 		case PC_Wizard:
-			SHOWFONT(&glistp, TEXT_WIZARD, text_x, class_y);
+			font_renderer_text(&glistp, text_x, class_y, TEXT_WIZARD);
 			break;
 		case PC_Cleric:
-			SHOWFONT(&glistp, TEXT_CLERIC, text_x, class_y);
+			font_renderer_text(&glistp, text_x, class_y, TEXT_CLERIC);
 			break;
 		case PC_Thief:
-			SHOWFONT(&glistp, TEXT_THIEF, text_x, class_y);
+			font_renderer_text(&glistp, text_x, class_y, TEXT_THIEF);
 			break;
 		default:
-			SHOWFONT(&glistp, "No Class", text_x, class_y);
+			font_renderer_text(&glistp, text_x, class_y, TEXT_NO_CLASS);
 			break;
 	}
 	const int gender_y = 100;
 	if (guild_add_member_data->gender == G_None) {
-		FONTCOLM(FONT_COL_GREY);
+		font_renderer_set_color(&glistp, FCP_GREY);
 	} else {
-		FONTCOLM(FONT_COL_GREEN);
+		font_renderer_set_color(&glistp, FCP_GREEN);
 	}
 	switch (guild_add_member_data->gender) {
 		case G_Male:
-			SHOWFONT(&glistp, TEXT_MALE, text_x, gender_y);
+			font_renderer_text(&glistp, text_x, gender_y, TEXT_MALE);
 			break;
 		case G_Female:
-			SHOWFONT(&glistp, TEXT_FEMALE, text_x, gender_y);
+			font_renderer_text(&glistp, text_x, gender_y, TEXT_FEMALE);
 			break;
 		default:
-			SHOWFONT(&glistp, "No Gender", text_x, gender_y);
+			font_renderer_text(&glistp, text_x, gender_y, TEXT_NO_GENDER);
 			break;
 	}
 
-	font_finish(&glistp);
-
-	gDPFullSync(glistp++);
-	gSPEndDisplayList(glistp++);
+	font_renderer_end(&glistp);
 }

@@ -6,6 +6,7 @@
 #include <nustd/math.h>
 
 #include "../math.h"
+#include "../static.h"
 #include "../data/texture.h"
 #include "../fonts/font_ext.h"
 #include "../combat/combat.h"
@@ -13,6 +14,7 @@
 #include "../objects/map_helper.h"
 #include "../maps/maps.h"
 #include "../text/texts.h"
+#include "../util/font_renderer.h"
 
 #include "../../libs/ultra64-extensions/include/easing.h"
 #include "../../libs/ultra64-extensions/include/mem_pool.h"
@@ -254,29 +256,30 @@ void game_screen_display() {
 		// render map
 		map_render(&current_map, &glistp, rd.dynamicp, &player);
 
-		// party_render(&player.party, &glistp, rd.dynamicp);
-
 		// render text
+		gSPDisplayList(glistp++, ui_setup_dl);
+		font_renderer_begin(&glistp);
+
+		char position[100];
+		sprintf(position, "TILE: %d DIR: %.2f, %.2f S: %d/%d", player.current_tile,
+				player.forward.x, player.forward.z, player.current_steps_taken,
+				player.next_combat_at);
+		font_renderer_text(&glistp, 20, 10, position);
+
+		party_render(&player.party, &glistp, rd.dynamicp, -1);
+
+		if (current_state == GM_VIEW_ITEMS) {
+			font_renderer_set_color(&glistp, FCP_WHITE);
+			font_renderer_text(&glistp, 30, 30, TEXT_ITEMS);
+			menu_render(menu, &glistp);
+		}
+
+		font_renderer_end(&glistp);
+
 		font_init(&glistp);
 		font_set_transparent(1);
 		font_set_scale(1.0, 1.0);
 		font_set_win(200, 1);
-		FONTCOLM(FONT_COL);
-
-		party_render(&player.party, &glistp, rd.dynamicp, -1);
-
-		char position[100];
-		sprintf(position, "Tile: %d Dir: %.2f, %.2f S: %d/%d", player.current_tile,
-				player.forward.x, player.forward.z, player.current_steps_taken,
-				player.next_combat_at);
-		SHOWFONT(&glistp, position, 20, 10);
-
-		if (current_state == GM_VIEW_ITEMS) {
-			FONTCOLM(FONT_COL_WHITE);
-			SHOWFONT(&glistp, TEXT_ITEMS, 30, 30);
-			menu_render(menu, &glistp);
-		}
-
 		font_finish(&glistp);
 
 		if (current_state == GM_VIEW_ITEMS) {

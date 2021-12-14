@@ -2,64 +2,67 @@
 
 // Main
 
-#define TEXT_MAIN_START "Press START"
-#define TEXT_NEW_GAME "New Game"
+#define TEXT_MAIN_START "PRESS START"
+#define TEXT_NEW_GAME "NEW GAME"
 
 // Pre-Dungeon
 
-#define TEXT_PREP "Preparations"
-#define TEXT_INN "Inn"
-#define TEXT_TAVERN "Tavern"
-#define TEXT_SHOP "Shop"
-#define TEXT_GUILD "Guild"
-#define TEXT_START "Start Dungeon"
+#define TEXT_PREP "PREPARATIONS"
+#define TEXT_INN "INN"
+#define TEXT_TAVERN "TAVERN"
+#define TEXT_SHOP "SHOP"
+#define TEXT_GUILD "GUILD"
+#define TEXT_START "START DUNGEON"
 
-#define TEXT_GO_BACK "Back"
+#define TEXT_GO_BACK "BACK"
 
 // Pre-Dungeon Inn
 
-#define TEXT_GO_STAY "Stay"
+#define TEXT_GO_STAY "STAY"
 
 // Pre-Dungeon Shop
 
-#define TEXT_BUY "Buy"
-#define TEXT_SELL "Sell"
+#define TEXT_BUY "BUY"
+#define TEXT_SELL "SELL"
 
 // Pre-Dungeon Guild
 
-#define TEXT_GUILD_ADD_MEMBER "Add Member"
-#define TEXT_GUILD_RETIRE_MEMBER "Retire Member"
-#define TEXT_GUILD_ITEM_BAG "Item Bag"
+#define TEXT_GUILD_ADD_MEMBER "ADD MEMBER"
+#define TEXT_GUILD_RETIRE_MEMBER "RETIRE MEMBER"
+#define TEXT_GUILD_ITEM_BAG "ITEM BAG"
 
-#define TEXT_GUILD_ADD_MEMBER_NAME "Name"
-#define TEXT_GUILD_ADD_MEMBER_CLASS "Class"
-#define TEXT_GUILD_ADD_MEMBER_GENDER "Gender"
-#define TEXT_GUILD_ADD_MEMBER_DONE "Done"
+#define TEXT_GUILD_ADD_MEMBER_NAME "NAME"
+#define TEXT_GUILD_ADD_MEMBER_CLASS "CLASS"
+#define TEXT_GUILD_ADD_MEMBER_GENDER "GENDER"
+#define TEXT_GUILD_ADD_MEMBER_DONE "DONE"
 
-#define TEXT_VACANT "-Empty-"
+#define TEXT_VACANT "-EMPTY-"
+#define TEXT_NO_NAME "NO NAME"
 
 // Class Names
 
-#define TEXT_WARRIOR "Warrior"
-#define TEXT_THIEF "Thief"
-#define TEXT_CLERIC "Cleric"
-#define TEXT_WIZARD "Wizard"
+#define TEXT_WARRIOR "WARRIOR"
+#define TEXT_THIEF "THIEF"
+#define TEXT_CLERIC "CLERIC"
+#define TEXT_WIZARD "WIZARD"
+#define TEXT_NO_CLASS "NO CLASS"
 
 // Gender Names
 
-#define TEXT_MALE "Male"
-#define TEXT_FEMALE "Female"
+#define TEXT_MALE "MALE"
+#define TEXT_FEMALE "FEMALE"
+#define TEXT_NO_GENDER "NO GENDER"
 
 // Items
 
-#define TEXT_ITEMS "Items"
-#define TEXT_SMALL_HEAL "Small Heal"
-#define TEXT_LARGE_HEAL "Large Heal"
+#define TEXT_ITEMS "ITEMS"
+#define TEXT_SMALL_HEAL "SMALL HEAL"
+#define TEXT_LARGE_HEAL "LARGE HEAL"
 
 // Combat
 
-#define TEXT_COMBAT_ATK "Attack"
-#define TEXT_COMBAT_DEF "Defend"
-#define TEXT_COMBAT_SKL "Skill"
-#define TEXT_COMBAT_ITM "Items"
-#define TEXT_COMBAT_RUN "Run"
+#define TEXT_COMBAT_ATK "ATTACK"
+#define TEXT_COMBAT_DEF "DEFEND"
+#define TEXT_COMBAT_SKL "SKILL"
+#define TEXT_COMBAT_ITM "ITEMS"
+#define TEXT_COMBAT_RUN "RUN"

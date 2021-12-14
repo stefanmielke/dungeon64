@@ -116,13 +116,10 @@ void render() {
 	gSPDisplayList(glistp++, init_dl);
 
 	if (scene_manager->current_scene_id != scene_manager->next_scene_id) {
-		font_init(&glistp);
-		font_set_transparent(1);
-		font_set_scale(1.0, 1.0);
-		font_set_win(200, 1);
-		FONTCOLM(FONT_COL_WHITE);
-		SHOWFONT(&glistp, "Loading", 30, 200);
-		font_finish(&glistp);
+		gSPDisplayList(glistp++, ui_setup_dl);
+		font_renderer_begin(&glistp);
+		font_renderer_text(&glistp, 30, 200, "LOADING");
+		font_renderer_end(&glistp);
 	} else {
 		scene_manager_display(scene_manager);
 	}

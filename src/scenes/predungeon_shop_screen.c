@@ -46,23 +46,17 @@ short predungeon_shop_screen_tick() {
 void predungeon_shop_screen_display() {
 	menu_render_images(menu, &glistp);
 
-	font_init(&glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
+	font_renderer_begin(&glistp);
 
-	FONTCOLM(FONT_COL_WHITE);
-	SHOWFONT(&glistp, TEXT_SHOP, 30, 30);
+	font_renderer_set_color(&glistp, FCP_WHITE);
+	font_renderer_text(&glistp, 30, 30, TEXT_SHOP);
 
 	char money_text[8];
 	sprintf(money_text, "S%d", player.item_bag.money);
-	FONTCOLM(FONT_COL_GREY);
-	SHOWFONT(&glistp, money_text, 120, 30);
+	font_renderer_set_color(&glistp, FCP_GREY);
+	font_renderer_text(&glistp, 120, 30, money_text);
 
 	menu_render(menu, &glistp);
 
-	font_finish(&glistp);
-
-	gDPFullSync(glistp++);
-	gSPEndDisplayList(glistp++);
+	font_renderer_end(&glistp);
 }

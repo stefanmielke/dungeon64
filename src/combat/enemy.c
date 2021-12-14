@@ -1,9 +1,9 @@
 #include "enemy.h"
 
 Enemy enemy_defaults[] = {
-	{.type = ET_GoblinBoss, .name = "Goblin King", .health = 20, .damage_range = {2, 4}},
-	{.type = ET_GoblinMinion1, .name = "Goblin Minion 1", .health = 5, .damage_range = {1, 2}},
-	{.type = ET_GoblinMinion2, .name = "Goblin Minion 2", .health = 5, .damage_range = {1, 2}},
+	{.type = ET_GoblinBoss, .name = "GOBLIN KING", .health = 20, .damage_range = {2, 4}},
+	{.type = ET_GoblinMinion1, .name = "GOBLIN MINION 1", .health = 5, .damage_range = {1, 2}},
+	{.type = ET_GoblinMinion2, .name = "GOBLIN MINION 2", .health = 5, .damage_range = {1, 2}},
 };
 
 Enemy *get_enemy_data_for_type(EnemyType type) {

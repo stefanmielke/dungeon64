@@ -47,18 +47,11 @@ short predungeon_guild_itembag_screen_tick() {
 void predungeon_guild_itembag_screen_display() {
 	menu_render_images(menu, &glistp);
 
-	font_init(&glistp);
-	font_set_transparent(1);
-	font_set_scale(1.0, 1.0);
-	font_set_win(200, 1);
+	font_renderer_begin(&glistp);
 
-	FONTCOLM(FONT_COL_WHITE);
-	SHOWFONT(&glistp, TEXT_GUILD_ITEM_BAG, 30, 30);
+	font_renderer_text(&glistp, 30, 30, TEXT_GUILD_ITEM_BAG);
 
 	menu_render(menu, &glistp);
 
-	font_finish(&glistp);
-
-	gDPFullSync(glistp++);
-	gSPEndDisplayList(glistp++);
+	font_renderer_end(&glistp);
 }

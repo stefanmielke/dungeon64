@@ -1,6 +1,7 @@
 #include "party.h"
 
 #include "../game.h"
+#include "../util/font_renderer.h"
 
 PartyMember get_start_member_for_class(Class class, char name[], Gender gender) {
 	PartyMember member = {.class = class, .level = 1, .gender = gender};
@@ -49,22 +50,22 @@ void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp, s8 highlight_in
 		PartyMember *member = &party->members[i];
 
 		if (member->current_health <= 0) {
-			FONTCOLM(FONT_COL_GREY);
+			font_renderer_set_color(glistp, FCP_GREY);
 		} else if (highlight_index >= 0) {
 			if (highlight_index == i) {
-				FONTCOLM(FONT_COL);
+				font_renderer_set_color(glistp, FCP_BLUE);
 			} else {
-				FONTCOLM(FONT_COL_GREY);
+				font_renderer_set_color(glistp, FCP_GREY);
 			}
 		} else {
-			FONTCOLM(FONT_COL);
+			font_renderer_set_color(glistp, FCP_BLUE);
 		}
 
 		sprintf(text, "%s", member->name);
-		SHOWFONT(glistp, text, start_x, 180);
+		font_renderer_text(glistp, start_x, 180, text);
 		sprintf(text, "HP %d/%d", member->current_health, member->max_health);
-		SHOWFONT(glistp, text, start_x, 195);
+		font_renderer_text(glistp, start_x, 195, text);
 		sprintf(text, "TP %d/%d", member->current_tp, member->max_tp);
-		SHOWFONT(glistp, text, start_x, 210);
+		font_renderer_text(glistp, start_x, 210, text);
 	}
 }
