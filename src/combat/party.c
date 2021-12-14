@@ -46,7 +46,7 @@ PartyMember get_start_member_for_class(Class class, char name[], Gender gender) 
 void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp, s8 highlight_index) {
 	char text[100];
 	for (s8 i = 0; i < party->current_member_count; ++i) {
-		const int start_x = 20 + (i * 80);
+		const int start_x = 20 + (i * 75);
 		PartyMember *member = &party->members[i];
 
 		if (member->current_health <= 0) {
@@ -62,10 +62,10 @@ void party_render(Party *party, Gfx **glistp, Dynamic *dynamicp, s8 highlight_in
 		}
 
 		sprintf(text, "%s", member->name);
-		font_renderer_text(glistp, start_x, 180, text);
+		font_renderer_text(glistp, start_x, 190, text);
 		sprintf(text, "HP %d/%d", member->current_health, member->max_health);
-		font_renderer_text(glistp, start_x, 195, text);
+		font_renderer_text(glistp, start_x, 205, text);
 		sprintf(text, "TP %d/%d", member->current_tp, member->max_tp);
-		font_renderer_text(glistp, start_x, 210, text);
+		font_renderer_text(glistp, start_x, 215, text);
 	}
 }

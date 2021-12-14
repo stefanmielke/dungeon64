@@ -16,6 +16,8 @@
 
 #define TEXT_GO_BACK "BACK"
 
+#define TEXT_TALK "TALK"
+
 // Pre-Dungeon Inn
 
 #define TEXT_GO_STAY "STAY"

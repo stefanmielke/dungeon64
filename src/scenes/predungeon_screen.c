@@ -22,7 +22,8 @@ void predungeon_screen_create() {
 	menu = menu_init(&memory_pool, PDM_MAX);
 	menu_set_hand(menu, 30);
 
-	const bool enable_game = player.party.current_member_count > 0;
+	const bool enable_game = player.party.current_member_count > 0 &&
+							 (player.flags & FLAGS_GUILD_START);
 	const bool enable_play = enable_game && player_is_any_member_alive(&player);
 
 	const int x = 40, start_y = 60;
@@ -69,6 +70,8 @@ void predungeon_screen_display() {
 	font_renderer_text(&glistp, 30, 30, TEXT_PREP);
 
 	menu_render(menu, &glistp);
+
+	party_render(&player.party, &glistp, rd.dynamicp, -1);
 
 	font_renderer_end(&glistp);
 }

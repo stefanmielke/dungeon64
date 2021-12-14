@@ -240,5 +240,7 @@ void predungeon_guild_addmember_screen_display() {
 			break;
 	}
 
+	party_render(&player.party, &glistp, rd.dynamicp, -1);
+
 	font_renderer_end(&glistp);
 }

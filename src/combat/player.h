@@ -6,6 +6,11 @@
 #include "../types.h"
 #include "../items/items.h"
 
+typedef enum PlayerFlags {
+	FLAGS_NONE = 0,
+	FLAGS_GUILD_START = 1,
+} PlayerFlags;
+
 typedef struct Player {
 	Vec3f pos;
 	float view_speed;
@@ -23,6 +28,8 @@ typedef struct Player {
 
 	Party party;
 	ItemBag item_bag;
+
+	PlayerFlags flags;
 } Player;
 
 void player_dungeon_init(Player *player, Vec3 position);

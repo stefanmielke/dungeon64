@@ -9,8 +9,9 @@ void player_dungeon_init(Player *player, Vec3 position) {
 }
 
 void player_game_init(Player *player) {
+	player->flags = FLAGS_NONE;
+
 	item_bag_init(&player->item_bag);
-	player->item_bag.money = 100;
 
 	player->party.current_member_count = 0;
 	for (u8 i = 0; i < 4; ++i) {
@@ -20,7 +21,7 @@ void player_game_init(Player *player) {
 	player_party_add_member(player, PC_Warrior, "MIELK1", G_Female);
 	player_party_add_member(player, PC_Cleric, "MIELK2", G_Female);
 	player_party_add_member(player, PC_Wizard, "MIELK3", G_Female);
-	player_party_add_member(player, PC_Thief, "MIELK4", G_Female);
+	player_party_add_member(player, PC_Warrior, "MIELK4", G_Female);
 }
 
 void player_party_member_init(Player *player, int index, Class class, char name[], Gender gender) {

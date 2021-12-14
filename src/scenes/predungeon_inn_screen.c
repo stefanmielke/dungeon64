@@ -49,5 +49,7 @@ void predungeon_inn_screen_display() {
 
 	menu_render(menu, &glistp);
 
+	party_render(&player.party, &glistp, rd.dynamicp, -1);
+
 	font_renderer_end(&glistp);
 }
