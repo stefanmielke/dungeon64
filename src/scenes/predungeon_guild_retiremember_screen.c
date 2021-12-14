@@ -59,7 +59,6 @@ void predungeon_guild_retiremember_screen_display() {
 
 	font_renderer_begin(&glistp);
 
-	font_renderer_set_color(&glistp, FCP_WHITE);
 	font_renderer_text(&glistp, 30, 30, TEXT_GUILD_RETIRE_MEMBER);
 
 	menu_render(menu, &glistp);

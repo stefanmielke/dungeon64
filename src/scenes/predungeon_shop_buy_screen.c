@@ -64,7 +64,6 @@ void predungeon_shop_buy_screen_display() {
 
 	font_renderer_begin(&glistp);
 
-	font_renderer_set_color(&glistp, FCP_WHITE);
 	font_renderer_text(&glistp, 30, 30, TEXT_BUY);
 
 	char money_text[8];

@@ -66,7 +66,6 @@ void predungeon_screen_display() {
 
 	font_renderer_begin(&glistp);
 
-	font_renderer_set_color(&glistp, FCP_WHITE);
 	font_renderer_text(&glistp, 30, 30, TEXT_PREP);
 
 	menu_render(menu, &glistp);

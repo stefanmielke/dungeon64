@@ -25,11 +25,10 @@ void main_screen_display() {
 
 	font_renderer_begin(&glistp);
 
+	font_renderer_text(&glistp, 116, 200, TEXT_MAIN_START);
+
 	font_renderer_set_color(&glistp, FCP_BLUE);
 	font_renderer_text(&glistp, 120, 100, "DUNGEON 64");
-
-	font_renderer_set_color(&glistp, FCP_WHITE);
-	font_renderer_text(&glistp, 116, 200, TEXT_MAIN_START);
 
 	font_renderer_end(&glistp);
 }

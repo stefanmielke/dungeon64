@@ -45,7 +45,6 @@ void predungeon_inn_screen_display() {
 
 	font_renderer_begin(&glistp);
 
-	font_renderer_set_color(&glistp, FCP_WHITE);
 	font_renderer_text(&glistp, 30, 30, TEXT_INN);
 
 	menu_render(menu, &glistp);
