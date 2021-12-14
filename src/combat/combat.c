@@ -319,6 +319,8 @@ void combat_process_action(Combat *combat, CombatAction *action) {
 
 				if (action->target < combat->party->current_member_count) {
 					combat->party->members[action->target].current_health -= action->type_arg_1;
+					if (combat->party->members[action->target].current_health < 0)
+						combat->party->members[action->target].current_health = 0;
 					combat->data.current_defender = action->target;
 				}
 			}
