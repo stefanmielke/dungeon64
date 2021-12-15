@@ -44,6 +44,20 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	int obj_count = 0; /* count of used objects on current frame */
 	// int billboard_count = 0; /* count of used billboards on current frame */
 
+	const int view_distance = 4;
+
+	int player_current_tile_x = player->current_tile % map->width;
+	int player_current_tile_z = player->current_tile / (map->size / map->width);
+	int start_x = player_current_tile_x - view_distance;
+	int end_x = player_current_tile_x + view_distance;
+	int start_z = player_current_tile_z - view_distance;
+	int end_z = player_current_tile_z + view_distance;
+
+	if (start_x < 0)
+		start_x = 0;
+	if (start_z < 0)
+		start_z = 0;
+
 	// ground
 	gSPDisplayList((*glistp)++, ground_texture_setup_dl);
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
@@ -52,8 +66,16 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 
 	for (unsigned long i = 0; i < map->size; ++i) {
 		if (map->tiles[i] >= TL_Ground_Start && map->tiles[i] <= TL_Objects_End) {
-			u32 x = ((i % map->width) * TILE_SIZE);
-			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
+			u32 tile_x = i % map->width;
+			u32 tile_z = i / (map->size / map->width);
+
+			u32 x = tile_x * TILE_SIZE;
+			u32 z = tile_z * TILE_SIZE;
+
+			if (tile_x < start_x || tile_x > end_x)
+				continue;
+			if (tile_z < start_z || tile_z > end_z)
+				continue;
 
 			// ground
 			gDPPipeSync((*glistp)++);
@@ -77,6 +99,17 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 	int wall_type = -1;
 	for (unsigned long i = 0; i < map->size; ++i) {
+		u32 tile_x = i % map->width;
+		u32 tile_z = i / (map->size / map->width);
+
+		u32 x = tile_x * TILE_SIZE;
+		u32 z = tile_z * TILE_SIZE;
+
+		if (tile_x < start_x || tile_x > end_x)
+			continue;
+		if (tile_z < start_z || tile_z > end_z)
+			continue;
+
 		if (map->tiles[i] >= TT_Wall_Full && map->tiles[i] <= TT_Wall_North && wall_type != 0) {
 			gDPLoadTextureBlock((*glistp)++, map->spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
 								G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
@@ -94,28 +127,18 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 		}
 
 		if (map->tiles[i] == TT_Wall_Full) {  // full wall
-			u32 x = ((i % map->width) * TILE_SIZE);
-			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SQUARE(x, z);
 		} else if (map->tiles[i] == TT_Wall_East || map->tiles[i] == TT_Upstairs_East ||
 				   map->tiles[i] == TT_Downstairs_East) {  // east wall
-			u32 x = ((i % map->width) * TILE_SIZE);
-			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_EAST(x, z);
 		} else if (map->tiles[i] == TT_Wall_South || map->tiles[i] == TT_Upstairs_South ||
 				   map->tiles[i] == TT_Downstairs_South) {	// south wall
-			u32 x = ((i % map->width) * TILE_SIZE);
-			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_SOUTH(x, z);
 		} else if (map->tiles[i] == TT_Wall_West || map->tiles[i] == TT_Upstairs_West ||
 				   map->tiles[i] == TT_Downstairs_West) {  // west wall
-			u32 x = ((i % map->width) * TILE_SIZE);
-			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_WEST(x, z);
 		} else if (map->tiles[i] == TT_Wall_North || map->tiles[i] == TT_Upstairs_North ||
 				   map->tiles[i] == TT_Downstairs_North) {	// north wall
-			u32 x = ((i % map->width) * TILE_SIZE);
-			u32 z = ((i / (map->size / map->width)) * TILE_SIZE);
 			DRAW_WALL_NORTH(x, z);
 		}
 	}
