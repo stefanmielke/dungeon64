@@ -144,8 +144,8 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	}
 
 	// billboard setup
-	gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
-	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
+	// gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
+	// gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 
 	// DRAW_PLANT(10, 10);
 }
