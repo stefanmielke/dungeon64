@@ -3,8 +3,9 @@
 #define DYNAMIC_SEGMENT 3
 #define TEXTURE_SEGMENT 4
 
-#define SCREEN_HT 240
 #define SCREEN_WD 320
+#define SCREEN_HT 240
+#define SCREEN_HT_3D 180.0
 
 /* this stack size is in bytes, and is a lot larger
  * than this program needs.

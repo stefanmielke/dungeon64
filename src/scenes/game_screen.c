@@ -225,9 +225,9 @@ void game_screen_display() {
 		current_state == GM_START_WALK || current_state == GM_EXITING_MAP ||
 		current_state == GM_USING_STAIRS || current_state == GM_VIEW_ITEMS) {
 		// set up matrices
-		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
-		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
-					  1.0);
+		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / SCREEN_HT_3D, 1.0, 1024.0, 1.0);
+		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / SCREEN_HT_3D, 1.0,
+					  1024.0, 1.0);
 
 		Vec3f forward = {player.pos.x + player.forward.x, player.pos.y + 5.0,
 						 player.pos.z + player.forward.z};
@@ -290,9 +290,9 @@ void game_screen_display() {
 	} else if (current_state == GM_COMBAT || current_state == GM_FROM_COMBAT ||
 			   current_state == GM_START_COMBAT) {
 		// set up matrices
-		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0, 1.0);
-		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / 240.0, 1.0, 1024.0,
-					  1.0);
+		guPerspectiveF(rd.allmat, &rd.perspnorm, 65.0, 320.0 / SCREEN_HT_3D, 1.0, 1024.0, 1.0);
+		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 65.0, 320.0 / SCREEN_HT_3D, 1.0,
+					  1024.0, 1.0);
 
 		const float pov_y = 25;
 		float pov_x = current_combat.data.camera_x;
