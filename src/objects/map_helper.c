@@ -254,7 +254,8 @@ const int map_overview_icon_positions_y[] = {
 							__s_y << 5, 1 << 10, 1 << 10);                                         \
 	}
 
-void map_overview_render(Map *map, Gfx **gfx, Player *player) {
+void map_overview_render(Map *map, Gfx **gfx, Player *player, int begin_x, int end_x, int begin_y,
+						 int end_y, int render_x, int render_y) {
 	gSPDisplayList((*gfx)++, ui_setup_dl);
 	gSPTexture((*gfx)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 	gDPLoadTextureBlock((*gfx)++, spr_map_ui, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
@@ -263,14 +264,29 @@ void map_overview_render(Map *map, Gfx **gfx, Player *player) {
 	const int tile_size = 6;
 	const int tile_size_half = 3;
 
-	int start_x = (SCREEN_WD - (map->width * tile_size)) / 2;
-	int start_y = (SCREEN_HT - ((map->size / map->width) * tile_size)) / 2;
+	int start_x, start_y;
+	if (render_x >= 0) {
+		start_x = render_x;
+		start_y = render_y;
+	} else {
+		start_x = (SCREEN_WD - (map->width * tile_size)) / 2;
+		start_y = (SCREEN_HT - ((map->size / map->width) * tile_size)) / 2;
+		begin_x = 0;
+		begin_y = 0;
+	}
+
 	for (u32 i = 0; i < map->size; ++i) {
 		int tile_x = i % map->width;
 		int tile_y = i / map->width;
 
-		int x = start_x + (tile_x * tile_size);
-		int y = start_y + (tile_y * tile_size);
+		// limits when rendering
+		if (render_x >= 0) {
+			if (tile_x < begin_x || tile_x > end_x || tile_y < begin_y || tile_y > end_y)
+				continue;
+		}
+
+		int x = start_x + ((tile_x - begin_x) * tile_size);
+		int y = start_y + ((tile_y - begin_y) * tile_size);
 
 		if (i == player->current_tile) {
 			int blink_timer = (OS_CYCLES_TO_NSEC(osGetTime()) / 500000000);

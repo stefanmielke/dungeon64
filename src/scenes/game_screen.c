@@ -290,12 +290,22 @@ void game_screen_display() {
 		if (current_state == GM_VIEW_ITEMS) {
 			menu_render_images(menu, &glistp);
 		} else if (current_state == GM_VIEW_MAP) {
-			map_overview_render(&current_map, &glistp, &player);
+			map_overview_render(&current_map, &glistp, &player, -1, -1, -1, -1, -1, -1);
 		} else if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK ||
 				   current_state == GM_EXITING_MAP || current_state == GM_USING_STAIRS) {
 			// TODO: remove this code once we understand why it crashes if removed
 			font_init(&glistp);
 			RENDER_SCREEN_TRANSITION();
+		} else {
+			int player_x = player.current_tile % current_map.width;
+			int player_y = player.current_tile / current_map.width;
+			if (player_x < 0)
+				player_x = 0;
+
+			const int view_distance_map = 3;
+			map_overview_render(&current_map, &glistp, &player, player_x - view_distance_map,
+								player_x + view_distance_map, player_y - view_distance_map,
+								player_y + view_distance_map, 260, 20);
 		}
 
 	} else if (current_state == GM_COMBAT || current_state == GM_FROM_COMBAT ||
