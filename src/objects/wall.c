@@ -204,11 +204,77 @@ Gfx wall_north_dl[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx wall_south_east_dl[] = {
+	gsSPVertex(&(wall_south_east_vtx[0]), 8, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSPEndDisplayList(),
+};
+Gfx wall_south_west_dl[] = {
+	gsSPVertex(&(wall_south_west_vtx[0]), 8, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSPEndDisplayList(),
+};
+Gfx wall_south_north_dl[] = {
+	gsSPVertex(&(wall_south_north_vtx[0]), 8, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSPEndDisplayList(),
+};
+Gfx wall_north_east_dl[] = {
+	gsSPVertex(&(wall_north_east_vtx[0]), 8, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSPEndDisplayList(),
+};
+Gfx wall_north_west_dl[] = {
+	gsSPVertex(&(wall_north_west_vtx[0]), 8, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSPEndDisplayList(),
+};
+Gfx wall_east_west_dl[] = {
+	gsSPVertex(&(wall_east_west_vtx[0]), 8, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSPEndDisplayList(),
+};
+
+Gfx wall_no_west_dl[] = {
+	gsSPVertex(&(wall_no_west_vtx[0]), 12, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSP2Triangles(8, 10, 9, 8, 10, 8, 11, 8),
+	gsSPEndDisplayList(),
+};
+Gfx wall_no_east_dl[] = {
+	gsSPVertex(&(wall_no_east_vtx[0]), 12, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSP2Triangles(8, 10, 9, 8, 10, 8, 11, 8),
+	gsSPEndDisplayList(),
+};
+Gfx wall_no_north_dl[] = {
+	gsSPVertex(&(wall_no_north_vtx[0]), 12, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSP2Triangles(8, 10, 9, 8, 10, 8, 11, 8),
+	gsSPEndDisplayList(),
+};
+Gfx wall_no_south_dl[] = {
+	gsSPVertex(&(wall_no_south_vtx[0]), 12, 0),
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSP2Triangles(8, 10, 9, 8, 10, 8, 11, 8),
+	gsSPEndDisplayList(),
+};
+
 Gfx wall_square_dl[] = {
 	gsSPVertex(&(wall_square_vtx[0]), 16, 0),
-	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),			/**/
-	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),			/**/
-	gsSP2Triangles(8, 10, 9, 8, 10, 8, 11, 8),		/**/
-	gsSP2Triangles(12, 14, 13, 12, 14, 12, 15, 12), /**/
+	gsSP2Triangles(0, 2, 1, 0, 2, 0, 3, 0),
+	gsSP2Triangles(4, 6, 5, 4, 6, 4, 7, 4),
+	gsSP2Triangles(8, 10, 9, 8, 10, 8, 11, 8),
+	gsSP2Triangles(12, 14, 13, 12, 14, 12, 15, 12),
 	gsSPEndDisplayList(),
 };
