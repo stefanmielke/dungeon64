@@ -3,9 +3,9 @@
 #include <ultra64.h>
 #include "types.h"
 
-#define MAX_OBJECTS 200
+#define MAX_OBJECTS 400
 #define MAX_BILLBOARDS 100
-#define GLIST_LEN 2048
+#define GLIST_LEN 4096
 
 /*
  * Layout of dynamic data.

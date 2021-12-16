@@ -23,6 +23,7 @@
 typedef enum GameState {
 	GM_PAUSE,
 	GM_VIEW_ITEMS,
+	GM_VIEW_MAP,
 	GM_WALK,
 	GM_TO_COMBAT,
 	GM_START_COMBAT,
@@ -122,7 +123,7 @@ short game_screen_tick() {
 	tween_tick(screen_transition_tween);
 
 	if (current_state == GM_WALK) {
-		gd.pad = ReadController(START_BUTTON | B_BUTTON | L_CBUTTONS);
+		gd.pad = ReadController(START_BUTTON | B_BUTTON | L_CBUTTONS | R_CBUTTONS);
 		tween_tick(player.movement_tween);
 		tween_tick(player.view_tween);
 
@@ -156,6 +157,8 @@ short game_screen_tick() {
 				move_to(player.move_lateral, player.move_forward);
 			} else if (IS_BUTTON_PRESSED(L_CBUTTONS)) {
 				current_state = GM_VIEW_ITEMS;
+			} else if (IS_BUTTON_PRESSED(R_CBUTTONS)) {
+				current_state = GM_VIEW_MAP;
 			}
 		}
 	} else if (current_state == GM_TO_COMBAT) {
@@ -215,6 +218,11 @@ short game_screen_tick() {
 				game_screen_set_menu_items();
 			}
 		}
+	} else if (current_state == GM_VIEW_MAP) {
+		gd.pad = ReadController(R_CBUTTONS | B_BUTTON);
+		if (IS_BUTTON_PRESSED(R_CBUTTONS) || IS_BUTTON_PRESSED(B_BUTTON)) {
+			current_state = GM_WALK;
+		}
 	}
 
 	return SCREEN_PLAY;
@@ -223,7 +231,8 @@ short game_screen_tick() {
 void game_screen_display() {
 	if (current_state == GM_WALK || current_state == GM_TO_COMBAT ||
 		current_state == GM_START_WALK || current_state == GM_EXITING_MAP ||
-		current_state == GM_USING_STAIRS || current_state == GM_VIEW_ITEMS) {
+		current_state == GM_USING_STAIRS || current_state == GM_VIEW_ITEMS ||
+		current_state == GM_VIEW_MAP) {
 		// set up matrices
 		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / SCREEN_HT_3D, 1.0, 1024.0, 1.0);
 		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / SCREEN_HT_3D, 1.0,
@@ -266,7 +275,9 @@ void game_screen_display() {
 				player.next_combat_at);
 		font_renderer_text(&glistp, 20, 10, position);
 
+		gDPSetPrimDepth(glistp++, -1, -1);
 		party_render(&player.party, &glistp, rd.dynamicp, -1);
+		gDPSetPrimDepth(glistp++, 0, 0);
 
 		if (current_state == GM_VIEW_ITEMS) {
 			font_renderer_set_color(&glistp, FCP_WHITE);
@@ -276,17 +287,17 @@ void game_screen_display() {
 
 		font_renderer_end(&glistp);
 
-		// TODO: remove this code once we understand why it crashes if removed
-		font_init(&glistp);
-
 		if (current_state == GM_VIEW_ITEMS) {
 			menu_render_images(menu, &glistp);
-		}
-
-		if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK ||
-			current_state == GM_EXITING_MAP || current_state == GM_USING_STAIRS) {
+		} else if (current_state == GM_VIEW_MAP) {
+			map_overview_render(&current_map, &glistp, &player);
+		} else if (current_state == GM_TO_COMBAT || current_state == GM_START_WALK ||
+				   current_state == GM_EXITING_MAP || current_state == GM_USING_STAIRS) {
+			// TODO: remove this code once we understand why it crashes if removed
+			font_init(&glistp);
 			RENDER_SCREEN_TRANSITION();
 		}
+
 	} else if (current_state == GM_COMBAT || current_state == GM_FROM_COMBAT ||
 			   current_state == GM_START_COMBAT) {
 		// set up matrices

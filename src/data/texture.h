@@ -48,6 +48,7 @@ extern unsigned short spr_wall_exit_2[];
 
 // ui
 extern unsigned short spr_ui[];
+extern unsigned short spr_map_ui[];
 extern unsigned short spr_font[];
 extern unsigned short spr_font_palette_white[];
 extern unsigned short spr_font_palette_blue[];

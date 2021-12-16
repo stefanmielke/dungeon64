@@ -5,6 +5,11 @@ unsigned short spr_ui[] = {
 #include "../res/gfx/ui/ui.gen.h"
 };
 
+static Gfx spr_map_ui_dummy_aligner[] = {gsSPEndDisplayList()};
+unsigned short spr_map_ui[] = {
+#include "../res/gfx/textures/map_ui.gen.h"
+};
+
 static Gfx spr_font_dummy_aligner[] = {gsSPEndDisplayList()};
 unsigned short spr_font[] = {
 #include "../res/gfx/font/font.gen.h"

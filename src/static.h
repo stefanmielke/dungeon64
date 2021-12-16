@@ -19,17 +19,17 @@ extern Gfx wall_south_dl[];
 extern Gfx wall_west_dl[];
 extern Gfx wall_north_dl[];
 
-extern wall_south_east_dl[];
-extern wall_south_west_dl[];
-extern wall_south_north_dl[];
-extern wall_north_east_dl[];
-extern wall_north_west_dl[];
-extern wall_east_west_dl[];
+extern Gfx wall_south_east_dl[];
+extern Gfx wall_south_west_dl[];
+extern Gfx wall_south_north_dl[];
+extern Gfx wall_north_east_dl[];
+extern Gfx wall_north_west_dl[];
+extern Gfx wall_east_west_dl[];
 
-extern wall_no_west_dl[];
-extern wall_no_east_dl[];
-extern wall_no_north_dl[];
-extern wall_no_south_dl[];
+extern Gfx wall_no_west_dl[];
+extern Gfx wall_no_east_dl[];
+extern Gfx wall_no_north_dl[];
+extern Gfx wall_no_south_dl[];
 
 // billboards
 extern Gfx billboard_texture_setup_dl[];

@@ -3,6 +3,7 @@
 #include <nustd/math.h>
 
 #include "walls.h"
+#include "../boot.h"
 #include "../math.h"
 #include "../static.h"
 #include "../data/texture.h"
@@ -202,4 +203,92 @@ bool map_is_position_blocked(Map *map, Position position) {
 	u32 tile = norm_x + (norm_y * map->width);
 
 	return map_is_tile_blocked(map, tile);
+}
+
+typedef enum MapOverviewIcon {
+	MO_Ground = 0,
+	MO_Wall_Full,
+	MO_Wall_East,
+	MO_Wall_South,
+	MO_Wall_West,
+	MO_Wall_North,
+	MO_Wall_South_East,
+	MO_Wall_South_West,
+	MO_Wall_South_North,
+	MO_Wall_North_East,
+	MO_Wall_North_West,
+	MO_Wall_East_West,
+	MO_Wall_No_West,
+	MO_Wall_No_East,
+	MO_Wall_No_North,
+	MO_Wall_No_South,
+	MO_Stairs_Down,
+	MO_Stairs_Up,
+	MO_Player_Position,
+	MO_Empty = 24,
+	MO_Max,
+} MapOverviewIcon;
+
+const int map_overview_icon_positions_x[] = {
+	0, 1, 2, 3, 4, /**/
+	0, 1, 2, 3, 4, /**/
+	0, 1, 2, 3, 4, /**/
+	0, 1, 2, 3, 4, /**/
+	0, 1, 2, 3, 4, /**/
+};
+const int map_overview_icon_positions_y[] = {
+	0, 0, 0, 0, 0, /**/
+	1, 1, 1, 1, 1, /**/
+	2, 2, 2, 2, 2, /**/
+	3, 3, 3, 3, 3, /**/
+	4, 4, 4, 4, 4, /**/
+};
+
+#define MAP_DRAW_ICON(icon)                                                                        \
+	{                                                                                              \
+		int __s_x = tile_size * map_overview_icon_positions_x[icon];                               \
+		int __s_y = tile_size * map_overview_icon_positions_y[icon];                               \
+		gSPTextureRectangle((*gfx)++, (int)(x - tile_size_half) << 2,                              \
+							(int)(y - tile_size_half) << 2, (int)(x + tile_size_half) << 2,        \
+							(int)(y + tile_size_half) << 2, G_TX_RENDERTILE, __s_x << 5,           \
+							__s_y << 5, 1 << 10, 1 << 10);                                         \
+	}
+
+void map_overview_render(Map *map, Gfx **gfx, Player *player) {
+	gSPDisplayList((*gfx)++, ui_setup_dl);
+	gSPTexture((*gfx)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
+	gDPLoadTextureBlock((*gfx)++, spr_map_ui, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP,
+						G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
+
+	const int tile_size = 6;
+	const int tile_size_half = 3;
+
+	int start_x = (SCREEN_WD - (map->width * tile_size)) / 2;
+	int start_y = (SCREEN_HT - ((map->size / map->width) * tile_size)) / 2;
+	for (u32 i = 0; i < map->size; ++i) {
+		int tile_x = i % map->width;
+		int tile_y = i / map->width;
+
+		int x = start_x + (tile_x * tile_size);
+		int y = start_y + (tile_y * tile_size);
+
+		if (i == player->current_tile) {
+			int blink_timer = (OS_CYCLES_TO_NSEC(osGetTime()) / 500000000);
+			if (blink_timer % 2 == 0) {
+				MAP_DRAW_ICON(MO_Player_Position);
+			} else {
+				MAP_DRAW_ICON(MO_Ground);
+			}
+		} else if (map->tiles[i] >= TT_Ground_1 && map->tiles[i] < TT_StartPos) {
+			MAP_DRAW_ICON(MO_Ground);
+		} else if (map->tiles[i] >= TT_Wall_Full && map->tiles[i] < TT_Upstairs_East) {
+			MAP_DRAW_ICON(map->tiles[i]);
+		} else if (map->tiles[i] >= TT_Upstairs_East && map->tiles[i] < TT_Downstairs_East) {
+			MAP_DRAW_ICON(MO_Stairs_Up);
+		} else if (map->tiles[i] >= TT_Downstairs_East && map->tiles[i] <= TT_Downstairs_North) {
+			MAP_DRAW_ICON(MO_Stairs_Down);
+		} else {
+			MAP_DRAW_ICON(MO_Empty);
+		}
+	}
 }
