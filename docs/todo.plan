@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": 133.889404296875,
-  "Pan.Y": -159.71206665039062,
+  "Pan.X": 176,
+  "Pan.Y": 88,
   "ZoomLevel": 3,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -106,7 +106,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": -96,
+      "Position.Y": -48,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -229,7 +229,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -368,
-      "Position.Y": 240,
+      "Position.Y": 288,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -241,7 +241,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 256,
+      "Position.Y": 304,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -265,7 +265,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 272,
+      "Position.Y": 320,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -361,7 +361,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 288,
+      "Position.Y": 336,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -373,7 +373,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 304,
+      "Position.Y": 352,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -385,7 +385,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 320,
+      "Position.Y": 368,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -397,7 +397,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 336,
+      "Position.Y": 384,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -409,7 +409,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 352,
+      "Position.Y": 400,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -421,7 +421,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -368,
-      "Position.Y": -128,
+      "Position.Y": -80,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -433,7 +433,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": -112,
+      "Position.Y": -64,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -445,7 +445,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": -80,
+      "Position.Y": -32,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -457,7 +457,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": -64,
+      "Position.Y": -16,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -469,7 +469,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -368,
-      "Position.Y": 32,
+      "Position.Y": 80,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -481,7 +481,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 48,
+      "Position.Y": 96,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -493,7 +493,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 64,
+      "Position.Y": 112,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -505,7 +505,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 80,
+      "Position.Y": 128,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -517,7 +517,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 96,
+      "Position.Y": 144,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -529,7 +529,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 112,
+      "Position.Y": 160,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -541,7 +541,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 128,
+      "Position.Y": 176,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -553,7 +553,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 160,
+      "Position.Y": 208,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -565,7 +565,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 176,
+      "Position.Y": 224,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -577,7 +577,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 192,
+      "Position.Y": 240,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -613,7 +613,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": -16,
+      "Position.Y": 32,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -625,7 +625,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 368,
+      "Position.Y": 416,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -637,7 +637,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": -48,
+      "Position.Y": 0,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -664,8 +664,8 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": -144,
-      "Checkbox.Checked": false,
+      "Position.Y": -128,
+      "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
       "Description": "Use items",
@@ -676,7 +676,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": -32,
+      "Position.Y": 16,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -970,7 +970,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 208,
+      "Position.Y": 256,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1222,7 +1222,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 384,
+      "Position.Y": 432,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1234,7 +1234,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 400,
+      "Position.Y": 448,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1246,7 +1246,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 416,
+      "Position.Y": 464,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1258,7 +1258,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 0,
+      "Position.Y": 48,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1270,7 +1270,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -352,
-      "Position.Y": 16,
+      "Position.Y": 64,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1282,7 +1282,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 224,
+      "Position.Y": 272,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1294,7 +1294,7 @@
     {
       "BoardIndex": 0,
       "Position.X": -336,
-      "Position.Y": 144,
+      "Position.Y": 192,
       "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1302,6 +1302,42 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Dec 15 2021 16:35:29"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -336,
+      "Position.Y": -144,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Show map only for parts that where traversed",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Dec 16 2021 18:52:06"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -336,
+      "Position.Y": -112,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Choose who to use the item on",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Dec 16 2021 18:52:29"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": -352,
+      "Position.Y": -96,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Cast spell from a char on another char (eg.: heal)",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Dec 16 2021 18:52:41"
     }
   ]
 }
