@@ -7,7 +7,7 @@
 #include "../static.h"
 #include "../data/texture.h"
 #include "../objects/billboards.h"
-#include "../maps/maps.h"
+#include "../maps/maps.gen.h"
 
 Vec3 map_get_start_position(Map *map, u32 *tile_position, float *angle) {
 	for (u8 i = 0; i < map->events.event_count; ++i) {
@@ -160,15 +160,4 @@ bool map_is_position_blocked(Map *map, Position position) {
 	u32 tile = norm_x + (norm_y * map->width);
 
 	return map_is_tile_blocked(map, tile);
-}
-
-MapDef *map_get_def_by_id(u16 map_id) {
-	switch (map_id) {
-		case 1:
-			return &map_1_1;
-		case 2:
-			return &map_1_2;
-		default:
-			return NULL;
-	}
 }

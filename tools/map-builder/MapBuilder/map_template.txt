@@ -1,0 +1,27 @@
+#pragma once
+
+#include "map_def.h"
+#include "../data/texture.h"
+
+MapDef ${MAP_NAME} = {
+	.size = ${MAP_SIZE},
+	.width = ${MAP_WIDTH},
+	.steps_to_combat = {.start = ${STEPS_TO_COMBAT_START}, .end = ${STEPS_TO_COMBAT_END}},
+	.has_random_encounters = ${HAS_RANDOM_ENCOUNTERS},
+	.events =
+		{
+			.event_count = ${EVENTS_COUNT},
+			.data =
+				{
+${EVENTS_DATA}
+				},
+		},
+	.spr_ground = ${SPRITE_GROUND},
+	.spr_wall = ${SPRITE_WALL},
+	.spr_wall_exit = ${SPRITE_WALL_EXIT},
+	.spr_wall_upstairs = ${SPRITE_WALL_UPSTAIRS},
+	.tiles =
+		{
+			${MAP_TILES}
+		},
+};

@@ -14,3 +14,8 @@
 
 /.vscode/**
 !/.vscode/tasks.json
+
+/tools/**/bin
+/tools/**/obj
+
+.idea/

@@ -12,7 +12,7 @@
 #include "../combat/combat.h"
 #include "../combat/player.h"
 #include "../objects/map_helper.h"
-#include "../maps/maps.h"
+#include "../maps/maps.gen.h"
 #include "../text/texts.h"
 #include "../util/font_renderer.h"
 

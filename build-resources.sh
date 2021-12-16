@@ -31,3 +31,5 @@ for n in $(find resources/gfx/ui/ -name '*.png'); do
     to=$(echo "$n" | sed "s/resources/src\/res/g; s/png/gen.h/g")
     n64graphics -i $to -g $from -s u16 -f rgba16 -w 48 -h 36
 done
+
+dotnet run --project tools/map-builder/MapBuilder/MapBuilder.csproj tools/map-builder/MapBuilder/map_template.txt resources/maps src/maps/
