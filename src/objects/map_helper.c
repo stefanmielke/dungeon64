@@ -110,7 +110,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 		if (tile_z < start_z || tile_z > end_z)
 			continue;
 
-		if (map->tiles[i] >= TT_Wall_Full && map->tiles[i] <= TT_Wall_North && wall_type != 0) {
+		if (map->tiles[i] >= TT_Wall_Full && map->tiles[i] < TT_Upstairs_East && wall_type != 0) {
 			gDPLoadTextureBlock((*glistp)++, map->spr_wall, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,
 								G_TX_WRAP, G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 			wall_type = 0;
@@ -126,20 +126,62 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 			wall_type = 2;
 		}
 
-		if (map->tiles[i] == TT_Wall_Full) {  // full wall
-			DRAW_WALL_SQUARE(x, z);
-		} else if (map->tiles[i] == TT_Wall_East || map->tiles[i] == TT_Upstairs_East ||
-				   map->tiles[i] == TT_Downstairs_East) {  // east wall
-			DRAW_WALL_EAST(x, z);
-		} else if (map->tiles[i] == TT_Wall_South || map->tiles[i] == TT_Upstairs_South ||
-				   map->tiles[i] == TT_Downstairs_South) {	// south wall
-			DRAW_WALL_SOUTH(x, z);
-		} else if (map->tiles[i] == TT_Wall_West || map->tiles[i] == TT_Upstairs_West ||
-				   map->tiles[i] == TT_Downstairs_West) {  // west wall
-			DRAW_WALL_WEST(x, z);
-		} else if (map->tiles[i] == TT_Wall_North || map->tiles[i] == TT_Upstairs_North ||
-				   map->tiles[i] == TT_Downstairs_North) {	// north wall
-			DRAW_WALL_NORTH(x, z);
+		switch (map->tiles[i]) {
+			case TT_Wall_Full:
+				DRAW_WALL_SQUARE(x, z);
+				break;
+			case TT_Wall_East:
+			case TT_Upstairs_East:
+			case TT_Downstairs_East:
+				DRAW_WALL_EAST(x, z);
+				break;
+			case TT_Wall_South:
+			case TT_Upstairs_South:
+			case TT_Downstairs_South:
+				DRAW_WALL_SOUTH(x, z);
+				break;
+			case TT_Wall_West:
+			case TT_Upstairs_West:
+			case TT_Downstairs_West:
+				DRAW_WALL_WEST(x, z);
+				break;
+			case TT_Wall_North:
+			case TT_Upstairs_North:
+			case TT_Downstairs_North:
+				DRAW_WALL_NORTH(x, z);
+				break;
+			case TT_Wall_South_East:
+				DRAW_WALL_SOUTH_EAST(x, z);
+				break;
+			case TT_Wall_South_West:
+				DRAW_WALL_SOUTH_WEST(x, z);
+				break;
+			case TT_Wall_South_North:
+				DRAW_WALL_SOUTH_NORTH(x, z);
+				break;
+			case TT_Wall_North_East:
+				DRAW_WALL_NORTH_EAST(x, z);
+				break;
+			case TT_Wall_North_West:
+				DRAW_WALL_NORTH_WEST(x, z);
+				break;
+			case TT_Wall_East_West:
+				DRAW_WALL_EAST_WEST(x, z);
+				break;
+			case TT_Wall_No_West:
+				DRAW_WALL_NO_WEST(x, z);
+				break;
+			case TT_Wall_No_East:
+				DRAW_WALL_NO_EAST(x, z);
+				break;
+			case TT_Wall_No_North:
+				DRAW_WALL_NO_NORTH(x, z);
+				break;
+			case TT_Wall_No_South:
+				DRAW_WALL_NO_SOUTH(x, z);
+				break;
+			default:
+				break;
 		}
 	}
 
