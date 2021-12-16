@@ -27,7 +27,7 @@ Vec3 map_get_position_from_map_coord(u32 map_coord, u32 size, u32 width) {
 	Vec3 result;
 	result.y = 0;
 	result.x = ((map_coord % width) * TILE_SIZE) + (TILE_SIZE / 2);
-	result.z = ((map_coord / (size / width)) * TILE_SIZE) + (TILE_SIZE / 2);
+	result.z = ((map_coord / width) * TILE_SIZE) + (TILE_SIZE / 2);
 	return result;
 }
 
@@ -47,7 +47,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	const int view_distance = 4;
 
 	int player_current_tile_x = player->current_tile % map->width;
-	int player_current_tile_z = player->current_tile / (map->size / map->width);
+	int player_current_tile_z = (int)floorf(player->current_tile / map->width);
 	int start_x = player_current_tile_x - view_distance;
 	int end_x = player_current_tile_x + view_distance;
 	int start_z = player_current_tile_z - view_distance;
@@ -67,7 +67,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	for (unsigned long i = 0; i < map->size; ++i) {
 		if (map->tiles[i] >= TL_Ground_Start && map->tiles[i] <= TL_Objects_End) {
 			u32 tile_x = i % map->width;
-			u32 tile_z = i / (map->size / map->width);
+			u32 tile_z = (u32)floorf(i / map->width);
 
 			u32 x = tile_x * TILE_SIZE;
 			u32 z = tile_z * TILE_SIZE;
@@ -100,7 +100,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	int wall_type = -1;
 	for (unsigned long i = 0; i < map->size; ++i) {
 		u32 tile_x = i % map->width;
-		u32 tile_z = i / (map->size / map->width);
+		u32 tile_z = (u32)floorf(i / map->width);
 
 		u32 x = tile_x * TILE_SIZE;
 		u32 z = tile_z * TILE_SIZE;
