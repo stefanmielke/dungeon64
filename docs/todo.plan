@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": -39.25,
-  "Pan.Y": -340,
+  "Pan.X": -568,
+  "Pan.Y": -24,
   "ZoomLevel": 3,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -700,7 +700,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 32,
+      "Position.Y": 48,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -811,7 +811,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 16,
+      "Position.Y": 32,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -910,7 +910,7 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 48,
+      "Position.Y": 64,
       "Checkbox.Checked": false,
       "Progression.Current": 0,
       "Progression.Max": 0,
@@ -1498,12 +1498,12 @@
     {
       "BoardIndex": 0,
       "Position.X": 400,
-      "Position.Y": 64,
-      "Checkbox.Checked": false,
+      "Position.Y": 16,
+      "Checkbox.Checked": true,
       "Progression.Current": 0,
       "Progression.Max": 0,
       "Description": "Move camera to the back of the tile (not the middle)",
-      "Selected": false,
+      "Selected": true,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Dec 18 2021 19:52:14"
     }, 
