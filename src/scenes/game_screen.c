@@ -234,17 +234,19 @@ void game_screen_display() {
 		current_state == GM_USING_STAIRS || current_state == GM_VIEW_ITEMS ||
 		current_state == GM_VIEW_MAP) {
 		// set up matrices
-		guPerspectiveF(rd.allmat, &rd.perspnorm, 80.0, 320.0 / SCREEN_HT_3D, 1.0, VIEW_DISTANCE,
+		guPerspectiveF(rd.allmat, &rd.perspnorm, 75.0, 320.0 / SCREEN_HT_3D, 1.0, VIEW_DISTANCE,
 					   1.0);
-		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 80.0, 320.0 / SCREEN_HT_3D, 1.0,
+		guPerspective(&(rd.dynamicp->projection), &rd.perspnorm, 75.0, 320.0 / SCREEN_HT_3D, 1.0,
 					  VIEW_DISTANCE, 1.0);
 
 		Vec3f forward = {player.pos.x + player.forward.x, player.pos.y + 5.0,
 						 player.pos.z + player.forward.z};
-		guLookAtF(rd.m2, player.pos.x, forward.y, player.pos.z, forward.x, forward.y, forward.z,
-				  0.0, 1.0, 0.0);
-		guLookAt(&(rd.dynamicp->viewing), player.pos.x, forward.y, player.pos.z, forward.x,
-				 forward.y, forward.z, 0.0, 1.0, 0.0);
+		guLookAtF(rd.m2, player.pos.x - player.forward.x * 5, forward.y,
+				  player.pos.z - player.forward.z * 5, forward.x, forward.y, forward.z, 0.0, 1.0,
+				  0.0);
+		guLookAt(&(rd.dynamicp->viewing), player.pos.x - player.forward.x * 5, forward.y,
+				 player.pos.z - player.forward.z * 5, forward.x, forward.y, forward.z, 0.0, 1.0,
+				 0.0);
 
 		guMtxCatF(rd.m2, rd.allmat, rd.m1);
 
