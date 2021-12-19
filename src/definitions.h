@@ -6,6 +6,8 @@
 #include "maps/map_def.h"
 
 #define TILE_SIZE 10
+#define TILE_VIEW_DISTANCE 3
+#define VIEW_DISTANCE ((TILE_VIEW_DISTANCE + 2) * 10)
 
 typedef struct Map {
 	u8 *tiles;
