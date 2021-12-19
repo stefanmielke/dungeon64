@@ -45,7 +45,7 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	int obj_count = 0; /* count of used objects on current frame */
 	// int billboard_count = 0; /* count of used billboards on current frame */
 
-	const int view_distance = 4;
+	const int view_distance = 3;
 
 	int player_current_tile_x = player->current_tile % map->width;
 	int player_current_tile_z = (int)floorf(player->current_tile / map->width);

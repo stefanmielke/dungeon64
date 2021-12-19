@@ -41,10 +41,12 @@ static Vtx ceiling_vtx[] = {
 Gfx ground_texture_setup_dl[] = {
 	gsDPPipeSync(),
 
-	gsDPSetCycleType(G_CYC_1CYCLE),
-	gsSPSetGeometryMode(G_SHADE | G_SHADING_SMOOTH | G_ZBUFFER | G_CULL_BACK),
-	gsDPSetRenderMode(G_RM_ZB_OPA_SURF, G_RM_ZB_OPA_SURF2),
-	gsDPSetCombineMode(G_CC_BLENDRGBA, G_CC_BLENDRGBA),
+	gsDPSetCycleType(G_CYC_2CYCLE),
+	gsSPSetGeometryMode(G_FOG | G_SHADE | G_SHADING_SMOOTH | G_ZBUFFER | G_CULL_BACK),
+	gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_ZB_OPA_SURF2),
+	gsSPFogPosition(800, 1000),
+	gsDPSetCombineMode(G_CC_BLENDRGBA, G_CC_PASS2),
+	gsDPSetFogColor(0, 0, 0, 255),
 	gsDPSetTexturePersp(G_TP_PERSP),
 
 	gsSPEndDisplayList(),
@@ -59,11 +61,11 @@ Gfx combat_ground_dl[] = {
 Gfx combat_selection_setup_dl[] = {
 	gsDPPipeSync(),
 
-	gsDPSetCycleType(G_CYC_1CYCLE),
+	gsDPSetCycleType(G_CYC_2CYCLE),
 	gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
 	gsSPSetGeometryMode(G_SHADE | G_CULL_BACK),
-	gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_OPA_SURF2),
-	gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+	gsDPSetRenderMode(G_RM_PASS, G_RM_OPA_SURF2),
+	gsDPSetCombineMode(G_CC_SHADE, G_CC_PASS2),
 	gsDPSetTexturePersp(G_TP_PERSP),
 
 	gsSPEndDisplayList(),
@@ -88,9 +90,9 @@ Gfx ceiling_dl[] = {
 };
 
 Gfx ui_setup_dl[] = {
-	gsDPSetCycleType(G_CYC_1CYCLE),
-	gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
-	gsDPSetRenderMode(G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE),
+	gsDPSetCycleType(G_CYC_2CYCLE),
+	gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_PASS2),
+	gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2),
 	gsDPSetDepthImage(OS_K0_TO_PHYSICAL(zbuffer)),
 	gsDPSetDepthSource(G_ZS_PRIM),
 	gsDPSetPrimDepth(0, 0),
