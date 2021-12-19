@@ -11,9 +11,9 @@ void main_screen_create() {
 }
 
 short main_screen_tick() {
-	gd.pad = ReadController(START_BUTTON);
+	gd.pad = ReadController(START_BUTTON | A_BUTTON);
 
-	if (IS_BUTTON_PRESSED(START_BUTTON)) {
+	if (IS_BUTTON_PRESSED(START_BUTTON) || IS_BUTTON_PRESSED(A_BUTTON)) {
 		return SCREEN_MAIN_MENU;
 	}
 
