@@ -42,15 +42,15 @@ MapEvent *map_get_event_on_tile(Map *map, u32 tile_position) {
 }
 
 void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
-	int obj_count = 0; /* count of used objects on current frame */
-	// int billboard_count = 0; /* count of used billboards on current frame */
+	int obj_count = 0;		 /* count of used objects on current frame */
+	int billboard_count = 0; /* count of used billboards on current frame */
 
 	int player_current_tile_x = player->current_tile % map->width;
 	int player_current_tile_z = (int)floorf(player->current_tile / map->width);
 	int start_x = player_current_tile_x - TILE_VIEW_DISTANCE;
-	int end_x = player_current_tile_x + TILE_VIEW_DISTANCE;
+	int end_x = player_current_tile_x + TILE_VIEW_DISTANCE + 1;
 	int start_z = player_current_tile_z - TILE_VIEW_DISTANCE;
-	int end_z = player_current_tile_z + TILE_VIEW_DISTANCE;
+	int end_z = player_current_tile_z + TILE_VIEW_DISTANCE + 1;
 
 	int map_height = map->size / map->width;
 	if (start_x < 0)
@@ -186,10 +186,10 @@ void map_render(Map *map, Gfx **glistp, Dynamic *dynamicp, Player *player) {
 	}
 
 	// billboard setup
-	// gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
-	// gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
+	gSPDisplayList((*glistp)++, billboard_texture_setup_dl);
+	gSPTexture((*glistp)++, 2048, 2048, 0, G_TX_RENDERTILE, G_ON);
 
-	// DRAW_PLANT(10, 10);
+	DRAW_PLANT(15, 165);
 }
 
 bool map_is_tile_blocked(Map *map, u32 tile) {

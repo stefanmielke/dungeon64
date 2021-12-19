@@ -79,11 +79,14 @@
 		billboard_count++;                                                                         \
 	}
 
-#define DRAW_BILLBOARD_Z(x, y, z)                                                                  \
+#define DRAW_BILLBOARD_Z(x_pos, y, z_pos)                                                          \
 	{                                                                                              \
-		float angle = (atan2f(y - player->pos.z, x - player->pos.x) + RAD_90) * RAD_MULT;          \
+		float angle = (atan2f(z_pos - (player->pos.z - player->forward.z * 5),                     \
+							  x_pos - (player->pos.x - player->forward.x * 5)) +                   \
+					   RAD_90) *                                                                   \
+					  RAD_MULT;                                                                    \
 		guRotate(&(dynamic.billboard_rotation[billboard_count]), -angle, 0, 1, 0);                 \
-		guTranslate(&(dynamic.object_position[obj_count]), x, y, z);                               \
+		guTranslate(&(dynamic.object_position[obj_count]), x_pos, y, z_pos);                       \
 		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamic.object_position[obj_count])),           \
 				  G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);                                    \
 		gSPMatrix((*glistp)++, OS_K0_TO_PHYSICAL(&(dynamic.billboard_rotation[billboard_count])),  \
@@ -96,5 +99,7 @@
 
 #define DRAW_PLANT(x, z)                                                                           \
 	gDPPipeSync((*glistp)++);                                                                      \
+	gDPLoadTextureBlock((*glistp)++, spr_plant, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0,            \
+						G_TX_MIRROR, G_TX_MIRROR, 5, 5, G_TX_NOLOD, G_TX_NOLOD);                   \
 	DRAW_BILLBOARD(x, z);                                                                          \
 	gSPDisplayList((*glistp)++, plant_dl);

@@ -2,10 +2,10 @@
 
 #define PLANT_SIZE 5
 static Vtx plant_vtx[] = {
-	{-0, PLANT_SIZE, 0, 0, 00 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
-	{PLANT_SIZE, PLANT_SIZE, 0, 0, 32 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
-	{PLANT_SIZE, -0, -0, 0, 32 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
-	{-0, -0, -0, 0, 00 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
+	{-2, 4, 0, 0, 00 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
+	{2, 4, 00, 0, 32 << 10, 00 << 10, 0xff, 0xff, 0xff, 0xff},
+	{2, 0, 00, 0, 32 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
+	{-2, 0, 0, 0, 00 << 10, 32 << 10, 0xff, 0xff, 0xff, 0xff},
 };
 
 Gfx plant_dl[] = {
@@ -17,12 +17,8 @@ Gfx plant_dl[] = {
 Gfx billboard_texture_setup_dl[] = {
 	gsDPPipeSync(),
 
-	gsDPSetCycleType(G_CYC_1CYCLE),
-	gsSPSetGeometryMode(G_SHADE | G_SHADING_SMOOTH | G_ZBUFFER | G_CULL_BACK),
-	gsDPSetRenderMode(G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_EDGE2),
-	gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
-
-	gsDPSetTexturePersp(G_TP_PERSP),
+	gsDPSetRenderMode(G_RM_FOG_SHADE_A, G_RM_AA_ZB_TEX_EDGE2),
+	gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_PASS2),
 
 	gsSPEndDisplayList(),
 };
