@@ -4,8 +4,8 @@
   "BoardIndex": 0,
   "BoardCount": 3,
   "AutoSave": false,
-  "Pan.X": -194.25,
-  "Pan.Y": -218,
+  "Pan.X": -39.25,
+  "Pan.Y": -340,
   "ZoomLevel": 3,
   "TaskTransparency": 5,
   "OutlineTasks": true,
@@ -1530,6 +1530,30 @@
       "Selected": false,
       "TaskType.CurrentChoice": 0,
       "CreationTime": "Dec 18 2021 19:55:35"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 192,
+      "Position.Y": 544,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Movement Speed",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Dec 19 2021 11:55:50"
+    }, 
+    {
+      "BoardIndex": 0,
+      "Position.X": 192,
+      "Position.Y": 560,
+      "Checkbox.Checked": false,
+      "Progression.Current": 0,
+      "Progression.Max": 0,
+      "Description": "Turn Speed",
+      "Selected": false,
+      "TaskType.CurrentChoice": 0,
+      "CreationTime": "Dec 19 2021 11:56:03"
     }
   ]
 }
