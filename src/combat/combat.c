@@ -402,7 +402,7 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 					if (combat->data.current_defender == i) {
 						DRAW_CLASS(combat->party->members[i].class,
 								   combat->party->members[i].gender, x_pos, y_pos, pov_x, pov_z,
-								   (int)frame_counter, 3, hit);
+								   (int)frame_counter, 1, hit);
 					} else {
 						DRAW_CLASS(combat->party->members[i].class,
 								   combat->party->members[i].gender, x_pos, y_pos, pov_x, pov_z,
