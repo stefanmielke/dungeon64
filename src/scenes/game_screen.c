@@ -116,6 +116,12 @@ void game_screen_create() {
 	menu = menu_init(&memory_pool, player.item_bag.cur_item_bag_count);
 	menu_set_hand(menu, 30);
 
+	menu_init_submenus(menu, &memory_pool, 1);
+	menu->submenus[0] = menu_init(&memory_pool, 4);
+	for (u8 i = 0; i < player.party.current_member_count; ++i) {
+		menu_add_item(menu->submenus[0], player.party.members[i].name, 40, 60 + (i * 20), true);
+	}
+
 	game_screen_set_menu_items();
 }
 
@@ -208,14 +214,37 @@ short game_screen_tick() {
 		gd.pad = ReadController(START_BUTTON | A_BUTTON | B_BUTTON | U_JPAD | D_JPAD | L_JPAD |
 								R_JPAD | L_CBUTTONS);
 
-		if (IS_BUTTON_PRESSED(L_CBUTTONS) || IS_BUTTON_PRESSED(B_BUTTON)) {
+		if (IS_BUTTON_PRESSED(L_CBUTTONS)) {
 			current_state = GM_WALK;
 		} else {
 			int option = menu_tick(menu, false);
 			if (option >= 0) {
-				player_use_item(&player, option);
-				menu_reset_items(menu);
-				game_screen_set_menu_items();
+				if (menu->active_submenu < 0) {
+					Item *item = &player.item_bag.items[option];
+					switch (item->item_def->usage_type) {
+						case IUT_AllMembers:
+							player_use_item(&player, option);
+							menu_reset_items(menu);
+							game_screen_set_menu_items();
+							break;
+						case IUT_SingleMember:
+							menu->active_submenu = 0;
+							menu->submenus[0]->current_menu_option = 0;
+							break;
+						default:
+							break;
+					}
+				} else {
+					player_use_item_on_party_member(&player, menu->current_menu_option, option);
+					menu_reset_items(menu);
+					game_screen_set_menu_items();
+					menu->active_submenu = -1;
+				}
+			} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
+				if (menu->active_submenu < 0)
+					current_state = GM_WALK;
+				else
+					menu->active_submenu = -1;
 			}
 		}
 	} else if (current_state == GM_VIEW_MAP) {
