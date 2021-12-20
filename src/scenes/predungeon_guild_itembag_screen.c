@@ -26,6 +26,14 @@ void predungeon_guild_itembag_screen_set_menu_items() {
 void predungeon_guild_itembag_screen_create() {
 	menu = menu_init(&memory_pool, PDGITM_MAX + player.item_bag.cur_item_bag_count);
 
+	// submenu to choose a party member
+	menu_init_submenus(menu, &memory_pool, 1);
+	menu->submenus[0] = menu_init(&memory_pool, 4);
+
+	for (u8 i = 0; i < player.party.current_member_count; ++i) {
+		menu_add_item(menu->submenus[0], player.party.members[i].name, 40, 60 + (i * 20), true);
+	}
+
 	predungeon_guild_itembag_screen_set_menu_items();
 }
 
@@ -35,10 +43,36 @@ short predungeon_guild_itembag_screen_tick() {
 	const int back_option = player.item_bag.cur_item_bag_count + PDGITM_Back;
 
 	if (option >= 0) {
-		if (option == back_option)
-			return SCREEN_PRE_DUNGEON_GUILD;
+		if (menu->active_submenu < 0) {
+			if (option == back_option) {
+				return SCREEN_PRE_DUNGEON_GUILD;
+			} else {
+				Item *item = &player.item_bag.items[option];
+				switch (item->item_def->usage_type) {
+					case IUT_AllMembers:
+						player_use_item(&player, option);
+						menu_reset_items(menu);
+						predungeon_guild_itembag_screen_set_menu_items();
+						break;
+					case IUT_SingleMember:
+						menu->active_submenu = 0;
+						menu->submenus[0]->current_menu_option = 0;
+						break;
+					default:
+						break;
+				}
+			}
+		} else {
+			player_use_item_on_party_member(&player, menu->current_menu_option, option);
+			menu_reset_items(menu);
+			predungeon_guild_itembag_screen_set_menu_items();
+			menu->active_submenu = -1;
+		}
 	} else if (IS_BUTTON_PRESSED(B_BUTTON)) {
-		return SCREEN_PRE_DUNGEON_GUILD;
+		if (menu->active_submenu < 0)
+			return SCREEN_PRE_DUNGEON_GUILD;
+		else
+			menu->active_submenu = -1;
 	}
 
 	return SCREEN_PRE_DUNGEON_GUILD_ITEMBAG;
