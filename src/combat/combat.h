@@ -24,6 +24,7 @@ typedef enum CombatActionType {
 	CAT_DEFEND,
 	CAT_ATK_PHYS,
 	CAT_ATK_SKILL,
+	CAT_ITEM_USE,
 	CAT_HEAL,
 } CombatActionType;
 

@@ -195,6 +195,10 @@ short game_screen_tick() {
 	} else if (current_state == GM_COMBAT) {
 		combat_tick(&current_combat);
 		if (current_combat.state == CS_END) {
+			// reset menu in case the player used an item during combat
+			menu_reset_items(menu);
+			game_screen_set_menu_items();
+
 			current_state = GM_FROM_COMBAT;
 			set_screen_transition_close_top_down();
 		}

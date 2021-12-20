@@ -16,6 +16,17 @@
 #include "../text/texts.h"
 #include "../util/font_renderer.h"
 
+#define combat_move_next()                                                                         \
+	{                                                                                              \
+		combat->data.current_member_choosing++;                                                    \
+		if (combat->data.current_member_choosing >= combat->party->current_member_count) {         \
+			combat->state = CS_RUN_COMBAT;                                                         \
+			set_camera_movement(combat, combat->data.camera_x, -5, 4000);                          \
+		} else {                                                                                   \
+			reset_menus(combat);                                                                   \
+		}                                                                                          \
+	}
+
 #define get_ticks_ms() (OS_CYCLES_TO_NSEC(osGetTime()) / 1000000)
 u64 last_tick;
 
@@ -32,7 +43,8 @@ void combat_init(Combat *combat) {
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_ATK, x, start_y, true);
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_DEF, x, start_y + 20, false);
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_SKL, x, start_y + 40, false);
-	menu_add_item(combat->actions_menu, TEXT_COMBAT_ITM, x, start_y + 60, false);
+	menu_add_item(combat->actions_menu, TEXT_COMBAT_ITM, x, start_y + 60,
+				  player.item_bag.cur_item_bag_count > 0);
 	menu_add_item(combat->actions_menu, TEXT_COMBAT_RUN, x, start_y + 80, false);
 
 	// atk, skill, items
@@ -140,20 +152,28 @@ void combat_tick(Combat *combat) {
 						action->type_arg_1 = range_get_from_int(
 							&combat->party->members[member_index].damage_range);
 
-						combat->data.current_member_choosing++;
-						if (combat->data.current_member_choosing >=
-							combat->party->current_member_count) {
-							combat->state = CS_RUN_COMBAT;
-							set_camera_movement(combat, combat->data.camera_x, -5, 4000);
-						} else {
-							reset_menus(combat);
-						}
+						combat_move_next();
 					}
 				} else if (curr_menu == 1) {  // skill
 
 				} else if (curr_menu == 2) {  // items
-					;
-					// check for submenu of the submenu here
+					if (combat->actions_menu->submenus[2]->active_submenu < 0) {
+						// go to select member
+						combat->actions_menu->submenus[2]->active_submenu = 0;
+					} else {
+						combat->actions_menu->submenus[2]->active_submenu = -1;
+
+						combat->data.selected = combat->actions_menu->submenus[2]
+													->current_menu_option;
+						u8 member_index = combat->data.current_member_choosing;
+						CombatAction *action = &combat->data.player_actions[member_index];
+						action->target = option;
+						action->target_is_enemy = false;
+						action->type = CAT_ITEM_USE;
+						action->type_arg_1 = combat->data.selected;
+
+						combat_move_next();
+					}
 				}
 			} else if (combat->data.selecting_target) {
 				if (combat->actions_menu->active_submenu < 0) {
@@ -167,8 +187,12 @@ void combat_tick(Combat *combat) {
 
 			if (IS_BUTTON_PRESSED(B_BUTTON)) {
 				if (combat->actions_menu->active_submenu >= 0) {
-					// todo: check for items submenu (2) submenu, and go back to items if >= 0
-					combat->actions_menu->active_submenu = -1;
+					// if on submenu of items submenu (selecting member), go back only one submenu
+					if (combat->actions_menu->active_submenu == 2 &&
+						combat->actions_menu->submenus[2]->active_submenu >= 0)
+						combat->actions_menu->submenus[2]->active_submenu = -1;
+					else
+						combat->actions_menu->active_submenu = -1;
 				} else if (combat->data.current_member_choosing > 0) {
 					combat->data.current_member_choosing--;
 					reset_menus(combat);
@@ -325,6 +349,11 @@ void combat_process_action(Combat *combat, CombatAction *action) {
 				}
 			}
 			break;
+		case CAT_ITEM_USE:
+			player_use_item_on_party_member(&player, action->type_arg_1, action->target);
+			break;
+		case CAT_DEFEND:
+		case CAT_HEAL:
 		default:
 			break;
 	}
@@ -432,8 +461,30 @@ void combat_render(Map *map, Combat *combat, Gfx **glistp, Dynamic *dynamicp, in
 	party_render(combat->party, glistp, dynamicp,
 				 combat->state == CS_PLAYER_PHASE ? combat->data.current_member_choosing : -1);
 
-	if (combat->state == CS_PLAYER_PHASE)
+	if (combat->state == CS_PLAYER_PHASE) {
+		for (u8 i = 0; i < combat->data.current_member_choosing; ++i) {
+			char action_type_text[10];
+			switch (combat->data.player_actions[i].type) {
+				case CAT_DEFEND:
+					sprintf(action_type_text, "DEFEND");
+					break;
+				case CAT_ATK_PHYS:
+					sprintf(action_type_text, "ATTACK");
+					break;
+				case CAT_ATK_SKILL:
+					sprintf(action_type_text, "SKILL");
+					break;
+				case CAT_ITEM_USE:
+					sprintf(action_type_text, "ITEM");
+					break;
+				default:
+					break;
+			}
+			font_renderer_text(glistp, 250, 30 + (20 * i), action_type_text);
+		}
+
 		menu_render(combat->actions_menu, glistp);
+	}
 
 	font_renderer_end(glistp);
 
@@ -484,6 +535,9 @@ void set_camera_movement(Combat *combat, float from, float to, u16 time_in_ms) {
 void reset_menus(Combat *combat) {
 	combat->actions_menu->active_submenu = -1;
 
+	// do not allow item menu if item bag is empty
+	combat->actions_menu->items[3].enabled = player.item_bag.cur_item_bag_count > 0;
+
 	Menu *atk_menu = combat->actions_menu->submenus[0];
 	Menu *skill_menu = combat->actions_menu->submenus[1];
 	Menu *items_menu = combat->actions_menu->submenus[2];
@@ -494,6 +548,7 @@ void reset_menus(Combat *combat) {
 
 	const FontColorPalette color_disabled = FCP_GREY;
 
+	// combat enemy menu
 	for (u8 i = 0; i < combat->enemy_party.current_enemy_count; ++i) {
 		const int x = 20, y = 20 + (i * 20);
 		EnemyCombat *member = &combat->enemy_party.enemies[i];
@@ -510,5 +565,21 @@ void reset_menus(Combat *combat) {
 
 		menu_add_item_colored(atk_menu, member->enemy->name, x, y, member->current_health >= 0,
 							  color_enabled, color_enabled, color_disabled);
+	}
+
+	// items menu
+	for (u8 i = 0; i < player.item_bag.cur_item_bag_count; ++i) {
+		const int x = 20, y = 20 + (i * 20);
+		Item *item = &player.item_bag.items[i];
+
+		menu_add_item(items_menu, item->item_def->name, x, y, true);
+	}
+
+	// items submenu
+	for (u8 i = 0; i < player.party.current_member_count; ++i) {
+		const int x = 20, y = 20 + (i * 20);
+
+		menu_add_item(items_menu->submenus[0], player.party.members[i].name, x, y,
+					  player.party.members[i].current_health > 0);
 	}
 }
