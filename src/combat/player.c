@@ -1,5 +1,7 @@
 #include "player.h"
 
+#include <limits.h>
+
 void player_dungeon_init(Player *player, Vec3 position) {
 	player->pos.x = position.x;
 	player->pos.y = position.y;
@@ -92,10 +94,7 @@ bool player_is_any_member_alive(Player *player) {
 }
 
 void player_heal_all_party_members(Player *player) {
-	for (u8 i = 0; i < player->party.current_member_count; ++i) {
-		player->party.members[i].current_health = player->party.members[i].max_health;
-		player->party.members[i].current_tp = player->party.members[i].max_tp;
-	}
+	player_heal_hp_amount_all_party_members(player, INT_MAX);
 }
 
 void player_heal_hp_amount_all_party_members(Player *player, int amount) {
@@ -106,6 +105,15 @@ void player_heal_hp_amount_all_party_members(Player *player, int amount) {
 	}
 }
 
+void player_heal_hp_amount_party_member(Player *player, PartyMember *party_member, int amount) {
+	if (!player || !party_member)
+		return;
+
+	party_member->current_health += amount;
+	if (party_member->current_health > party_member->max_health)
+		party_member->current_health = party_member->max_health;
+}
+
 void player_use_item(Player *player, u8 item_index) {
 	Item *item = &player->item_bag.items[item_index];
 	if (!item || !item->item_def)
@@ -114,6 +122,25 @@ void player_use_item(Player *player, u8 item_index) {
 	switch (item->item_def->type) {
 		case IT_Heal:
 			player_heal_hp_amount_all_party_members(player, item->item_def->value);
+			item_bag_remove_item_by_index(&player->item_bag, item_index);
+			break;
+		default:
+			break;
+	}
+}
+
+void player_use_item_on_party_member(Player *player, u8 item_index, u8 member_index) {
+	Item *item = &player->item_bag.items[item_index];
+	if (!item || !item->item_def)
+		return;
+
+	if (member_index < 0 || member_index >= player->party.current_member_count)
+		return;
+
+	PartyMember *party_member = &player->party.members[member_index];
+	switch (item->item_def->type) {
+		case IT_Heal:
+			player_heal_hp_amount_party_member(player, party_member, item->item_def->value);
 			item_bag_remove_item_by_index(&player->item_bag, item_index);
 			break;
 		default:

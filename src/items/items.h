@@ -14,8 +14,16 @@ typedef enum ItemType {
 	IT_Heal,
 } ItemType;
 
+typedef enum ItemUsageType {
+	IUT_SingleMember,
+	IUT_AllMembers,
+	IUT_SingleEnemy,
+	IUT_AllEnemies,
+} ItemUsageType;
+
 typedef struct ItemDef {
 	ItemType type;
+	ItemUsageType usage_type;
 	const char *name;
 	f32 value;
 	u32 buy_value;
